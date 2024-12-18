@@ -1,7 +1,11 @@
 import { motion } from "framer-motion";
-import Lottie from "lottie-react";
-import catAnimation from "../../public/cat-animation.json";
+import dynamic from 'next/dynamic';
 import { useRouter } from "next/router";
+
+// Dynamically import Lottie with no SSR
+const Lottie = dynamic(() => import("lottie-react"), {
+  ssr: false,
+});
 
 export default function Custom404() {
   const router = useRouter();
@@ -15,11 +19,13 @@ export default function Custom404() {
         className="text-center"
       >
         <div className="relative w-96 h-96 mx-auto mb-8">
-          <Lottie
-            animationData={catAnimation}
-            loop={true}
-            className="w-96 h-96"
-          />
+          {typeof window !== "undefined" && (
+            <Lottie
+              animationData={require("../../public/cat-animation.json")}
+              loop={true}
+              className="w-96 h-96"
+            />
+          )}
         </div>
 
         <motion.h1
