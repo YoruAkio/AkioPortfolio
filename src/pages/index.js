@@ -205,12 +205,6 @@ export default function Portfolio() {
           <div className="absolute top-0 left-1/5 w-[35vw] h-[35vw] bg-gradient-to-r from-purple-500/10 to-purple-500/5 rounded-full blur-[120px] animate-blob"></div>
           <div className="absolute bottom-1/4 right-1/5 w-[40vw] h-[40vw] bg-gradient-to-r from-blue-500/10 to-cyan-500/5 rounded-full blur-[150px] animate-blob animation-delay-2000"></div>
           <div className="absolute top-1/3 left-1/3 w-[25vw] h-[25vw] bg-gradient-to-r from-pink-500/5 to-purple-500/5 rounded-full blur-[100px] animate-blob animation-delay-4000"></div>
-
-          {/* Grid pattern overlay */}
-          <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] bg-repeat opacity-[0.03]"></div>
-
-          {/* Noise texture overlay */}
-          <div className="absolute inset-0 bg-[url('/noise.png')] opacity-[0.02]"></div>
         </div>
 
         {/* Navbar */}
@@ -220,6 +214,7 @@ export default function Portfolio() {
         <div className="relative z-10">
           {/* Enhanced Hero section with improved animations */}
           <section className="relative min-h-screen flex flex-col justify-center items-center px-4">
+            <div className="absolute inset-0 bg-[url('https://raw.githubusercontent.com/YoruAkio/ProjectAssets/refs/heads/main/akio/grid-pattern.png')] bg-repeat opacity-[0.15] pointer-events-none"></div>
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
