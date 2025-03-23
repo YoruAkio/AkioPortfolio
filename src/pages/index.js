@@ -553,7 +553,6 @@ export default function Portfolio() {
                 className="p-8 sm:p-10 rounded-2xl overflow-hidden relative backdrop-blur-lg bg-gradient-to-br from-[#5865F2]/20 to-[#2c2f42]/60 border border-[#5865F2]/30 shadow-xl"
               >
                 {/* Background pattern */}
-                <div className="absolute top-0 right-0 w-full h-full opacity-10 bg-[url('/noise.png')] z-0"></div>
                 <div className="absolute -right-16 -top-16 w-64 h-64 rounded-full bg-[#5865F2]/20 blur-3xl"></div>
                 <div className="absolute -left-16 -bottom-16 w-64 h-64 rounded-full bg-[#5865F2]/15 blur-3xl"></div>
 
