@@ -59,10 +59,10 @@ Akio Portfolio is a sophisticated, responsive developer portfolio website featur
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/akio-portfolio.git
+git clone https://github.com/yourusername/AkioPortfolio.git
 
 # Navigate to the project directory
-cd akio-portfolio
+cd AkioPortfolio
 
 # Install dependencies
 bun install
@@ -151,7 +151,7 @@ The portfolio is meticulously crafted to look stunning on:
 ## 🔧 Project Structure
 
 ```
-akio-portfolio/
+AkioPortfolio/
 ├── components/        # Reusable UI components
 ├── pages/             # Page components and routing
 │   ├── api/           # API routes
