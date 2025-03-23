@@ -214,7 +214,7 @@ export default function Portfolio() {
         <div className="relative z-10">
           {/* Enhanced Hero section with improved animations */}
           <section className="relative min-h-screen flex flex-col justify-center items-center px-4">
-            <div className="absolute inset-0 bg-[url('https://raw.githubusercontent.com/YoruAkio/ProjectAssets/refs/heads/main/akio/grid-pattern.png')] bg-repeat opacity-[0.15] pointer-events-none"></div>
+            <div className="absolute inset-0 bg-[url('https://raw.githubusercontent.com/YoruAkio/ProjectAssets/refs/heads/main/akio/grid-pattern.png')] bg-center bg-no-repeat bg-[length:100%_100%] opacity-[0.15] pointer-events-none"></div>
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
