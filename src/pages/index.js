@@ -4,7 +4,7 @@ import {
   useScroll,
   useTransform,
   AnimatePresence,
-  useSpring
+  useSpring,
 } from "framer-motion";
 import AOS from "aos";
 import "aos/dist/aos.css";
@@ -18,31 +18,22 @@ import {
   FaStar,
   FaCodeBranch,
   FaUser,
-  FaDiscord
+  FaDiscord,
 } from "react-icons/fa";
-import { SiJavascript, SiCplusplus, SiGo, SiPython, SiTypescript } from "react-icons/si";
+import {
+  SiJavascript,
+  SiCplusplus,
+  SiGo,
+  SiPython,
+  SiTypescript,
+} from "react-icons/si";
 import { BsBarChartFill, BsFillCupHotFill } from "react-icons/bs";
 import { GiCat } from "react-icons/gi";
 import { HiExternalLink } from "react-icons/hi";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-
-// Extract SocialLink to a separate component
-const SocialLink = ({ href, icon, label }) => {
-  return (
-    <motion.a
-      href={href}
-      target="_blank"
-      rel="noopener noreferrer"
-      whileHover={{ y: -5, scale: 1.05 }}
-      whileTap={{ scale: 0.95 }}
-      className="flex items-center gap-3 px-5 py-3 bg-purple-900/20 rounded-xl backdrop-blur-sm border border-purple-500/20 text-purple-300 hover:text-purple-200 transition-colors"
-    >
-      {icon}
-      <span className="font-medium">{label}</span>
-    </motion.a>
-  );
-};
+import PixelCard from "@/components/card/PixelCard";
+import ScrollVelocity from "@/components/ScrollVelocity";
 
 // Tech badge component
 const TechBadge = ({ name }) => {
@@ -366,6 +357,23 @@ export default function Portfolio() {
             </motion.div>
           </section>
 
+          {/* Enhanced ScrollVelocity effect */}
+          <ScrollVelocity
+            texts={[
+              "Open Source Enthusiast",
+              "Student Developer",
+            ]}
+            velocity={10}
+            damping={20}
+            stiffness={100}
+            numCopies={4}
+            velocityMapping={(velocity) => Math.abs(velocity)}
+            parallaxClassName="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none"
+            scrollerClassName="flex items-center justify-center h-full"
+            parallaxStyle={{ zIndex: -1 }}
+            scrollerStyle={{ zIndex: 1 }}
+          />
+
           {/* Enhanced About section */}
           <section
             ref={aboutRef}
@@ -410,11 +418,13 @@ export default function Portfolio() {
                   viewport={{ once: true }}
                   className="flex flex-wrap gap-3"
                 >
-                  {["JavaScript", "Typescript", "C++", "Go", "Python"].map((tech) => (
-                    <motion.div key={tech} variants={fadeInUp}>
-                      <TechBadge name={tech} />
-                    </motion.div>
-                  ))}
+                  {["JavaScript", "Typescript", "C++", "Go", "Python"].map(
+                    (tech) => (
+                      <motion.div key={tech} variants={fadeInUp}>
+                        <TechBadge name={tech} />
+                      </motion.div>
+                    )
+                  )}
                 </motion.div>
               </motion.div>
             </div>
@@ -483,48 +493,61 @@ export default function Portfolio() {
                       key={repo.id}
                       variants={fadeInUp}
                       whileHover={{ y: -5 }}
-                      className="p-6 rounded-2xl backdrop-blur-lg bg-gradient-to-br from-gray-800/60 to-purple-900/20 border border-purple-500/10 shadow-xl transition-all group"
+                      className="h-full"
                     >
-                      <div className="flex justify-between items-start mb-4">
-                        <h3 className="text-xl font-bold text-purple-300 group-hover:text-purple-200 transition-colors">
-                          {repo.name}
-                        </h3>
-                        <motion.a
-                          href={repo.html_url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          aria-label={`View ${repo.name} on GitHub`}
-                          whileHover={{ scale: 1.1, rotate: 15 }}
-                          whileTap={{ scale: 0.9 }}
-                          className="p-2 rounded-lg bg-purple-900/30 text-purple-300 hover:bg-purple-700/50 transition-colors"
-                        >
-                          <HiExternalLink size={16} />
-                        </motion.a>
-                      </div>
-
-                      <p className="text-gray-400 text-sm mb-6 min-h-[4rem]">
-                        {repo.description || "No description available"}
-                      </p>
-
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-1">
-                          <div className="w-3 h-3 rounded-full bg-purple-500"></div>
-                          <span className="text-purple-300 text-sm">
-                            {repo.language || "N/A"}
-                          </span>
-                        </div>
-
-                        <div className="flex items-center gap-3">
-                          <div className="flex items-center gap-1 text-gray-400 text-xs">
-                            <FaStar size={14} />
-                            <span>{repo.stargazers_count}</span>
+                      <PixelCard
+                        variant={
+                          index % 3 === 0
+                            ? "purple"
+                            : index % 3 === 1
+                            ? "blue"
+                            : "pink"
+                        }
+                        className="h-full aspect-auto w-full relative"
+                      >
+                        <div className="absolute inset-0 p-6 flex flex-col h-full">
+                          <div className="flex justify-between items-start mb-4">
+                            <h3 className="text-xl font-bold text-gray-100 z-10">
+                              {repo.name}
+                            </h3>
+                            <motion.a
+                              href={repo.html_url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              aria-label={`View ${repo.name} on GitHub`}
+                              whileHover={{ scale: 1.1, rotate: 15 }}
+                              whileTap={{ scale: 0.9 }}
+                              className="p-2 rounded-lg bg-purple-900/30 text-purple-300 hover:bg-purple-700/50 transition-colors z-10"
+                            >
+                              <HiExternalLink size={16} />
+                            </motion.a>
                           </div>
-                          <div className="flex items-center gap-1 text-gray-400 text-xs">
-                            <FaCodeBranch size={14} />
-                            <span>{repo.forks_count}</span>
+
+                          <p className="text-gray-300 text-sm mb-6 min-h-[4rem] z-10">
+                            {repo.description || "No description available"}
+                          </p>
+
+                          <div className="flex items-center justify-between mt-auto z-10">
+                            <div className="flex items-center gap-1">
+                              <div className="w-3 h-3 rounded-full bg-purple-500"></div>
+                              <span className="text-gray-300 text-sm">
+                                {repo.language || "N/A"}
+                              </span>
+                            </div>
+
+                            <div className="flex items-center gap-3">
+                              <div className="flex items-center gap-1 text-gray-300 text-xs">
+                                <FaStar size={14} />
+                                <span>{repo.stargazers_count}</span>
+                              </div>
+                              <div className="flex items-center gap-1 text-gray-300 text-xs">
+                                <FaCodeBranch size={14} />
+                                <span>{repo.forks_count}</span>
+                              </div>
+                            </div>
                           </div>
                         </div>
-                      </div>
+                      </PixelCard>
                     </motion.div>
                   ))}
                 </motion.div>
