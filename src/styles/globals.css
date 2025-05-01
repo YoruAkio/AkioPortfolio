@@ -1,0 +1,89 @@
+@import "tailwindcss";
+
+:root {
+  --foreground-rgb: 255, 255, 255;
+  --background-start-rgb: 9, 10, 15;
+  --background-end-rgb: 6, 7, 10;
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(to bottom,
+      rgb(var(--background-start-rgb)),
+      rgb(var(--background-end-rgb))) rgb(var(--background-start-rgb));
+  overflow-x: hidden;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0f1015;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #27292d;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #22c55e;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(calc(-100% - 1.5rem));
+  }
+}
+
+@keyframes scroll-reverse {
+  0% {
+    transform: translateX(calc(-100% - 1.5rem));
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.skills-scroll-track {
+  display: flex;
+  width: 100%;
+  overflow: hidden;
+}
+
+.skills-scroll {
+  display: flex;
+  animation: scroll 30s linear infinite;
+  will-change: transform;
+}
+
+.skills-scroll:hover {
+  animation-play-state: paused;
+}
+
+/* For reverse direction in second row */
+.skills-scroll-track-reverse {
+  display: flex;
+  width: 100%;
+  overflow: hidden;
+}
+
+.skills-scroll-reverse {
+  display: flex;
+  animation: scroll-reverse 25s linear infinite;
+  will-change: transform;
+}
+
+.skills-scroll-reverse:hover {
+  animation-play-state: paused;
+}
