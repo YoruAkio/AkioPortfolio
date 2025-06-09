@@ -41,6 +41,7 @@ import SkillBubble from '@/components/SkillBubble';
 import SocialButton from '@/components/SocialButton';
 import Orb from '@/components/ReactBits/Orb';
 import RotatingText from '@/components/ReactBits/RotatingText';
+import AdSense from '@/components/AdSense';
 
 import * as Svg from '@/components/Svg';
 
@@ -338,6 +339,14 @@ export default function Home() {
           </div>
         </Section>
 
+        {/* Ad after Hero Section */}
+        <div className="py-8 flex justify-center">
+          <AdSense 
+            adSlot="1234567890"
+            className="w-full max-w-4xl"
+          />
+        </div>
+
         {/* About Section - redesigned for clarity and detail */}
         <Section id="about">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
@@ -589,6 +598,14 @@ export default function Home() {
           </div>
         </Section>
 
+        {/* Ad after About Section */}
+        <div className="py-8 flex justify-center">
+          <AdSense 
+            adSlot="0987654321"
+            className="w-full max-w-4xl"
+          />
+        </div>
+
         {/* Skills Section */}
         <Section id="skills" className="bg-[#070a10] overflow-hidden py-12">
           <motion.div
@@ -627,6 +644,14 @@ export default function Home() {
             </Marquee>
           </div>
         </Section>
+
+        {/* Ad after Skills Section */}
+        <div className="py-8 flex justify-center bg-[#070a10]">
+          <AdSense 
+            adSlot="1357924680"
+            className="w-full max-w-4xl"
+          />
+        </div>
 
         {/* Projects Section */}
         <Section id="projects">
@@ -677,6 +702,14 @@ export default function Home() {
             </motion.a>
           </motion.div>
         </Section>
+
+        {/* Ad after Projects Section */}
+        <div className="py-8 flex justify-center">
+          <AdSense 
+            adSlot="2468135790"
+            className="w-full max-w-4xl"
+          />
+        </div>
 
         {/* Contact Section */}
         <section id="contact" className="bg-[#070a10] py-16">
@@ -743,6 +776,14 @@ export default function Home() {
             </div>
           </div>
         </section>
+
+        {/* Ad before Footer */}
+        <div className="py-8 flex justify-center bg-[#070a10]">
+          <AdSense 
+            adSlot="9876543210"
+            className="w-full max-w-4xl"
+          />
+        </div>
 
         <Footer />
       </div>
