@@ -1,53 +1,22 @@
-import "@/styles/globals.css";
-import { Space_Mono } from 'next/font/google';
-import { ThemeProvider } from 'next-themes';
-import { Analytics } from '@vercel/analytics/react';
-import Script from 'next/script';
+import '@/styles/globals.css';
+import { Bricolage_Grotesque, Geist_Mono } from 'next/font/google';
 
-const spaceMono = Space_Mono({
-  variable: '--font-space-mono',
+const bricolageGrotesque = Bricolage_Grotesque({
+  variable: '--font-bricolage-grotesque',
   subsets: ['latin'],
-  weight: ['400', '700'],
+  display: 'swap',
+  weight: ['400', '500', '600', '700'],
+});
+
+const geistMono = Geist_Mono({
+  variable: '--font-geist-mono',
+  subsets: ['latin'],
 });
 
 export default function App({ Component, pageProps }) {
   return (
-    <ThemeProvider attribute="class" defaultTheme="dark">
-      <div className={`${spaceMono.variable} min-h-screen bg-[#0d1117] font-mono`}>
-        <Script
-          id="google-adsense"
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8321717503736662"
-          crossOrigin="anonymous"
-          strategy="afterInteractive"
-        />
-        <style jsx global>{`
-          html {
-            font-family: var(--font-space-mono), monospace;
-            scroll-behavior: smooth;
-          }
-          
-          /* Custom scrollbar */
-          ::-webkit-scrollbar {
-            width: 8px;
-          }
-          
-          ::-webkit-scrollbar-track {
-            background: #0d1117;
-          }
-          
-          ::-webkit-scrollbar-thumb {
-            background: #373c44;
-            border-radius: 4px;
-          }
-          
-          ::-webkit-scrollbar-thumb:hover {
-            background: #9d7cca;
-          }
-        `}</style>
-        <Component {...pageProps} />
-        <Analytics />
-      </div>
-    </ThemeProvider>
+    <div className={`${bricolageGrotesque.variable} ${geistMono.variable} font-sans`}>
+      <Component {...pageProps} />
+    </div>
   );
 }
