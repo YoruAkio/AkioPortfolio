@@ -15,7 +15,9 @@ const geistMono = Geist_Mono({
 
 export default function App({ Component, pageProps }) {
   return (
-    <div className={`${bricolageGrotesque.variable} ${geistMono.variable} font-sans`}>
+    <div
+      className={`${bricolageGrotesque.variable} ${geistMono.variable} font-sans`}
+    >
       <Component {...pageProps} />
     </div>
   );

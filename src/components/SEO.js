@@ -58,7 +58,7 @@ export default function SEO({
             sameAs: [
               'https://github.com/yoruakio',
               'https://twitter.com/yoruakio',
-              'https://t.me/ethermite'
+              'https://t.me/ethermite',
             ],
             address: {
               '@type': 'PostalAddress',
