@@ -13,6 +13,12 @@
 # testing
 /coverage
 
+# specstory
+.specstory
+
+# instructions
+*.instructions.md
+
 # next.js
 /.next/
 /out/
