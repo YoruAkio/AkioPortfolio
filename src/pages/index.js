@@ -58,7 +58,7 @@ export default function Home() {
           </div>
 
           {/* Spacer to allow footer reveal - half screen height */}
-          <div className="h-[40vh]"></div>
+          <div className="h-[35vh]"></div>
         </div>
       </div>
     </>
