@@ -26,25 +26,25 @@ export default function Home() {
               id="home"
               className="min-h-screen flex items-center justify-center pt-16"
             >
-              <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                <h1 className="text-5xl sm:text-7xl lg:text-8xl font-bold text-foreground mb-8">
+              <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h1 className="text-2xl sm:text-5xl lg:text-6xl font-bold text-foreground mb-4 sm:mb-6">
                   Hi, I'm <span className="text-primary">Yoru Akio</span>
                 </h1>
-                <p className="text-2xl sm:text-3xl lg:text-4xl text-foreground/80 mb-10 max-w-5xl mx-auto leading-relaxed">
+                <p className="text-base sm:text-xl lg:text-2xl text-foreground/80 mb-6 sm:mb-8 max-w-4xl mx-auto leading-relaxed">
                   Self-taught Full-Stack Developer from Indonesia showcasing web
                   development projects. Specializing in front-end solutions and
                   back-end development with Go and JavaScript.
                 </p>
-                <div className="flex flex-col sm:flex-row gap-6 justify-center">
+                <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
                   <a
                     href="#projects"
-                    className="px-10 py-4 text-lg bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors font-medium"
+                    className="px-5 py-2.5 sm:px-8 sm:py-3 text-sm sm:text-base bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors font-medium"
                   >
                     View My Work
                   </a>
                   <a
                     href="#about"
-                    className="px-10 py-4 text-lg border border-border text-foreground rounded-lg hover:bg-secondary transition-colors font-medium"
+                    className="px-5 py-2.5 sm:px-8 sm:py-3 text-sm sm:text-base border border-border text-foreground rounded-lg hover:bg-secondary transition-colors font-medium"
                   >
                     About Me
                   </a>
@@ -57,8 +57,8 @@ export default function Home() {
             <Projects />
           </div>
 
-          {/* Spacer to allow footer reveal - half screen height */}
-          <div className="h-[37vh]"></div>
+          {/* Spacer to allow footer reveal - responsive heights */}
+          <div className="h-[40vh] [@media(max-width:390px)]:h-[40vh] [@media(max-width:1024px)]:h-[38vh] lg:h-[28vh]"></div>
         </div>
       </div>
     </>
