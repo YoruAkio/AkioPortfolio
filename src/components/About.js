@@ -29,13 +29,13 @@ export default function About() {
               idea come to life in the browser.
             </p>
             <div className="flex flex-wrap gap-2">
-              <span className="px-3 py-1.5 sm:px-4 sm:py-2 bg-primary/10 text-primary rounded-full text-sm sm:text-base lg:text-lg">
+              <span className="px-3 py-1.5 sm:px-4 sm:py-2 bg-secondary border border-border text-foreground rounded-full text-sm sm:text-base lg:text-lg hover:bg-primary/20 hover:text-primary hover:border-primary/30 transition-colors">
                 Always Learning
               </span>
-              <span className="px-3 py-1.5 sm:px-4 sm:py-2 bg-primary/10 text-primary rounded-full text-sm sm:text-base lg:text-lg">
+              <span className="px-3 py-1.5 sm:px-4 sm:py-2 bg-secondary border border-border text-foreground rounded-full text-sm sm:text-base lg:text-lg hover:bg-primary/20 hover:text-primary hover:border-primary/30 transition-colors">
                 Self-Taught
               </span>
-              <span className="px-3 py-1.5 sm:px-4 sm:py-2 bg-primary/10 text-primary rounded-full text-sm sm:text-base lg:text-lg">
+              <span className="px-3 py-1.5 sm:px-4 sm:py-2 bg-secondary border border-border text-foreground rounded-full text-sm sm:text-base lg:text-lg hover:bg-primary/20 hover:text-primary hover:border-primary/30 transition-colors">
                 4 Years Journey
               </span>
             </div>
