@@ -14,7 +14,7 @@
 /coverage
 
 # specstory
-.specstory
+.specstory/
 
 # instructions
 *.instructions.md
