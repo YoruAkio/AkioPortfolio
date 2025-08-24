@@ -1,52 +1,167 @@
+import { useState, useEffect } from 'react';
 import { ExternalLink } from 'lucide-react';
 import { FaGithub } from 'react-icons/fa';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
+import ProjectCard from '@/components/ui/ProjectCard';
 
 export default function Projects() {
-  const projects = [];
+  const [projects, setProjects] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  // GitHub REST API
+  useEffect(() => {
+    const fetchUserRepos = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+
+        // Get user repositories sorted by updated date
+        const reposResponse = await fetch(
+          'https://api.github.com/users/YoruAkio/repos?sort=updated&per_page=6'
+        );
+
+        if (!reposResponse.ok) {
+          throw new Error(
+            `Failed to fetch repositories: ${reposResponse.status}`
+          );
+        }
+
+        const repos = await reposResponse.json();
+
+        // Filter and format repositories
+        const formattedRepos = repos
+          .filter(repo => !repo.fork && !repo.private) // Only show original, public repos
+          .slice(0, 6) // Limit to 6 repositories
+          .map(repo => ({
+            name: repo.name,
+            description: repo.description,
+            url: repo.html_url,
+            homepageUrl: repo.homepage || null,
+            stargazerCount: repo.stargazers_count,
+            forkCount: repo.forks_count,
+            primaryLanguage: repo.language ? { name: repo.language } : null,
+            topics: repo.topics || [],
+            createdAt: repo.created_at,
+            updatedAt: repo.updated_at,
+            languages: [], // REST API doesn't provide detailed language info
+          }));
+
+        setProjects(formattedRepos);
+      } catch (err) {
+        console.error('Error fetching GitHub repos:', err);
+        setError(err.message);
+        // Fallback to demo data if API fails
+        setProjects([
+          {
+            name: 'AkioPortfolio',
+            description:
+              'Modern minimalist portfolio website built with Next.js and Tailwind CSS',
+            url: 'https://github.com/YoruAkio/AkioPortfolio',
+            homepageUrl: 'https://yoruakio.vercel.app',
+            stargazerCount: 5,
+            forkCount: 2,
+            primaryLanguage: { name: 'JavaScript' },
+            topics: ['nextjs', 'portfolio', 'tailwindcss', 'react'],
+            createdAt: '2024-01-01T00:00:00Z',
+            updatedAt: '2025-01-01T00:00:00Z',
+          },
+        ]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUserRepos();
+  }, []);
+
+  if (loading) {
+    return (
+      <section
+        id="projects"
+        className="py-12 sm:py-16 bg-secondary/30 rounded-b-[1rem] sm:rounded-b-[2rem] border-b-3 border-foreground/10 dark:border-foreground/20"
+      >
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-8 sm:mb-12">
+            <h2 className="text-xl sm:text-3xl lg:text-4xl font-bold text-foreground mb-3 sm:mb-4">
+              Featured Projects
+            </h2>
+            <p className="text-foreground/60 text-sm sm:text-lg lg:text-xl max-w-2xl mx-auto">
+              Loading my latest projects from GitHub...
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[...Array(6)].map((_, i) => (
+              <div
+                key={i}
+                className="bg-background border border-border rounded-xl p-6 animate-pulse"
+              >
+                <div className="h-6 bg-secondary rounded mb-4"></div>
+                <div className="h-4 bg-secondary rounded mb-2"></div>
+                <div className="h-4 bg-secondary rounded mb-4 w-3/4"></div>
+                <div className="flex gap-2 mb-4">
+                  <div className="h-6 bg-secondary rounded w-16"></div>
+                  <div className="h-6 bg-secondary rounded w-20"></div>
+                </div>
+                <div className="h-10 bg-secondary rounded"></div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section
       id="projects"
-      className="py-20 bg-secondary/30 rounded-b-[1rem] sm:rounded-b-[2rem] border-b-3 border-foreground/10 dark:border-foreground/20"
+      className="py-12 sm:py-16 bg-secondary/30 rounded-b-[1rem] sm:rounded-b-[2rem] border-b-3 border-foreground/10 dark:border-foreground/20"
     >
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12 sm:mb-20">
-          <h2 className="text-2xl sm:text-5xl lg:text-6xl font-bold text-foreground mb-4 sm:mb-6">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-8 sm:mb-12">
+          <h2 className="text-xl sm:text-3xl lg:text-4xl font-bold text-foreground mb-3 sm:mb-4">
             Featured Projects
           </h2>
-          <p className="text-foreground/60 text-base sm:text-xl lg:text-2xl max-w-3xl mx-auto">
-            Some of the projects I've worked on recently
+          <p className="text-foreground/60 text-sm sm:text-lg lg:text-xl max-w-2xl mx-auto">
+            {error
+              ? 'Some of my notable projects'
+              : 'My latest repositories from GitHub'}
           </p>
+          {error && (
+            <p className="text-amber-500/70 text-xs mt-2">
+              Note: Using demo data due to API limitations
+            </p>
+          )}
         </div>
 
         {projects.length === 0 ? (
           <motion.div
-            className="text-center py-16"
+            className="text-center py-10"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
             <motion.div
-              className="bg-background border border-border rounded-xl p-8 max-w-md mx-auto"
+              className="bg-background border border-border rounded-xl p-6 max-w-sm mx-auto"
               whileHover={{ scale: 1.02 }}
               transition={{ type: 'spring', stiffness: 300 }}
             >
-              <h3 className="text-lg sm:text-xl lg:text-2xl font-semibold text-foreground mb-4">
+              <h3 className="text-base sm:text-lg lg:text-xl font-semibold text-foreground mb-3">
                 Projects Coming Soon
               </h3>
-              <p className="text-foreground/60 text-sm sm:text-base lg:text-lg mb-4">
+              <p className="text-foreground/60 text-xs sm:text-sm lg:text-base mb-3">
                 I'm currently working on some exciting projects that will be
                 showcased here soon.
               </p>
-              <div className="text-sm text-foreground/40 font-mono bg-secondary/30 rounded-lg p-3">
+              <div className="text-xs text-foreground/40 font-mono bg-secondary/30 rounded-lg p-2">
                 // @note todo adding project list on here
               </div>
             </motion.div>
           </motion.div>
         ) : (
           <motion.div
-            className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
+            className="grid md:grid-cols-2 lg:grid-cols-3 gap-6"
             initial="hidden"
             animate="visible"
             variants={{
@@ -60,94 +175,11 @@ export default function Projects() {
             }}
           >
             {projects.map((project, index) => (
-              <motion.div
-                key={index}
-                className="bg-background border border-border rounded-xl p-6 flex flex-col h-full"
-                variants={{
-                  hidden: { opacity: 0, y: 20 },
-                  visible: { opacity: 1, y: 0 },
-                }}
-                transition={{ duration: 0.5 }}
-                whileHover={{
-                  scale: 1.03,
-                  boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
-                  borderColor: 'rgba(var(--color-primary), 0.2)',
-                }}
-                whileTap={{ scale: 0.98 }}
-              >
-                <div className="flex-grow flex flex-col">
-                  <motion.h3
-                    className="text-2xl lg:text-3xl font-semibold text-foreground mb-4"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.2 }}
-                  >
-                    {project.title}
-                  </motion.h3>
-                  <motion.p
-                    className="text-foreground/70 mb-6 text-base lg:text-lg leading-relaxed flex-grow"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.3 }}
-                  >
-                    {project.description}
-                  </motion.p>
-                </div>
-
-                <motion.div
-                  className="flex flex-wrap gap-2 mb-4"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.4 }}
-                >
-                  {project.tech.map((tech, techIndex) => (
-                    <motion.span
-                      key={tech}
-                      className="px-3 py-1 bg-secondary/50 text-foreground rounded-full text-xs lg:text-sm font-medium border border-border hover:bg-primary/10 hover:text-primary transition-colors"
-                      initial={{ opacity: 0, scale: 0.8 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      transition={{ delay: 0.5 + techIndex * 0.1 }}
-                      whileHover={{ scale: 1.1 }}
-                    >
-                      {tech}
-                    </motion.span>
-                  ))}
-                </motion.div>
-
-                <motion.div
-                  className="flex gap-3 pt-4 border-t border-border min-h-[60px] items-end"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.6 }}
-                >
-                  <motion.a
-                    href={project.github}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={`${
-                      project.demo ? 'flex-1' : 'w-full'
-                    } flex items-center justify-center gap-2 px-6 py-3 bg-secondary/50 hover:bg-secondary text-foreground rounded-lg transition-colors text-base lg:text-lg font-medium h-12`}
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                  >
-                    <FaGithub size={16} />
-                    GitHub
-                  </motion.a>
-                  {project.demo && (
-                    <motion.a
-                      href={project.demo}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-primary/10 hover:bg-primary/20 text-primary rounded-lg transition-colors text-base lg:text-lg font-medium h-12"
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                    >
-                      <ExternalLink size={16} />
-                      Demo
-                    </motion.a>
-                  )}
-                </motion.div>
-              </motion.div>
+              <ProjectCard
+                key={project.name || index}
+                project={project}
+                index={index}
+              />
             ))}
           </motion.div>
         )}

@@ -28,9 +28,9 @@ import { VscVscode } from 'react-icons/vsc';
 import { FaWindows } from 'react-icons/fa';
 
 const SkillBubble = ({ icon, name }) => (
-  <div className="flex items-center gap-2 sm:gap-3 bg-secondary/50 border border-border rounded-full px-4 py-2 sm:px-6 sm:py-3 hover:bg-secondary transition-colors whitespace-nowrap">
-    <div className="text-lg sm:text-xl lg:text-2xl text-primary">{icon}</div>
-    <span className="text-sm sm:text-base lg:text-lg text-foreground font-medium">
+  <div className="flex items-center gap-1.5 sm:gap-2 bg-secondary/50 border border-border rounded-full px-3 py-1.5 sm:px-4 sm:py-2 hover:bg-secondary transition-colors whitespace-nowrap">
+    <div className="text-sm sm:text-base lg:text-lg text-primary">{icon}</div>
+    <span className="text-xs sm:text-sm lg:text-base text-foreground font-medium">
       {name}
     </span>
   </div>
@@ -38,20 +38,20 @@ const SkillBubble = ({ icon, name }) => (
 
 export default function Skills() {
   return (
-    <section id="skills" className="py-20">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12 sm:mb-20">
-          <h2 className="text-2xl sm:text-5xl lg:text-6xl font-bold text-foreground mb-4 sm:mb-6">
+    <section id="skills" className="py-12 sm:py-16">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-8 sm:mb-12">
+          <h2 className="text-xl sm:text-3xl lg:text-4xl font-bold text-foreground mb-3 sm:mb-4">
             Skills & Technologies
           </h2>
-          <p className="text-foreground/60 text-base sm:text-xl lg:text-2xl max-w-3xl mx-auto">
+          <p className="text-foreground/60 text-sm sm:text-lg lg:text-xl max-w-2xl mx-auto">
             Technologies I work with to bring ideas to life
           </p>
         </div>
 
         <div className="overflow-hidden">
           <Marquee speed={40} gradient={false} pauseOnHover={true}>
-            <div className="flex space-x-4 mr-4">
+            <div className="flex space-x-3 mr-3">
               <SkillBubble icon={<SiJavascript />} name="JavaScript" />
               <SkillBubble icon={<SiTypescript />} name="TypeScript" />
               <SkillBubble icon={<SiPython />} name="Python" />
