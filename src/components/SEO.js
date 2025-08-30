@@ -1,15 +1,15 @@
 import Head from 'next/head';
 
 export default function SEO({
-  title = 'Yoru Akio - Full-Stack Developer',
-  description = 'Self-taught Full-Stack Developer from Indonesia showcasing web development projects. Specializing in front-end solutions and back-end development with Go and JavaScript.',
-  url = 'https://akio.lol',
-  image = 'https://raw.githubusercontent.com/YoruAkio/ProjectAssets/refs/heads/main/akio/akio/og-image.png',
+  title = 'Raol Mukarrozi - Full-Stack Developer',
+  description = 'Self-taught Full-Stack Developer from Indonesia showcasing web development projects. Specializing in front-end solutions and back-end development with JavaScript.',
+  url = 'https://raol.is-a.dev',
+  image = 'https://raw.githubusercontent.com/raolbyte/Raol-UI/main/src/banner.jpg',
 }) {
   const siteTitle =
-    title === 'Yoru Akio - Full-Stack Developer'
+    title === 'Raol Mukarrozi - Full-Stack Developer'
       ? title
-      : `${title} - Yoru Akio`;
+      : `${title} - Raol Mukarrozi`;
 
   return (
     <Head>
@@ -19,10 +19,10 @@ export default function SEO({
       <meta name="description" content={description} />
       <meta name="viewport" content="width=device-width, initial-scale=1" />
       <meta name="robots" content="index, follow" />
-      <meta name="author" content="Yoru Akio" />
+      <meta name="author" content="Raol Mukarrozi" />
       <meta
         name="keywords"
-        content="Full-Stack Developer, Web Developer, JavaScript, Go, Frontend, Backend, Indonesia, Portfolio, Yoru Akio"
+        content="Full-Stack Developer, Web Developer, JavaScript, Go, Frontend, Backend, Indonesia, Portfolio"
       />
 
       {/* Open Graph / Facebook */}
@@ -33,7 +33,7 @@ export default function SEO({
       <meta property="og:image" content={image} />
       <meta property="og:image:width" content="1200" />
       <meta property="og:image:height" content="630" />
-      <meta property="og:site_name" content="Yoru Akio Portfolio" />
+      <meta property="og:site_name" content="Raol Mukarrozi Portfolio" />
 
       {/* Twitter */}
       <meta property="twitter:card" content="summary_large_image" />
@@ -52,15 +52,13 @@ export default function SEO({
           __html: JSON.stringify({
             '@context': 'https://schema.org',
             '@type': 'Person',
-            name: 'Yoru Akio',
+            name: 'Raol Mukarrozi',
             jobTitle: 'Full-Stack Developer',
             description: description,
             url: url,
             image: image,
             sameAs: [
-              'https://github.com/yoruakio',
-              'https://twitter.com/yoruakio',
-              'https://t.me/ethermite',
+              'https://github.com/raolbyte',
             ],
             address: {
               '@type': 'PostalAddress',
