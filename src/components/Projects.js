@@ -18,7 +18,7 @@ export default function Projects() {
 
         // Get user repositories sorted by updated date
         const reposResponse = await fetch(
-          'https://api.github.com/users/YoruAkio/repos?sort=updated&per_page=6'
+          'https://api.github.com/users/raolbyte/repos?sort=updated&per_page=4'
         );
 
         if (!reposResponse.ok) {
@@ -54,11 +54,11 @@ export default function Projects() {
         // Fallback to demo data if API fails
         setProjects([
           {
-            name: 'AkioPortfolio',
+            name: 'RaolPortfolio',
             description:
               'Modern minimalist portfolio website built with Next.js and Tailwind CSS',
-            url: 'https://github.com/YoruAkio/AkioPortfolio',
-            homepageUrl: 'https://yoruakio.vercel.app',
+            url: 'https://github.com/raolbyte/RaolPortfolio',
+            homepageUrl: 'https://raol.is-a.dev/',
             stargazerCount: 5,
             forkCount: 2,
             primaryLanguage: { name: 'JavaScript' },
