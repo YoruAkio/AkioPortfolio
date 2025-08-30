@@ -18,7 +18,7 @@ export default function Projects() {
 
         // Get user repositories sorted by updated date
         const reposResponse = await fetch(
-          'https://api.github.com/users/raolbyte/repos?sort=updated&per_page=4'
+          'https://api.github.com/users/raolbyte/repos?sort=updated&per_page=6'
         );
 
         if (!reposResponse.ok) {
