@@ -54,6 +54,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ---
 
 > [!NOTE] 
-> You're free to use this project as a template for your own portfolio. Please keep this README information and maintain attribution to the original creator (YoruAkio). If you use this project, consider giving it a ⭐ on [GitHub](https://github.com/raolbyte/AkioPortfolio)!
+> You're free to use this project as a template for your own portfolio. Please keep this README information and maintain attribution to the original creator (YoruAkio). If you use this project, consider giving it a ⭐ on [GitHub](https://github.com/raolbyte/RaolPortfolio)!
 
 Made with ❤️ by [Raol Mukarrozi](https://github.com/raolbyte)
