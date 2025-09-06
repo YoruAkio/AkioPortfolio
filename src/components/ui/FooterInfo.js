@@ -12,7 +12,7 @@ export default function FooterInfo() {
   const messages = [
     {
       type: 'copyright',
-      text: '© 2025 Yoru Akio',
+      text: '© 2025 Raol Mukarrozi',
     },
     {
       type: 'built-with',

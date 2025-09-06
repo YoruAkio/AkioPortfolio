@@ -3,22 +3,21 @@ import { ExternalLink } from 'lucide-react';
 import { FaGithub } from 'react-icons/fa';
 import { motion } from 'motion/react';
 import ProjectCard from '@/components/ui/ProjectCard';
+import { ScrollMorphLayer } from '@/components/ui/ScrollMorph';
 
 export default function Projects() {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // GitHub REST API
   useEffect(() => {
     const fetchUserRepos = async () => {
       try {
         setLoading(true);
         setError(null);
 
-        // Get user repositories sorted by updated date
         const reposResponse = await fetch(
-          'https://api.github.com/users/YoruAkio/repos?sort=updated&per_page=6'
+          'https://api.github.com/users/raolbyte/repos?sort=updated&per_page=6'
         );
 
         if (!reposResponse.ok) {
@@ -29,10 +28,9 @@ export default function Projects() {
 
         const repos = await reposResponse.json();
 
-        // Filter and format repositories
         const formattedRepos = repos
-          .filter(repo => !repo.fork && !repo.private) // Only show original, public repos
-          .slice(0, 6) // Limit to 6 repositories
+          .filter(repo => !repo.fork && !repo.private)
+          .slice(0, 6)
           .map(repo => ({
             name: repo.name,
             description: repo.description,
@@ -44,20 +42,19 @@ export default function Projects() {
             topics: repo.topics || [],
             createdAt: repo.created_at,
             updatedAt: repo.updated_at,
-            languages: [], // REST API doesn't provide detailed language info
+            languages: [],
           }));
 
         setProjects(formattedRepos);
       } catch (err) {
         console.error('Error fetching GitHub repos:', err);
         setError(err.message);
-        // Fallback to demo data if API fails
         setProjects([
           {
             name: 'AkioPortfolio',
             description:
               'Modern minimalist portfolio website built with Next.js and Tailwind CSS',
-            url: 'https://github.com/YoruAkio/AkioPortfolio',
+            url: 'https://github.com/raolbyte/AkioPortfolio',
             homepageUrl: 'https://yoruakio.vercel.app',
             stargazerCount: 5,
             forkCount: 2,
@@ -119,23 +116,26 @@ export default function Projects() {
       className="py-12 sm:py-16 bg-secondary/30 rounded-b-[1rem] sm:rounded-b-[2rem] border-b-3 border-foreground/10 dark:border-foreground/20"
     >
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-8 sm:mb-12">
-          <h2 className="text-xl sm:text-3xl lg:text-4xl font-bold text-foreground mb-3 sm:mb-4">
-            Featured Projects
-          </h2>
-          <p className="text-foreground/60 text-sm sm:text-lg lg:text-xl max-w-2xl mx-auto">
-            {error
-              ? 'Some of my notable projects'
-              : 'My latest repositories from GitHub'}
-          </p>
-          {error && (
-            <p className="text-amber-500/70 text-xs mt-2">
-              Note: Using demo data due to API limitations
+        <ScrollMorphLayer index={0}>
+          <div className="text-center mb-8 sm:mb-12">
+            <h2 className="text-xl sm:text-3xl lg:text-4xl font-bold text-foreground mb-3 sm:mb-4">
+              Featured Projects
+            </h2>
+            <p className="text-foreground/60 text-sm sm:text-lg lg:text-xl max-w-2xl mx-auto">
+              {error
+                ? 'Some of my notable projects'
+                : 'My latest repositories from GitHub'}
             </p>
-          )}
-        </div>
+            {error && (
+              <p className="text-amber-500/70 text-xs mt-2">
+                Note: Using demo data due to API limitations
+              </p>
+            )}
+          </div>
+        </ScrollMorphLayer>
 
-        {projects.length === 0 ? (
+        <ScrollMorphLayer index={1}>
+          {projects.length === 0 ? (
           <motion.div
             className="text-center py-10"
             initial={{ opacity: 0, y: 20 }}
@@ -154,12 +154,9 @@ export default function Projects() {
                 I'm currently working on some exciting projects that will be
                 showcased here soon.
               </p>
-              <div className="text-xs text-foreground/40 font-mono bg-secondary/30 rounded-lg p-2">
-                // @note todo adding project list on here
-              </div>
             </motion.div>
           </motion.div>
-        ) : (
+          ) : (
           <motion.div
             className="grid md:grid-cols-2 lg:grid-cols-3 gap-6"
             initial="hidden"
@@ -182,7 +179,8 @@ export default function Projects() {
               />
             ))}
           </motion.div>
-        )}
+          )}
+        </ScrollMorphLayer>
       </div>
     </section>
   );

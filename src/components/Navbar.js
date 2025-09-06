@@ -10,14 +10,12 @@ export default function Navbar() {
   const scrollToSection = sectionId => {
     const element = document.getElementById(sectionId);
     if (element) {
-      const navbarHeight = 64; // Height of fixed navbar (h-16 = 64px)
+      const navbarHeight = 64;
       const elementTop = element.offsetTop;
       const elementHeight = element.offsetHeight;
       const windowHeight = window.innerHeight;
 
-      // Calculate position to center the section
-      const centerPosition =
-        elementTop - windowHeight / 2 + elementHeight / 2 - navbarHeight / 2;
+      const centerPosition = elementTop - windowHeight / 2 + elementHeight / 2 - navbarHeight / 2;
 
       window.scrollTo({
         top: Math.max(0, centerPosition),
@@ -27,13 +25,13 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="fixed top-0 w-full bg-background/80 backdrop-blur-sm border-b border-border z-50">
+    <nav className="fixed top-0 w-full bg-background/90 backdrop-blur-md border-b border-border/50 z-50 shadow-sm">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
-          <div className="flex-shrink-0 relative w-14 h-10 rounded-full overflow-hidden">
+          <div className="flex-shrink-0 relative w-14 h-10 rounded-full overflow-hidden ring-2 ring-primary/20 hover:ring-primary/40 transition-all duration-300">
             <Image
               src="https://raw.githubusercontent.com/YoruAkio/ProjectAssets/refs/heads/main/akio/akio/yoruakio.png"
-              alt="Yoru Akio"
+              alt="Raol Mukarrozi"
               fill
               sizes="40px"
               className="object-contain"

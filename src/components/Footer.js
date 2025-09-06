@@ -24,7 +24,7 @@ export default function Footer() {
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Button asChild size="lg" className="group">
               <a
-                href="mailto:yoruakio@proton.me"
+                href="mailto:raolantidonasi@gmail.com"
                 className="inline-flex items-center gap-2"
               >
                 <Mail className="w-4 h-4" />
