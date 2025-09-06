@@ -17,8 +17,8 @@ This is a clean and modern portfolio website featuring dark/light theme toggle, 
 1. **Clone the repository**
 
    ```bash
-   git clone https://github.com/YoruAkio/AkioPortfolio.git
-   cd AkioPortfolio
+   git clone https://github.com/raolbyte/RaolPortfolio.git
+   cd RaolPortfolio
    ```
 
 2. **Install dependencies**
@@ -54,6 +54,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ---
 
 > [!NOTE] 
-> You're free to use this project as a template for your own portfolio. Please keep this README information and maintain attribution to the original creator (Raol Mukarrozi). If you use this project, consider giving it a ⭐ on [GitHub](https://github.com/raolbyte/AkioPortfolio)!
+> You're free to use this project as a template for your own portfolio. Please keep this README information and maintain attribution to the original creator (YoruAkio). If you use this project, consider giving it a ⭐ on [GitHub](https://github.com/raolbyte/AkioPortfolio)!
 
 Made with ❤️ by [Raol Mukarrozi](https://github.com/raolbyte)
