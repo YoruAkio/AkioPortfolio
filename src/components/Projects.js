@@ -9,54 +9,41 @@ export default function Projects() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // GitHub REST API
+  // @note fetch projects from API endpoint with pinned repos fallback
   useEffect(() => {
-    const fetchUserRepos = async () => {
+    const fetchProjects = async () => {
       try {
         setLoading(true);
         setError(null);
 
-        // Get user repositories sorted by updated date
-        const reposResponse = await fetch(
-          'https://api.github.com/users/YoruAkio/repos?sort=updated&per_page=6'
-        );
+        const response = await fetch('/api/github-projects');
 
-        if (!reposResponse.ok) {
-          throw new Error(
-            `Failed to fetch repositories: ${reposResponse.status}`
-          );
+        if (!response.ok) {
+          throw new Error(`Failed to fetch projects: ${response.status}`);
         }
 
-        const repos = await reposResponse.json();
-
-        // Filter and format repositories
-        const formattedRepos = repos
-          .filter(repo => !repo.fork && !repo.private) // Only show original, public repos
-          .slice(0, 6) // Limit to 6 repositories
-          .map(repo => ({
-            name: repo.name,
-            description: repo.description,
-            url: repo.html_url,
-            homepageUrl: repo.homepage || null,
-            stargazerCount: repo.stargazers_count,
-            forkCount: repo.forks_count,
-            primaryLanguage: repo.language ? { name: repo.language } : null,
-            topics: repo.topics || [],
-            createdAt: repo.created_at,
-            updatedAt: repo.updated_at,
-            languages: [], // REST API doesn't provide detailed language info
-          }));
-
-        setProjects(formattedRepos);
+        const data = await response.json();
+        
+        // @note set projects from API response
+        setProjects(data.projects || []);
+        
+        // @note log source information for debugging
+        console.log(`Loaded ${data.count} projects from ${data.source} source`);
+        
+        // @note show error message if using fallback data
+        if (data.error) {
+          console.warn('API fallback used:', data.error);
+        }
+        
       } catch (err) {
-        console.error('Error fetching GitHub repos:', err);
+        console.error('Error fetching projects:', err);
         setError(err.message);
-        // Fallback to demo data if API fails
+        
+        // @note final fallback to demo data if API completely fails
         setProjects([
           {
             name: 'AkioPortfolio',
-            description:
-              'Modern minimalist portfolio website built with Next.js and Tailwind CSS',
+            description: 'Modern minimalist portfolio website built with Next.js and Tailwind CSS',
             url: 'https://github.com/YoruAkio/AkioPortfolio',
             homepageUrl: 'https://yoruakio.vercel.app',
             stargazerCount: 5,
@@ -65,6 +52,7 @@ export default function Projects() {
             topics: ['nextjs', 'portfolio', 'tailwindcss', 'react'],
             createdAt: '2024-01-01T00:00:00Z',
             updatedAt: '2025-01-01T00:00:00Z',
+            languages: [],
           },
         ]);
       } finally {
@@ -72,7 +60,7 @@ export default function Projects() {
       }
     };
 
-    fetchUserRepos();
+    fetchProjects();
   }, []);
 
   if (loading) {
@@ -118,7 +106,22 @@ export default function Projects() {
       id="projects"
       className="py-12 sm:py-16 bg-secondary/30 rounded-b-[1rem] sm:rounded-b-[2rem] border-b-3 border-foreground/10 dark:border-foreground/20"
     >
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      <motion.div
+        className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8"
+        initial={{
+          opacity: 0,
+          y: 50
+        }}
+        whileInView={{
+          opacity: 1,
+          y: 0
+        }}
+        transition={{
+          duration: 0.8,
+          ease: "easeOut"
+        }}
+        viewport={{ once: true, margin: "-50px", amount: 0.1 }}
+      >
         <div className="text-center mb-8 sm:mb-12">
           <h2 className="text-xl sm:text-3xl lg:text-4xl font-bold text-foreground mb-3 sm:mb-4">
             Featured Projects
@@ -126,7 +129,7 @@ export default function Projects() {
           <p className="text-foreground/60 text-sm sm:text-lg lg:text-xl max-w-2xl mx-auto">
             {error
               ? 'Some of my notable projects'
-              : 'My latest repositories from GitHub'}
+              : 'My pinned and latest repositories from GitHub'}
           </p>
           {error && (
             <p className="text-amber-500/70 text-xs mt-2">
@@ -136,17 +139,8 @@ export default function Projects() {
         </div>
 
         {projects.length === 0 ? (
-          <motion.div
-            className="text-center py-10"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            <motion.div
-              className="bg-background border border-border rounded-xl p-6 max-w-sm mx-auto"
-              whileHover={{ scale: 1.02 }}
-              transition={{ type: 'spring', stiffness: 300 }}
-            >
+          <div className="text-center py-10">
+            <div className="bg-background border border-border rounded-xl p-6 max-w-sm mx-auto">
               <h3 className="text-base sm:text-lg lg:text-xl font-semibold text-foreground mb-3">
                 Projects Coming Soon
               </h3>
@@ -157,23 +151,10 @@ export default function Projects() {
               <div className="text-xs text-foreground/40 font-mono bg-secondary/30 rounded-lg p-2">
                 // @note todo adding project list on here
               </div>
-            </motion.div>
-          </motion.div>
+            </div>
+          </div>
         ) : (
-          <motion.div
-            className="grid md:grid-cols-2 lg:grid-cols-3 gap-6"
-            initial="hidden"
-            animate="visible"
-            variants={{
-              hidden: { opacity: 0 },
-              visible: {
-                opacity: 1,
-                transition: {
-                  staggerChildren: 0.1,
-                },
-              },
-            }}
-          >
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {projects.map((project, index) => (
               <ProjectCard
                 key={project.name || index}
@@ -181,9 +162,9 @@ export default function Projects() {
                 index={index}
               />
             ))}
-          </motion.div>
+          </div>
         )}
-      </div>
+      </motion.div>
     </section>
   );
 }

@@ -186,6 +186,28 @@ body {
   -webkit-backdrop-filter: blur(4px);
 }
 
+.backdrop-blur-md {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* Safari iOS specific blur fixes */
+@supports (-webkit-backdrop-filter: blur(12px)) {
+  .backdrop-blur-md {
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+  }
+}
+
+/* Force background color for iOS Safari */
+.bg-background\/70 {
+  background-color: rgba(255, 255, 255, 0.7) !important;
+}
+
+.dark .bg-background\/70 {
+  background-color: rgba(34, 35, 46, 0.7) !important;
+}
+
 /* Cross-browser transform support */
 .transform {
   -webkit-transform: translateZ(0);
@@ -287,10 +309,31 @@ body {
 }
 
 /* Cross-browser appearance support */
-button {
+button, a {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
+  -webkit-text-fill-color: inherit;
+  text-fill-color: inherit;
+}
+
+/* Force text visibility on iOS Safari - specific to project cards only */
+.project-card a[class*="bg-primary"],
+.project-card button[class*="bg-primary"] {
+  -webkit-text-fill-color: var(--primary-foreground);
+  color: var(--primary-foreground);
+}
+
+.project-card a[class*="text-primary"],
+.project-card button[class*="text-primary"] {
+  -webkit-text-fill-color: var(--primary);
+  color: var(--primary);
+}
+
+.project-card a[class*="text-foreground"],
+.project-card button[class*="text-foreground"] {
+  -webkit-text-fill-color: var(--foreground);
+  color: var(--foreground);
 }
 
 /* Cross-browser focus styles */

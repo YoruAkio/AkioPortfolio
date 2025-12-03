@@ -5,6 +5,7 @@ import Skills from '@/components/Skills';
 import Projects from '@/components/Projects';
 import Footer from '@/components/Footer';
 import { HeroBadge } from '@/components/ui/HeroBadge';
+import { motion } from 'motion/react';
 
 export default function Home() {
   const scrollToSection = (sectionId, event) => {
@@ -20,7 +21,7 @@ export default function Home() {
         document.documentElement.style.scrollBehavior;
       document.documentElement.style.scrollBehavior = 'auto';
 
-      const navbarHeight = 80;
+      const navbarHeight = 88; // Account for floating navbar height + top margin
       const elementTop =
         element.getBoundingClientRect().top + window.pageYOffset;
       const targetPosition = elementTop - navbarHeight;
@@ -50,28 +51,37 @@ export default function Home() {
         {/* Hero Section */}
         <section
           id="home"
-          className="min-h-screen flex items-center justify-center pt-16"
+          className="min-h-screen w-full relative flex items-center justify-center pt-24"
         >
-          <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          {/* Background Pattern */}
+          <div
+            className="absolute inset-0 z-0 bg-background"
+            style={{
+              background: "radial-gradient(125% 180% at 50% 100%, var(--background) 40%, var(--primary) 100%)",
+            }}
+          />
+          
+          {/* Hero Content */}
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
             <HeroBadge />
-            <h1 className="text-xl sm:text-3xl lg:text-4xl font-bold text-foreground mb-3 sm:mb-4">
+            <h1 className="text-2xl sm:text-4xl lg:text-6xl font-bold text-foreground mb-4 sm:mb-6">
               Hi, I'm <span className="text-primary">Yoru Akio</span>
             </h1>
-            <p className="text-sm sm:text-lg lg:text-xl text-foreground/80 mb-12 sm:mb-18 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-base sm:text-xl lg:text-2xl text-foreground/80 mb-16 sm:mb-20 max-w-4xl mx-auto leading-relaxed">
               Self-taught Full-Stack Developer from Indonesia showcasing web
               development projects. Specializing in front-end solutions and
               back-end development with Go and JavaScript.
             </p>
-            <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 justify-center">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
               <button
                 onClick={e => scrollToSection('projects', e)}
-                className="px-4 py-2 sm:px-6 sm:py-2.5 text-xs sm:text-sm bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors font-medium"
+                className="px-6 py-3 sm:px-8 sm:py-3.5 text-sm sm:text-base bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors font-medium"
               >
                 View My Work
               </button>
               <button
                 onClick={e => scrollToSection('about', e)}
-                className="px-4 py-2 sm:px-6 sm:py-2.5 text-xs sm:text-sm border border-border text-foreground rounded-lg hover:bg-secondary transition-colors font-medium"
+                className="px-6 py-3 sm:px-8 sm:py-3.5 text-sm sm:text-base border border-border text-foreground rounded-lg hover:bg-secondary transition-colors font-medium"
               >
                 About Me
               </button>

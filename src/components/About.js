@@ -1,7 +1,24 @@
+import { motion } from 'motion/react';
+
 export default function About() {
   return (
     <section id="about" className="py-12 sm:py-16 bg-secondary/30">
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      <motion.div
+        className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8"
+        initial={{
+          opacity: 0,
+          y: 50
+        }}
+        whileInView={{
+          opacity: 1,
+          y: 0
+        }}
+        transition={{
+          duration: 0.8,
+          ease: "easeOut"
+        }}
+        viewport={{ once: true, margin: "-50px", amount: 0.1 }}
+      >
         <div className="text-center mb-8 sm:mb-12">
           <h2 className="text-xl sm:text-3xl lg:text-4xl font-bold text-foreground mb-3 sm:mb-4">
             About Me
@@ -71,7 +88,7 @@ export default function About() {
             </div>
           </div>
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 }

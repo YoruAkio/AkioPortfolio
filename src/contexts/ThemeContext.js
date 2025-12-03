@@ -11,7 +11,8 @@ export const useTheme = () => {
 };
 
 export const ThemeProvider = ({ children }) => {
-  const [theme, setTheme] = useState('dark');
+  const [theme, setTheme] = useState('system');
+  const [resolvedTheme, setResolvedTheme] = useState('dark');
 
   // Helper function to safely access localStorage
   const getStoredTheme = () => {
@@ -36,13 +37,29 @@ export const ThemeProvider = ({ children }) => {
     }
   };
 
+  // Helper function to get system theme preference
+  const getSystemTheme = () => {
+    if (typeof window !== 'undefined' && window.matchMedia) {
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+    return 'dark';
+  };
+
+  // Helper function to resolve theme based on preference
+  const resolveTheme = (themePreference) => {
+    if (themePreference === 'system') {
+      return getSystemTheme();
+    }
+    return themePreference;
+  };
+
   // Helper function to apply theme to DOM
   const applyTheme = (themeToApply) => {
     if (typeof document !== 'undefined') {
       // Remove existing theme classes
       document.documentElement.classList.remove('light', 'dark');
       
-      // Add the theme class (dark is default, so we always add it unless explicitly light)
+      // Add the theme class
       if (themeToApply === 'dark') {
         document.documentElement.classList.add('dark');
       }
@@ -50,25 +67,65 @@ export const ThemeProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    // Get saved theme from localStorage, fallback to 'dark' if not available
-    const savedTheme = getStoredTheme() || 'dark';
+    // Get saved theme from localStorage, fallback to 'system' if not available
+    const savedTheme = getStoredTheme() || 'system';
     
-    // Ensure the saved theme is valid, otherwise use 'dark'
-    const validTheme = savedTheme === 'light' ? 'light' : 'dark';
+    // Ensure the saved theme is valid
+    const validTheme = ['system', 'light', 'dark'].includes(savedTheme) ? savedTheme : 'system';
+    
+    const resolved = resolveTheme(validTheme);
     
     setTheme(validTheme);
-    applyTheme(validTheme);
+    setResolvedTheme(resolved);
+    applyTheme(resolved);
+
+    // Listen for system theme changes when using system preference
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    const handleSystemThemeChange = (e) => {
+      if (validTheme === 'system') {
+        const newResolvedTheme = e.matches ? 'dark' : 'light';
+        setResolvedTheme(newResolvedTheme);
+        applyTheme(newResolvedTheme);
+      }
+    };
+
+    if (typeof window !== 'undefined' && mediaQuery.addEventListener) {
+      mediaQuery.addEventListener('change', handleSystemThemeChange);
+      
+      return () => {
+        mediaQuery.removeEventListener('change', handleSystemThemeChange);
+      };
+    }
   }, []);
 
-  const toggleTheme = () => {
-    const newTheme = theme === 'dark' ? 'light' : 'dark';
+  const setThemePreference = (newTheme) => {
+    const resolved = resolveTheme(newTheme);
+    
     setTheme(newTheme);
+    setResolvedTheme(resolved);
     setStoredTheme(newTheme);
-    applyTheme(newTheme);
+    applyTheme(resolved);
+  };
+
+  const toggleTheme = () => {
+    let newTheme;
+    if (theme === 'system') {
+      newTheme = 'light';
+    } else if (theme === 'light') {
+      newTheme = 'dark';
+    } else {
+      newTheme = 'system';
+    }
+    setThemePreference(newTheme);
   };
 
   return (
-    <ThemeContext.Provider value={{ theme, toggleTheme }}>
+    <ThemeContext.Provider value={{
+      theme,
+      resolvedTheme,
+      setTheme: setThemePreference,
+      toggleTheme
+    }}>
       {children}
     </ThemeContext.Provider>
   );

@@ -46,7 +46,7 @@ export default function ProjectCard({ project, index }) {
 
   return (
     <motion.div
-      className="bg-background border border-border rounded-xl p-5 sm:p-6 flex flex-col h-full group hover:border-primary/30 transition-all duration-300"
+      className="project-card bg-background border border-border rounded-xl p-5 sm:p-6 flex flex-col h-full group hover:border-primary/30 transition-all duration-300"
       variants={{
         hidden: { opacity: 0, y: 20 },
         visible: { opacity: 1, y: 0 },
@@ -159,6 +159,12 @@ export default function ProjectCard({ project, index }) {
           className={`${
             homepageUrl ? 'flex-1' : 'w-full'
           } flex items-center justify-center gap-2 px-3 py-2 bg-secondary/50 hover:bg-secondary text-foreground rounded-lg transition-colors text-sm font-medium group/button`}
+          style={{
+            WebkitAppearance: 'none',
+            color: 'var(--foreground)',
+            backgroundColor: 'var(--secondary)',
+            WebkitTextFillColor: 'var(--foreground)'
+          }}
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
         >
@@ -171,6 +177,12 @@ export default function ProjectCard({ project, index }) {
             target="_blank"
             rel="noopener noreferrer"
             className="flex-1 flex items-center justify-center gap-2 px-3 py-2 bg-primary/10 hover:bg-primary/20 text-primary rounded-lg transition-colors text-sm font-medium group/button"
+            style={{
+              WebkitAppearance: 'none',
+              color: 'var(--primary)',
+              backgroundColor: 'var(--primary-foreground)',
+              WebkitTextFillColor: 'var(--primary)'
+            }}
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
           >

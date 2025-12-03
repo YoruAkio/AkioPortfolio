@@ -1,5 +1,6 @@
 import { Mail, Heart, ExternalLink } from 'lucide-react';
 import { FaGithub, FaTwitter, FaLinkedin } from 'react-icons/fa';
+import { motion } from 'motion/react';
 import { Button } from '@/components/ui/Button';
 import { Separator } from '@/components/ui/Separator';
 import FooterInfo from '@/components/ui/FooterInfo';
@@ -7,7 +8,22 @@ import FooterInfo from '@/components/ui/FooterInfo';
 export default function Footer() {
   return (
     <footer className="relative bg-background border-t border-border/50">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <motion.div
+        className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12"
+        initial={{
+          opacity: 0,
+          y: 30
+        }}
+        whileInView={{
+          opacity: 1,
+          y: 0
+        }}
+        transition={{
+          duration: 0.6,
+          ease: "easeOut"
+        }}
+        viewport={{ once: true, margin: "-50px", amount: 0.1 }}
+      >
         <div className="text-center space-y-6">
           {/* Header Section */}
           <div className="space-y-4">
@@ -59,7 +75,7 @@ export default function Footer() {
           {/* Footer Bottom */}
           <FooterInfo />
         </div>
-      </div>
+      </motion.div>
     </footer>
   );
 }
