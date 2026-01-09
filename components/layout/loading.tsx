@@ -59,10 +59,10 @@ export function Loading({ interval = 1500, onLoadingComplete }: LoadingProps) {
           <AnimatePresence mode="wait">
             <motion.h2
               key={currentIndex}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.3, ease: 'easeOut' }}
+              initial={{ opacity: 0, y: 80, filter: 'blur(10px)' }}
+              animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+              exit={{ opacity: 0, y: -40, filter: 'blur(6px)' }}
+              transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
               className="text-2xl md:text-3xl font-bold text-foreground"
             >
               {loadingTexts[currentIndex]}
