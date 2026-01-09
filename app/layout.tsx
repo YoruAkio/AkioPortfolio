@@ -46,7 +46,7 @@ export const metadata: Metadata = {
       "Self-taught Full-Stack Developer from Indonesia specializing in front-end solutions and back-end development with Go and JavaScript.",
     images: [
       {
-        url: `${siteUrl}/og-image.png`,
+        url: `https://raw.githubusercontent.com/YoruAkio/ProjectAssets/refs/heads/main/akio/akio/og-image.png`,
         width: 1200,
         height: 630,
         alt: "Yoru Akio - Full-Stack Developer",
@@ -58,7 +58,7 @@ export const metadata: Metadata = {
     title: "Yoru Akio - Full-Stack Developer",
     description:
       "Self-taught Full-Stack Developer from Indonesia specializing in front-end solutions and back-end development with Go and JavaScript.",
-    images: [`${siteUrl}/og-image.png`],
+    images: [`https://raw.githubusercontent.com/YoruAkio/ProjectAssets/refs/heads/main/akio/akio/og-image.png`],
     creator: "@yoruakio",
   },
   robots: {
@@ -75,6 +75,35 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
 };
 
+// @note JSON-LD structured data for rich search results
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "Yoru Akio",
+  url: siteUrl,
+  image: "https://raw.githubusercontent.com/YoruAkio/ProjectAssets/refs/heads/main/akio/akio/og-image.png",
+  sameAs: [
+    "https://github.com/YoruAkio",
+    "https://twitter.com/yoruakio",
+  ],
+  jobTitle: "Full-Stack Developer",
+  worksFor: {
+    "@type": "Organization",
+    name: "Freelance",
+  },
+  knowsAbout: [
+    "Web Development",
+    "React",
+    "Next.js",
+    "TypeScript",
+    "JavaScript",
+    "Go",
+    "Node.js",
+  ],
+  description:
+    "Self-taught Full-Stack Developer from Indonesia specializing in front-end solutions and back-end development with Go and JavaScript.",
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -82,6 +111,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={bricolage.variable} suppressHydrationWarning>
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </head>
       <body className={`${bricolage.variable} ${geistMono.variable} antialiased bg-background text-foreground`}>
         <ThemeProvider>
           <AppShell>{children}</AppShell>
