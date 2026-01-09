@@ -71,9 +71,9 @@ function SkillBubble({ icon: Icon, name }: { icon: React.ElementType; name: stri
   );
 }
 
-// @note reveal animation variants for header and marquee
+// @note reveal animation variants for header and marquee (from bottom to avoid clipping)
 const revealVariants: Variants = {
-  hidden: { opacity: 0, y: -180, filter: "blur(10px)" },
+  hidden: { opacity: 0, y: -80, filter: "blur(10px)" },
   visible: {
     opacity: 1,
     y: 0,
