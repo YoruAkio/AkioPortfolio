@@ -63,10 +63,10 @@ export default function Page() {
           <motion.div
             className="absolute inset-0 z-0"
             initial={{ opacity: 0, y: -50 }}
-            animate={{ opacity: 1, y: 0 }}
+            animate={isLoadingComplete ? { opacity: 1, y: 0 } : {}}
             transition={{
               duration: 1.3,
-              delay: 0.3,
+              delay: 0.5,
               ease: [0.22, 1, 0.36, 1],
             }}
             style={{
@@ -87,11 +87,22 @@ export default function Page() {
         {resolvedTheme === 'dark' && mounted && (
           <>
             <OrbitBackground />
-            <LightRaysBackground
-              raysOrigin="top-center"
-              raysColor="#c38be8"
-              className="absolute inset-0 z-1"
-            />
+            <motion.div
+              className="absolute inset-0 z-0"
+              initial={{ opacity: 0, y: 0 }}
+              animate={isLoadingComplete ? { opacity: 1, y: 0 } : {}}
+              transition={{
+                duration: 5.51,
+                delay: 0.3,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+            >
+              <LightRaysBackground
+                raysOrigin="top-center"
+                raysColor="#c38be8"
+                className="absolute inset-0 z-1"
+              />
+            </motion.div>
           </>
         )}
 
