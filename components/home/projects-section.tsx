@@ -4,6 +4,8 @@ import { useEffect, useState, useRef } from "react";
 import Link from "next/link";
 import { ExternalLink, Star, GitFork } from "lucide-react";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
+import { ContributionHeatmap } from "./contribution-heatmap";
+import { LanguageChart } from "./language-chart";
 
 // @note project interface matching API response
 interface Project {
@@ -22,6 +24,27 @@ interface ApiResponse {
   source: string;
   count: number;
   cached?: boolean;
+}
+
+// @note github stats interface
+interface ContributionDay {
+  date: string;
+  count: number;
+  level: number;
+}
+
+interface LanguageStat {
+  name: string;
+  count: number;
+  percentage: number;
+  color: string;
+}
+
+interface StatsResponse {
+  contributions: ContributionDay[];
+  languages: LanguageStat[];
+  cached?: boolean;
+  cacheAge?: number;
 }
 
 // @note spring config for smooth parallax
@@ -102,7 +125,7 @@ function ProjectCard({
         rel="noopener noreferrer"
         className="group block h-full p-6 rounded-2xl bg-card border border-border hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5 transition-all duration-300"
       >
-        <motion.div whileHover={{ y: -5 }} className="h-full flex flex-col">
+        <div className="h-full flex flex-col">
           <div className="flex items-start justify-between mb-3">
             <h3 className="font-semibold group-hover:text-primary transition-colors duration-300">
               {project.name}
@@ -128,7 +151,7 @@ function ProjectCard({
               {project.forkCount}
             </span>
           </div>
-        </motion.div>
+        </div>
       </Link>
     </motion.div>
   );
@@ -139,6 +162,11 @@ export function ProjectsSection() {
   const sectionRef = useRef<HTMLElement>(null);
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
+  const [statsLoading, setStatsLoading] = useState(true);
+  const [stats, setStats] = useState<{ contributions: ContributionDay[]; languages: LanguageStat[] }>({
+    contributions: [],
+    languages: [],
+  });
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -158,7 +186,23 @@ export function ProjectsSection() {
       }
     };
 
+    const fetchStats = async () => {
+      try {
+        const res = await fetch("/api/github-stats");
+        const data: StatsResponse = await res.json();
+        setStats({
+          contributions: data.contributions || [],
+          languages: data.languages || [],
+        });
+      } catch (error) {
+        console.error("Failed to fetch stats:", error);
+      } finally {
+        setStatsLoading(false);
+      }
+    };
+
     fetchProjects();
+    fetchStats();
   }, []);
 
   return (
@@ -170,7 +214,7 @@ export function ProjectsSection() {
           whileInView={revealAnimation.animate}
           viewport={{ once: true }}
           transition={revealAnimation.transition}
-          className="max-w-3xl mx-auto text-center mb-16"
+          className="max-w-3xl mx-auto text-center mb-12"
         >
           <span className="text-sm text-primary uppercase tracking-wider font-medium">
             Featured Projects
@@ -179,6 +223,29 @@ export function ProjectsSection() {
             Some things I&apos;ve built
           </h2>
         </motion.div>
+
+        {/* github stats row */}
+        <div className="max-w-5xl mx-auto mb-12">
+          <div className="flex flex-col lg:flex-row gap-4">
+            {/* languages chart - already has internal title */}
+            {statsLoading ? (
+              <div className="lg:w-[260px] shrink-0 h-[280px] rounded-xl bg-card border border-border animate-pulse" />
+            ) : (
+              <div className="lg:w-[260px] shrink-0">
+                <LanguageChart languages={stats.languages} />
+              </div>
+            )}
+
+            {/* contributions heatmap - already has internal title */}
+            {statsLoading ? (
+              <div className="flex-1 min-w-0 h-[280px] rounded-xl bg-card border border-border animate-pulse" />
+            ) : (
+              <div className="flex-1 min-w-0">
+                <ContributionHeatmap contributions={stats.contributions} />
+              </div>
+            )}
+          </div>
+        </div>
 
         <div className="max-w-5xl mx-auto">
           {loading ? (
