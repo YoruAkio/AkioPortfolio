@@ -69,7 +69,6 @@ export async function GET() {
   // @note check cache
   const now = Date.now();
   if (cache.data && cache.timestamp && now - cache.timestamp < cache.ttl) {
-    console.log("[GitHub Stats] Using cached data, age:", Math.floor((now - cache.timestamp) / 1000), "seconds");
     return NextResponse.json({
       ...cache.data,
       cached: true,
@@ -85,8 +84,6 @@ export async function GET() {
       error: "GITHUB_TOKEN not configured",
     });
   }
-
-  console.log("[GitHub Stats] Fetching fresh data from GitHub API");
 
   try {
     const response = await fetch("https://api.github.com/graphql", {
@@ -113,8 +110,6 @@ export async function GET() {
       throw new Error(data.errors[0].message);
     }
 
-    console.log("[GitHub Stats] Response received successfully");
-
     const user = data.data?.user;
 
     if (!user) {
@@ -124,8 +119,6 @@ export async function GET() {
     // @note process contributions (last 52 weeks = 1 year)
     const contributions: ContributionDay[] = [];
     const weeks = user.contributionsCollection?.contributionCalendar?.weeks || [];
-
-    console.log("[GitHub Stats] Total weeks received:", weeks.length);
 
     weeks.slice(-52).forEach((week: { contributionDays: { date: string; contributionCount: number }[] }) => {
       week.contributionDays.forEach((day: { date: string; contributionCount: number }) => {
@@ -137,13 +130,10 @@ export async function GET() {
       });
     });
 
-    console.log("[GitHub Stats] Total contributions processed:", contributions.length);
-
     // @note process languages from repositories (more accurate than user.languages)
     const languageMap = new Map<string, { count: number; color: string }>();
 
     const repos = user.repositories?.nodes || [];
-    console.log("[GitHub Stats] Total repos:", repos.length);
 
     repos.forEach((repo: { primaryLanguage: { name: string; color: string } | null }) => {
       if (repo.primaryLanguage?.name) {
@@ -155,8 +145,6 @@ export async function GET() {
         });
       }
     });
-
-    console.log("[GitHub Stats] Unique languages:", languageMap.size);
 
     // @note calculate total and percentages
     let total = 0;
@@ -175,9 +163,6 @@ export async function GET() {
     // @note sort by percentage, take top 10
     languages.sort((a, b) => b.count - a.count).slice(0, 10);
 
-    console.log("[GitHub Stats] Final languages count:", languages.length);
-    console.log("[GitHub Stats] Languages:", languages.slice(0, 3).map(l => l.name));
-
     const responseData = {
       contributions,
       languages,
@@ -186,8 +171,6 @@ export async function GET() {
     // @note cache response
     cache.data = responseData;
     cache.timestamp = Date.now();
-
-    console.log("[GitHub Stats] Sending response");
 
     return NextResponse.json(responseData);
   } catch (error) {
