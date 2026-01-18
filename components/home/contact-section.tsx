@@ -4,6 +4,10 @@ import Link from "next/link";
 import { ArrowRight, Mail } from "lucide-react";
 import { motion } from "framer-motion";
 import { handleSmoothScroll } from "@/lib/smooth-scroll";
+import RotatingText from "@/components/ui/rotating-text";
+
+// @note rotating words for CTA
+const rotatingWords = ["Together", "Better", "Amazing", "Creative", "Awesome"];
 
 // @note reveal animation config
 const revealAnimation = {
@@ -66,9 +70,15 @@ export function ContactSection() {
               variants={itemVariants}
             >
               Let&apos;s Build Something{" "}
-              <span className="bg-gradient-to-r from-primary via-chart-2 to-chart-1 bg-clip-text text-transparent">
-                Together
-              </span>
+              <RotatingText
+                texts={rotatingWords}
+                mainClassName="inline-flex overflow-hidden text-primary"
+                rotationInterval={2500}
+                transition={{ type: "spring", damping: 20, stiffness: 200 }}
+                initial={{ y: "100%", opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                exit={{ y: "-100%", opacity: 0 }}
+              />
             </motion.h2>
             <motion.p
               className="text-lg text-muted-foreground mb-8"

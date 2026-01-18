@@ -33,21 +33,13 @@ export default function Page() {
     setMounted(true);
   }, []);
 
-  // @note shared parallax transforms for hero elements (better performance)
-  const contentYRaw = useTransform(scrollY, [0, 600], [0, -100]);
-  const contentOpacityRaw = useTransform(scrollY, [0, 400], [1, 0]);
-
-  const logoScaleRaw = useTransform(scrollY, [0, 400], [1, 0.5]);
-  const logoYRaw = useTransform(scrollY, [0, 400], [0, -120]);
-  const logoOpacityRaw = useTransform(scrollY, [200, 350], [1, 0]);
+  // @note unified parallax transforms for both logo and content
+  const heroYRaw = useTransform(scrollY, [0, 600], [0, -100]);
+  const heroOpacityRaw = useTransform(scrollY, [0, 400], [1, 0]);
 
   // @note apply springs for smooth response
-  const contentY = useSpring(contentYRaw, springConfig);
-  const contentOpacity = useSpring(contentOpacityRaw, springConfig);
-
-  const logoScale = useSpring(logoScaleRaw, springConfig);
-  const logoY = useSpring(logoYRaw, springConfig);
-  const logoOpacity = useSpring(logoOpacityRaw, springConfig);
+  const heroY = useSpring(heroYRaw, springConfig);
+  const heroOpacity = useSpring(heroOpacityRaw, springConfig);
 
   return (
     <>
@@ -111,9 +103,7 @@ export default function Page() {
           transition={{ duration: 0.8, ease: entranceEasing }}
           className="absolute inset-0 flex items-center justify-center pointer-events-none z-[5] -translate-y-36 sm:-translate-y-24 md:-translate-y-28"
         >
-          <motion.div
-            style={{ scale: logoScale, y: logoY, opacity: logoOpacity }}
-          >
+          <motion.div style={{ y: heroY, opacity: heroOpacity }}>
             <Image
               src="/logo.png"
               alt="Yoru Akio"
@@ -127,8 +117,8 @@ export default function Page() {
 
         <motion.div
           style={{
-            y: contentY,
-            opacity: contentOpacity,
+            y: heroY,
+            opacity: heroOpacity,
           }}
           className="container mx-auto px-6 py-24 relative z-10"
         >
@@ -188,7 +178,7 @@ export default function Page() {
           initial={{ y: 30, opacity: 0 }}
           animate={isLoadingComplete ? { y: 0, opacity: 1 } : {}}
           transition={{ duration: 0.8, ease: entranceEasing, delay: 0.45 }}
-          style={{ opacity: contentOpacity }}
+          style={{ opacity: heroOpacity }}
           className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce z-10"
         >
           <ArrowDown className="h-5 w-5 text-primary/60" />
