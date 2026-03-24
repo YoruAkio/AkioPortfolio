@@ -2,12 +2,19 @@
 
 import { useTheme } from "next-themes";
 import { Moon, Sun } from "lucide-react";
+import { trackUmamiEvent } from "@/lib/analytics";
 
 // @note toggles between light/dark/system themes
 export function ThemeToggle() {
   const { theme, setTheme } = useTheme();
 
   const toggleTheme = () => {
+    const nextTheme = theme === "dark" ? "light" : "dark";
+    trackUmamiEvent("theme_toggle", {
+      from: theme ?? "system",
+      to: nextTheme,
+    });
+
     if (theme === "dark") {
       setTheme("light");
     } else {

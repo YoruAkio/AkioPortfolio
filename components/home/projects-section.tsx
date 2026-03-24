@@ -6,6 +6,7 @@ import { ExternalLink, Star, GitFork } from "lucide-react";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import { ContributionHeatmap } from "./contribution-heatmap";
 import { LanguageChart } from "./language-chart";
+import { trackUmamiEvent } from "@/lib/analytics";
 
 // @note project interface matching API response
 interface Project {
@@ -123,6 +124,13 @@ function ProjectCard({
         href={project.url}
         target="_blank"
         rel="noopener noreferrer"
+        onClick={() =>
+          trackUmamiEvent("project_click", {
+            project: project.name,
+            target: "repository",
+            hasHomepage: Boolean(project.homepageUrl),
+          })
+        }
         className="group block h-full p-6 rounded-2xl bg-card border border-border hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5 transition-all duration-300"
       >
         <div className="h-full flex flex-col">

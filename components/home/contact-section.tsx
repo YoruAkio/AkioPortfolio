@@ -6,6 +6,7 @@ import { motion } from 'framer-motion';
 import { handleSmoothScroll } from '@/lib/smooth-scroll';
 import RotatingText from '@/components/ui/rotating-text';
 import { Button } from '@/components/ui/button';
+import { trackUmamiEvent } from '@/lib/analytics';
 
 // @note rotating words for CTA
 const rotatingWords = ['Together', 'Better', 'Amazing', 'Creative', 'Awesome'];
@@ -99,7 +100,15 @@ export function ContactSection() {
                   size="lg"
                   className="rounded-full px-6 py-3 shadow-lg shadow-primary/25"
                 >
-                  <a href="mailto:yoruakio@proton.me">
+                  <a
+                    href="mailto:yoruakio@proton.me"
+                    onClick={() =>
+                      trackUmamiEvent('contact_cta_click', {
+                        cta: 'get_in_touch',
+                        target: 'email',
+                      })
+                    }
+                  >
                     Get in Touch
                     <Mail className="h-4 w-4" />
                   </a>
@@ -117,7 +126,13 @@ export function ContactSection() {
                 >
                   <a
                     href="#about"
-                    onClick={e => handleSmoothScroll(e, '#about')}
+                    onClick={e => {
+                      trackUmamiEvent('contact_cta_click', {
+                        cta: 'learn_more_about_me',
+                        target: 'about',
+                      });
+                      handleSmoothScroll(e, '#about');
+                    }}
                   >
                     Learn More About Me
                     <ArrowRight className="h-4 w-4" />

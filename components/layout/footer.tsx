@@ -7,6 +7,7 @@ import { Mail } from "lucide-react";
 import { FaDiscord, FaXTwitter, FaGithub } from "react-icons/fa6";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import { handleSmoothScroll } from "@/lib/smooth-scroll";
+import { trackUmamiEvent } from "@/lib/analytics";
 
 const socialLinks = [
   { href: "https://github.com/YoruAkio", icon: FaGithub, label: "GitHub" },
@@ -84,7 +85,15 @@ export function Footer() {
         <div className="flex flex-col md:flex-row items-start justify-between gap-6 flex-1">
           {/* left - logo and links */}
           <div className="flex flex-col gap-4">
-            <a href="#home" onClick={(e) => handleSmoothScroll(e, '#home')}>
+            <a
+              href="#home"
+              onClick={(e) => {
+                trackUmamiEvent("footer_logo_click", {
+                  target: "home",
+                });
+                handleSmoothScroll(e, '#home');
+              }}
+            >
               <Image
                 src="/logo.png"
                 alt="Yoru Akio"
@@ -98,7 +107,12 @@ export function Footer() {
                 <a
                   key={link.href}
                   href={link.href}
-                  onClick={(e) => handleSmoothScroll(e, link.href)}
+                  onClick={(e) => {
+                    trackUmamiEvent("footer_link_click", {
+                      target: link.href.replace('#', '') || 'home',
+                    });
+                    handleSmoothScroll(e, link.href);
+                  }}
                   className="text-sm text-muted-foreground hover:text-primary transition-colors duration-200"
                 >
                   {link.label}
@@ -115,6 +129,11 @@ export function Footer() {
                 href={social.href}
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={() =>
+                  trackUmamiEvent("footer_social_click", {
+                    social: social.label.toLowerCase(),
+                  })
+                }
                 className="p-2 text-muted-foreground hover:text-primary hover:bg-primary/10 rounded-lg transition-all duration-200"
                 aria-label={social.label}
               >

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Bricolage_Grotesque, Geist_Mono } from "next/font/google";
+import Script from "next/script";
 import { ThemeProvider } from "@/components/layout/theme-provider";
 import { AppShell } from "@/components/layout/app-shell";
 import "./globals.css";
@@ -15,6 +16,7 @@ const geistMono = Geist_Mono({
 });
 
 const siteUrl = "https://yoruakio.xyz";
+const umamiWebsiteId = "6c4730c3-9cb1-4c64-94d0-ac9eb23747bd";
 
 export const metadata: Metadata = {
   title: {
@@ -118,6 +120,11 @@ export default function RootLayout({
         />
       </head>
       <body className={`${bricolage.variable} ${geistMono.variable} antialiased bg-background text-foreground`}>
+        <Script
+          src="/stats.js"
+          data-website-id={umamiWebsiteId}
+          strategy="afterInteractive"
+        />
         <ThemeProvider>
           <AppShell>{children}</AppShell>
         </ThemeProvider>

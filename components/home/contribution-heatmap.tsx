@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { trackUmamiEvent } from "@/lib/analytics";
 
 interface ContributionDay {
   date: string;
@@ -105,6 +106,11 @@ export function ContributionHeatmap({ contributions }: HeatmapProps) {
           href="https://github.com/YoruAkio" 
           target="_blank" 
           rel="noopener noreferrer"
+          onClick={() =>
+            trackUmamiEvent("contribution_link_click", {
+              target: "github_profile",
+            })
+          }
           className="text-[10px] text-muted-foreground/70 hover:text-primary transition-colors"
         >
           Learn how we count contributions

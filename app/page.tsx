@@ -16,6 +16,7 @@ import { LightRaysBackground } from '@/components/home/light-rays-background';
 import { Navbar } from '@/components/layout/navbar';
 import { Footer } from '@/components/layout/footer';
 import { useEffect, useState } from 'react';
+import { trackUmamiEvent } from '@/lib/analytics';
 
 // @note spring config for smooth parallax
 const springConfig = { stiffness: 50, damping: 30, mass: 1 };
@@ -31,6 +32,12 @@ export default function Page() {
 
   useEffect(() => {
     setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    trackUmamiEvent('website_opened', {
+      page: 'home',
+    });
   }, []);
 
   // @note unified parallax transforms for both logo and content
@@ -153,7 +160,13 @@ export default function Page() {
               >
                 <a
                   href="#projects"
-                  onClick={e => handleSmoothScroll(e, '#projects')}
+                  onClick={e => {
+                    trackUmamiEvent('hero_cta_click', {
+                      cta: 'view_my_work',
+                      target: 'projects',
+                    });
+                    handleSmoothScroll(e, '#projects');
+                  }}
                 >
                   View My Work
                   <ArrowDown className="h-4 w-4" />
@@ -165,7 +178,16 @@ export default function Page() {
                 size="lg"
                 className="rounded-full px-6 py-3"
               >
-                <a href="#about" onClick={e => handleSmoothScroll(e, '#about')}>
+                <a
+                  href="#about"
+                  onClick={e => {
+                    trackUmamiEvent('hero_cta_click', {
+                      cta: 'about_me',
+                      target: 'about',
+                    });
+                    handleSmoothScroll(e, '#about');
+                  }}
+                >
                   About Me
                 </a>
               </Button>

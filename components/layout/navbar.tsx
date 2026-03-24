@@ -7,6 +7,7 @@ import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion'
 import { ThemeToggle } from './theme-toggle';
 import { cn } from '@/lib/utils';
 import { handleSmoothScroll, handleInitialHash } from '@/lib/smooth-scroll';
+import { trackUmamiEvent } from '@/lib/analytics';
 
 const navLinks = [
   { href: '#home', label: 'Home' },
@@ -40,6 +41,9 @@ export function Navbar() {
 
   // @note wrap smooth scroll to also close mobile menu
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    trackUmamiEvent('navbar_click', {
+      target: href.replace('#', '') || 'home',
+    });
     handleSmoothScroll(e, href);
     setIsMobileMenuOpen(false);
   };
