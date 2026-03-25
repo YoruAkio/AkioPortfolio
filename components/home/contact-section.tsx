@@ -1,8 +1,9 @@
 'use client';
 
 import Link from 'next/link';
-import { ArrowRight, Mail } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { FaDiscord } from 'react-icons/fa';
 import { handleSmoothScroll } from '@/lib/smooth-scroll';
 import RotatingText from '@/components/ui/rotating-text';
 import { Button } from '@/components/ui/button';
@@ -101,16 +102,18 @@ export function ContactSection() {
                   className="rounded-full px-6 py-3 shadow-lg shadow-primary/25"
                 >
                   <a
-                    href="mailto:yoruakio@proton.me"
+                    href="https://discord.com/users/798258457022046218"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     onClick={() =>
                       trackUmamiEvent('contact_cta_click', {
                         cta: 'get_in_touch',
-                        target: 'email',
+                        target: 'discord',
                       })
                     }
                   >
                     Get in Touch
-                    <Mail className="h-4 w-4" />
+                    <FaDiscord className="h-4 w-4" />
                   </a>
                 </Button>
               </motion.div>
