@@ -2,6 +2,7 @@
 
 import Marquee from "react-fast-marquee";
 import { motion, type Variants } from "framer-motion";
+import { CodingStats } from "./coding-stats";
 import {
   SiJavascript,
   SiTypescript,
@@ -122,6 +123,17 @@ export function SkillsSection() {
               ))}
             </div>
           </Marquee>
+        </motion.div>
+
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-80px" }}
+          variants={revealVariants}
+          transition={{ delay: 0.75 }}
+          className="mt-8 sm:mt-12"
+        >
+          <CodingStats />
         </motion.div>
       </div>
     </section>
