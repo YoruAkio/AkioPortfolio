@@ -36,6 +36,9 @@ export interface CodingStatsData {
     totalLanguageTime: string;
     totalLanguageTimeSeconds: number;
   };
+  allTime: {
+    languages: WakaTimeRangeSummary[];
+  };
   last7Days: {
     range: string;
     isUpToDate: boolean;
@@ -78,6 +81,25 @@ function sortStats(items: WakaTimeRangeSummary[], limit: number) {
     .slice(0, limit);
 }
 
+// @note normalize a language name to a stable uppercase key for env-var comparison
+// handles common special chars: C++ → CPP, C# → CSHARP, F# → FSHARP
+function normalizeLangName(name: string): string {
+  return name
+    .toUpperCase()
+    .replace(/\+\+/g, 'PP')
+    .replace(/#/g, 'SHARP')
+    .replace(/[^A-Z0-9]/g, '');
+}
+
+// @note parse EXCLUDE_ALL_TIME_LANGUAGE env var into a set of normalized keys
+function getExcludedLangs(): Set<string> {
+  const raw = process.env.EXCLUDE_ALL_TIME_LANGUAGE;
+  if (!raw) return new Set();
+  return new Set(
+    raw.split(',').map((s) => s.trim().toUpperCase().replace(/[^A-Z0-9]/g, '')).filter(Boolean)
+  );
+}
+
 // @note normalize wakatime responses into the ui-specific shape
 export async function getCodingStats(): Promise<CodingStatsData> {
   const [allTime, allTimeStats, last7DaysStats] = await Promise.all([
@@ -92,6 +114,14 @@ export async function getCodingStats(): Promise<CodingStatsData> {
       totalTimeSeconds: allTime.data.total_seconds,
       totalLanguageTime: allTimeStats.data.human_readable_total,
       totalLanguageTimeSeconds: allTimeStats.data.total_seconds,
+    },
+    allTime: {
+      languages: sortStats(
+        allTimeStats.data.languages.filter(
+          (l) => !getExcludedLangs().has(normalizeLangName(l.name))
+        ),
+        8,
+      ),
     },
     last7Days: {
       range: last7DaysStats.data.human_readable_range,
