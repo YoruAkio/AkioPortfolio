@@ -1,6 +1,6 @@
-import { NextResponse } from 'next/server';
+import { NextResponse } from "next/server";
 
-const UMAMI_SCRIPT_URL = 'https://cloud.umami.is/script.js';
+const UMAMI_SCRIPT_URL = "https://cloud.umami.is/script.js";
 
 export async function GET() {
   try {
@@ -16,18 +16,18 @@ export async function GET() {
 
     return new NextResponse(script, {
       headers: {
-        'content-type': 'application/javascript; charset=utf-8',
-        'cache-control': 'public, max-age=0, s-maxage=86400, stale-while-revalidate=86400',
+        "content-type": "application/javascript; charset=utf-8",
+        "cache-control": "public, max-age=0, s-maxage=86400, stale-while-revalidate=86400",
       },
     });
   } catch (error) {
-    console.error('[Umami Script Proxy] Failed to load script:', error);
+    console.error("[Umami Script Proxy] Failed to load script:", error);
 
-    return new NextResponse('// failed to load umami tracker', {
+    return new NextResponse("// failed to load umami tracker", {
       status: 502,
       headers: {
-        'content-type': 'application/javascript; charset=utf-8',
-        'cache-control': 'no-store',
+        "content-type": "application/javascript; charset=utf-8",
+        "cache-control": "no-store",
       },
     });
   }

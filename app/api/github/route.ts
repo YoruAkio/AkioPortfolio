@@ -90,26 +90,30 @@ export async function GET() {
 
           if (!data.errors && data.data?.user?.pinnedItems?.nodes) {
             const pinnedRepos = data.data.user.pinnedItems.nodes
-              .filter((repo: { isFork: boolean; isPrivate: boolean }) => !repo.isFork && !repo.isPrivate)
-              .map((repo: {
-                name: string;
-                description: string | null;
-                url: string;
-                homepageUrl: string | null;
-                stargazerCount: number;
-                forkCount: number;
-                primaryLanguage: { name: string } | null;
-                repositoryTopics: { nodes: { topic: { name: string } }[] } | null;
-              }) => ({
-                name: repo.name,
-                description: repo.description,
-                url: repo.url,
-                homepageUrl: repo.homepageUrl,
-                stargazerCount: repo.stargazerCount,
-                forkCount: repo.forkCount,
-                primaryLanguage: repo.primaryLanguage,
-                topics: repo.repositoryTopics?.nodes?.map((n) => n.topic.name) || [],
-              }));
+              .filter(
+                (repo: { isFork: boolean; isPrivate: boolean }) => !repo.isFork && !repo.isPrivate,
+              )
+              .map(
+                (repo: {
+                  name: string;
+                  description: string | null;
+                  url: string;
+                  homepageUrl: string | null;
+                  stargazerCount: number;
+                  forkCount: number;
+                  primaryLanguage: { name: string } | null;
+                  repositoryTopics: { nodes: { topic: { name: string } }[] } | null;
+                }) => ({
+                  name: repo.name,
+                  description: repo.description,
+                  url: repo.url,
+                  homepageUrl: repo.homepageUrl,
+                  stargazerCount: repo.stargazerCount,
+                  forkCount: repo.forkCount,
+                  primaryLanguage: repo.primaryLanguage,
+                  topics: repo.repositoryTopics?.nodes?.map((n) => n.topic.name) || [],
+                }),
+              );
 
             if (pinnedRepos.length > 0) {
               projects = pinnedRepos;
@@ -130,7 +134,7 @@ export async function GET() {
           headers: process.env.GITHUB_TOKEN
             ? { Authorization: `Bearer ${process.env.GITHUB_TOKEN}` }
             : {},
-        }
+        },
       );
 
       if (!response.ok) {
@@ -142,25 +146,27 @@ export async function GET() {
       projects = repos
         .filter((repo: { fork: boolean; private: boolean }) => !repo.fork && !repo.private)
         .slice(0, 6)
-        .map((repo: {
-          name: string;
-          description: string | null;
-          html_url: string;
-          homepage: string | null;
-          stargazers_count: number;
-          forks_count: number;
-          language: string | null;
-          topics: string[];
-        }) => ({
-          name: repo.name,
-          description: repo.description,
-          url: repo.html_url,
-          homepageUrl: repo.homepage,
-          stargazerCount: repo.stargazers_count,
-          forkCount: repo.forks_count,
-          primaryLanguage: repo.language ? { name: repo.language } : null,
-          topics: repo.topics || [],
-        }));
+        .map(
+          (repo: {
+            name: string;
+            description: string | null;
+            html_url: string;
+            homepage: string | null;
+            stargazers_count: number;
+            forks_count: number;
+            language: string | null;
+            topics: string[];
+          }) => ({
+            name: repo.name,
+            description: repo.description,
+            url: repo.html_url,
+            homepageUrl: repo.homepage,
+            stargazerCount: repo.stargazers_count,
+            forkCount: repo.forks_count,
+            primaryLanguage: repo.language ? { name: repo.language } : null,
+            topics: repo.topics || [],
+          }),
+        );
     }
 
     const responseData = {

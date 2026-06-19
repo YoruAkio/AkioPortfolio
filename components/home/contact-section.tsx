@@ -1,21 +1,50 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import { ArrowRight } from 'lucide-react';
-import { motion } from 'framer-motion';
-import { FaDiscord } from 'react-icons/fa';
-import { handleSmoothScroll } from '@/lib/smooth-scroll';
-import RotatingText from '@/components/ui/rotating-text';
-import { Button } from '@/components/ui/button';
-import { trackUmamiEvent } from '@/lib/analytics';
+import "slot-text/style.css";
+import { useEffect, useState } from "react";
+import { ArrowRight } from "lucide-react";
+import { motion } from "framer-motion";
+import { FaDiscord } from "react-icons/fa";
+import { SlotText } from "slot-text/react";
+import { chromatic, type SlotOptions } from "slot-text";
+import { handleSmoothScroll } from "@/lib/smooth-scroll";
+import { Button } from "@/components/ui/button";
+import { trackUmamiEvent } from "@/lib/analytics";
 
 // @note rotating words for CTA
-const rotatingWords = ['Together', 'Better', 'Amazing', 'Creative', 'Awesome'];
+const rotatingWords = ["Together", "Better", "Amazing", "Creative", "Awesome"];
+
+// @note slot-text roll: each glyph slides up, flashing a cyan-shifted spectrum before settling
+const slotOptions: SlotOptions = {
+  direction: "up",
+  color: chromatic({ from: 190 }),
+  skipUnchanged: false,
+};
+
+// @note cycles the CTA word, letting slot-text animate each transition
+function RollingWord() {
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      setIndex((i) => (i + 1) % rotatingWords.length);
+    }, 2500);
+    return () => clearInterval(id);
+  }, []);
+
+  return (
+    <SlotText
+      text={rotatingWords[index]}
+      options={slotOptions}
+      className="inline-flex text-primary"
+    />
+  );
+}
 
 // @note reveal animation config
 const revealAnimation = {
-  initial: { y: -180, opacity: 0, filter: 'blur(10px)' },
-  animate: { y: 0, opacity: 1, filter: 'blur(0px)' },
+  initial: { y: -180, opacity: 0, filter: "blur(10px)" },
+  animate: { y: 0, opacity: 1, filter: "blur(0px)" },
   transition: {
     duration: 1.4,
     delay: 0.5,
@@ -36,11 +65,11 @@ const containerVariants = {
 };
 
 const itemVariants = {
-  hidden: { y: -60, opacity: 0, filter: 'blur(6px)' },
+  hidden: { y: -60, opacity: 0, filter: "blur(6px)" },
   visible: {
     y: 0,
     opacity: 1,
-    filter: 'blur(0px)',
+    filter: "blur(0px)",
     transition: {
       duration: 1,
       ease: [0.22, 1, 0.36, 1] as const,
@@ -66,36 +95,17 @@ export function ContactSection() {
             viewport={{ once: true }}
             variants={containerVariants}
           >
-            <motion.h2
-              className="text-3xl md:text-4xl font-bold mb-6"
-              variants={itemVariants}
-            >
-              Let&apos;s Build Something{' '}
-              <RotatingText
-                texts={rotatingWords}
-                mainClassName="inline-flex overflow-hidden text-primary"
-                rotationInterval={2500}
-                transition={{ type: 'spring', damping: 20, stiffness: 200 }}
-                initial={{ y: '100%', opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                exit={{ y: '-100%', opacity: 0 }}
-              />
+            <motion.h2 className="text-3xl md:text-4xl font-bold mb-6" variants={itemVariants}>
+              Let&apos;s Build Something <RollingWord />
             </motion.h2>
-            <motion.p
-              className="text-lg text-muted-foreground mb-8"
-              variants={itemVariants}
-            >
-              I&apos;m always excited about new projects and collaborations.
-              Feel free to reach out!
+            <motion.p className="text-lg text-muted-foreground mb-8" variants={itemVariants}>
+              I&apos;m always excited about new projects and collaborations. Feel free to reach out!
             </motion.p>
             <motion.div
               className="flex flex-col sm:flex-row items-center justify-center gap-4"
               variants={itemVariants}
             >
-              <motion.div
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
+              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                 <Button
                   asChild
                   size="lg"
@@ -106,9 +116,9 @@ export function ContactSection() {
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={() =>
-                      trackUmamiEvent('contact_cta_click', {
-                        cta: 'get_in_touch',
-                        target: 'discord',
+                      trackUmamiEvent("contact_cta_click", {
+                        cta: "get_in_touch",
+                        target: "discord",
                       })
                     }
                   >
@@ -117,24 +127,16 @@ export function ContactSection() {
                   </a>
                 </Button>
               </motion.div>
-              <motion.div
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <Button
-                  asChild
-                  variant="outline"
-                  size="lg"
-                  className="rounded-full px-6 py-3"
-                >
+              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                <Button asChild variant="outline" size="lg" className="rounded-full px-6 py-3">
                   <a
                     href="#about"
-                    onClick={e => {
-                      trackUmamiEvent('contact_cta_click', {
-                        cta: 'learn_more_about_me',
-                        target: 'about',
+                    onClick={(e) => {
+                      trackUmamiEvent("contact_cta_click", {
+                        cta: "learn_more_about_me",
+                        target: "about",
                       });
-                      handleSmoothScroll(e, '#about');
+                      handleSmoothScroll(e, "#about");
                     }}
                   >
                     Learn More About Me

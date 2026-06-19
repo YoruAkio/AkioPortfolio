@@ -55,9 +55,9 @@ const springConfig = { stiffness: 80, damping: 20, mass: 0.8 };
 const revealAnimation = {
   initial: { y: 60, opacity: 0, filter: "blur(10px)" },
   animate: { y: 0, opacity: 1, filter: "blur(0px)" },
-  transition: { 
-    duration: 1.4, 
-    delay: 0.2, 
+  transition: {
+    duration: 1.4,
+    delay: 0.2,
     ease: [0.22, 1, 0.36, 1] as const,
   },
 };
@@ -66,7 +66,7 @@ const revealAnimation = {
 const getCardConfig = (index: number) => {
   const column = index % 3;
   const row = Math.floor(index / 3);
-  
+
   // @note left column: comes from top-left with clockwise rotation
   if (column === 0) {
     return {
@@ -92,23 +92,23 @@ const getCardConfig = (index: number) => {
 };
 
 // @note individual project card with parallax based on position
-function ProjectCard({ 
-  project, 
-  index, 
-  scrollYProgress 
-}: { 
-  project: Project; 
-  index: number; 
+function ProjectCard({
+  project,
+  index,
+  scrollYProgress,
+}: {
+  project: Project;
+  index: number;
   scrollYProgress: ReturnType<typeof useScroll>["scrollYProgress"];
 }) {
   const config = getCardConfig(index);
-  
+
   // @note transform values based on card position
   const xRaw = useTransform(scrollYProgress, [0.1, 0.4], config.x);
   const yRaw = useTransform(scrollYProgress, [0.1, 0.4], config.y);
   const rotateRaw = useTransform(scrollYProgress, [0.1, 0.4], config.rotate);
   const opacityRaw = useTransform(scrollYProgress, [0.1, 0.3], [0, 1]);
-  
+
   // @note apply springs for smooth response
   const x = useSpring(xRaw, springConfig);
   const y = useSpring(yRaw, springConfig);
@@ -116,10 +116,7 @@ function ProjectCard({
   const opacity = useSpring(opacityRaw, springConfig);
 
   return (
-    <motion.div
-      style={{ x, y, rotate, opacity }}
-      className="will-change-transform"
-    >
+    <motion.div style={{ x, y, rotate, opacity }} className="will-change-transform">
       <Link
         href={project.url}
         target="_blank"
@@ -171,7 +168,10 @@ export function ProjectsSection() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
   const [statsLoading, setStatsLoading] = useState(true);
-  const [stats, setStats] = useState<{ contributions: ContributionDay[]; languages: LanguageStat[] }>({
+  const [stats, setStats] = useState<{
+    contributions: ContributionDay[];
+    languages: LanguageStat[];
+  }>({
     contributions: [],
     languages: [],
   });
@@ -227,9 +227,7 @@ export function ProjectsSection() {
           <span className="text-sm text-primary uppercase tracking-wider font-medium">
             Featured Projects
           </span>
-          <h2 className="mt-4 text-3xl md:text-4xl font-bold">
-            Some things I&apos;ve built
-          </h2>
+          <h2 className="mt-4 text-3xl md:text-4xl font-bold">Some things I&apos;ve built</h2>
         </motion.div>
 
         {/* github stats row */}

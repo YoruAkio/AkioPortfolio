@@ -28,10 +28,10 @@ const getLevelColor = (level: number): string => {
 // @note format date for tooltip
 const formatDate = (dateStr: string): string => {
   const date = new Date(dateStr);
-  return date.toLocaleDateString("en-US", { 
-    month: "short", 
-    day: "numeric", 
-    year: "numeric" 
+  return date.toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
   });
 };
 
@@ -91,7 +91,7 @@ export function ContributionHeatmap({ contributions }: HeatmapProps) {
                   <div
                     key={`${weekIndex}-${dayIndex}`}
                     className={`w-[10px] h-[10px] rounded-[2px] ${getLevelColor(day.level)} hover:ring-1 hover:ring-primary hover:ring-offset-1 hover:ring-offset-background transition-all cursor-default group relative`}
-                    title={`${formatDate(day.date)}: ${day.count} contribution${day.count !== 1 ? 's' : ''}`}
+                    title={`${formatDate(day.date)}: ${day.count} contribution${day.count !== 1 ? "s" : ""}`}
                   />
                 ))}
               </div>
@@ -102,9 +102,9 @@ export function ContributionHeatmap({ contributions }: HeatmapProps) {
 
       {/* footer with legend */}
       <div className="flex items-center justify-between mt-3 pt-3 border-t border-border/50">
-        <a 
-          href="https://github.com/YoruAkio" 
-          target="_blank" 
+        <a
+          href="https://github.com/YoruAkio"
+          target="_blank"
           rel="noopener noreferrer"
           onClick={() =>
             trackUmamiEvent("contribution_link_click", {

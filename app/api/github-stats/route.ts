@@ -120,15 +120,17 @@ export async function GET() {
     const contributions: ContributionDay[] = [];
     const weeks = user.contributionsCollection?.contributionCalendar?.weeks || [];
 
-    weeks.slice(-52).forEach((week: { contributionDays: { date: string; contributionCount: number }[] }) => {
-      week.contributionDays.forEach((day: { date: string; contributionCount: number }) => {
-        contributions.push({
-          date: day.date,
-          count: day.contributionCount,
-          level: getContributionLevel(day.contributionCount),
+    weeks
+      .slice(-52)
+      .forEach((week: { contributionDays: { date: string; contributionCount: number }[] }) => {
+        week.contributionDays.forEach((day: { date: string; contributionCount: number }) => {
+          contributions.push({
+            date: day.date,
+            count: day.contributionCount,
+            level: getContributionLevel(day.contributionCount),
+          });
         });
       });
-    });
 
     // @note process languages from repositories (more accurate than user.languages)
     const languageMap = new Map<string, { count: number; color: string }>();

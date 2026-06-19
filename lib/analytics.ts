@@ -1,14 +1,11 @@
-'use client';
+"use client";
 
 type AnalyticsValue = string | number | boolean;
 
 declare global {
   interface Window {
     umami?: {
-      track: (
-        eventName: string,
-        eventData?: Record<string, AnalyticsValue>
-      ) => void;
+      track: (eventName: string, eventData?: Record<string, AnalyticsValue>) => void;
     };
   }
 }
@@ -16,14 +13,14 @@ declare global {
 // @note track custom umami events safely after the script loads
 export function trackUmamiEvent(
   eventName: string,
-  eventData?: Record<string, AnalyticsValue | undefined>
+  eventData?: Record<string, AnalyticsValue | undefined>,
 ) {
-  if (typeof window === 'undefined' || typeof window.umami?.track !== 'function') {
+  if (typeof window === "undefined" || typeof window.umami?.track !== "function") {
     return;
   }
 
   const payload = Object.fromEntries(
-    Object.entries(eventData ?? {}).filter(([, value]) => value !== undefined)
+    Object.entries(eventData ?? {}).filter(([, value]) => value !== undefined),
   ) as Record<string, AnalyticsValue>;
 
   if (Object.keys(payload).length > 0) {

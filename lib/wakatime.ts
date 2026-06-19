@@ -47,23 +47,23 @@ export interface CodingStatsData {
   };
 }
 
-const WAKATIME_API_BASE_URL = 'https://wakatime.com/api/v1/users/current';
+const WAKATIME_API_BASE_URL = "https://wakatime.com/api/v1/users/current";
 
 function getAuthHeader() {
   const apiKey = process.env.WAKATIME_API_KEY;
 
   if (!apiKey) {
-    throw new Error('WAKATIME_API_KEY is not configured');
+    throw new Error("WAKATIME_API_KEY is not configured");
   }
 
-  return `Basic ${Buffer.from(apiKey).toString('base64')}`;
+  return `Basic ${Buffer.from(apiKey).toString("base64")}`;
 }
 
 async function fetchWakaTime<T>(endpoint: string): Promise<T> {
   const response = await fetch(`${WAKATIME_API_BASE_URL}${endpoint}`, {
     headers: {
       Authorization: getAuthHeader(),
-      Accept: 'application/json',
+      Accept: "application/json",
     },
     next: { revalidate: 3600 },
   });
@@ -76,9 +76,7 @@ async function fetchWakaTime<T>(endpoint: string): Promise<T> {
 }
 
 function sortStats(items: WakaTimeRangeSummary[], limit: number) {
-  return [...items]
-    .sort((a, b) => b.total_seconds - a.total_seconds)
-    .slice(0, limit);
+  return [...items].sort((a, b) => b.total_seconds - a.total_seconds).slice(0, limit);
 }
 
 // @note normalize a language name to a stable uppercase key for env-var comparison
@@ -86,9 +84,9 @@ function sortStats(items: WakaTimeRangeSummary[], limit: number) {
 function normalizeLangName(name: string): string {
   return name
     .toUpperCase()
-    .replace(/\+\+/g, 'PP')
-    .replace(/#/g, 'SHARP')
-    .replace(/[^A-Z0-9]/g, '');
+    .replace(/\+\+/g, "PP")
+    .replace(/#/g, "SHARP")
+    .replace(/[^A-Z0-9]/g, "");
 }
 
 // @note parse EXCLUDE_ALL_TIME_LANGUAGE env var into a set of normalized keys
@@ -96,16 +94,24 @@ function getExcludedLangs(): Set<string> {
   const raw = process.env.EXCLUDE_ALL_TIME_LANGUAGE;
   if (!raw) return new Set();
   return new Set(
-    raw.split(',').map((s) => s.trim().toUpperCase().replace(/[^A-Z0-9]/g, '')).filter(Boolean)
+    raw
+      .split(",")
+      .map((s) =>
+        s
+          .trim()
+          .toUpperCase()
+          .replace(/[^A-Z0-9]/g, ""),
+      )
+      .filter(Boolean),
   );
 }
 
 // @note normalize wakatime responses into the ui-specific shape
 export async function getCodingStats(): Promise<CodingStatsData> {
   const [allTime, allTimeStats, last7DaysStats] = await Promise.all([
-    fetchWakaTime<WakaTimeAllTimeResponse>('/all_time_since_today'),
-    fetchWakaTime<WakaTimeStatsResponse>('/stats/all_time'),
-    fetchWakaTime<WakaTimeStatsResponse>('/stats/last_7_days'),
+    fetchWakaTime<WakaTimeAllTimeResponse>("/all_time_since_today"),
+    fetchWakaTime<WakaTimeStatsResponse>("/stats/all_time"),
+    fetchWakaTime<WakaTimeStatsResponse>("/stats/last_7_days"),
   ]);
 
   return {
@@ -118,7 +124,7 @@ export async function getCodingStats(): Promise<CodingStatsData> {
     allTime: {
       languages: sortStats(
         allTimeStats.data.languages.filter(
-          (l) => !getExcludedLangs().has(normalizeLangName(l.name))
+          (l) => !getExcludedLangs().has(normalizeLangName(l.name)),
         ),
         8,
       ),

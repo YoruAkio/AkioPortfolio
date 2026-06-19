@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import { motion } from 'framer-motion';
-import { Home, ArrowLeft } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { useLoading } from '@/lib/loading-context';
-import { useEffect, useState } from 'react';
+import Link from "next/link";
+import { motion } from "framer-motion";
+import { Home, ArrowLeft } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { useLoading } from "@/lib/loading-context";
+import { useEffect, useState } from "react";
 
 // @note custom easing for entrance animation
 const entranceEasing = [0.22, 1, 0.36, 1] as const;
@@ -20,100 +20,22 @@ export default function NotFound() {
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-background">
-      {/* horizontal lines background */}
+      {/* dot grid background, masked to fade toward the edges */}
       {mounted && (
         <motion.div
+          aria-hidden
           className="absolute inset-0 z-0"
           initial={{ opacity: 0 }}
-          animate={{ opacity: 0.5 }}
+          animate={{ opacity: 1 }}
           transition={{ duration: 1, delay: 0.2, ease: entranceEasing }}
           style={{
-            backgroundImage: `repeating-linear-gradient(to bottom, transparent, transparent 39px, hsl(var(--border)) 39px, hsl(var(--border)) 40px)`,
+            backgroundImage: `radial-gradient(circle, var(--border) 1px, transparent 1px)`,
+            backgroundSize: "22px 22px",
+            WebkitMaskImage:
+              "radial-gradient(ellipse 60% 60% at 50% 50%, #000 30%, transparent 80%)",
+            maskImage: "radial-gradient(ellipse 60% 60% at 50% 50%, #000 30%, transparent 80%)",
           }}
         />
-      )}
-
-      {/* 3 circle glows with different positions and colors */}
-      {mounted && (
-        <>
-          {/* circle 1 - top left, darker */}
-          <motion.div
-            className="absolute top-[15%] left-[10%] z-[1]"
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ 
-              opacity: 1, 
-              scale: 1,
-              x: [0, 30, -20, 0],
-              y: [0, -25, 15, 0],
-            }}
-            transition={{ 
-              opacity: { duration: 1.5, delay: 0.2, ease: entranceEasing },
-              scale: { duration: 1.5, delay: 0.2, ease: entranceEasing },
-              x: { duration: 20, repeat: Infinity, ease: "easeInOut" },
-              y: { duration: 15, repeat: Infinity, ease: "easeInOut" },
-            }}
-          >
-            <div
-              className="w-[500px] h-[500px] rounded-full"
-              style={{
-                background:
-                  'radial-gradient(circle, rgba(126,34,206,0.4) 0%, rgba(126,34,206,0.15) 40%, transparent 70%)',
-              }}
-            />
-          </motion.div>
-
-          {/* circle 2 - center right, primary */}
-          <motion.div
-            className="absolute top-[40%] right-[5%] z-[1]"
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ 
-              opacity: 1, 
-              scale: 1,
-              x: [0, -40, 20, 0],
-              y: [0, 20, -30, 0],
-            }}
-            transition={{ 
-              opacity: { duration: 1.5, delay: 0.4, ease: entranceEasing },
-              scale: { duration: 1.5, delay: 0.4, ease: entranceEasing },
-              x: { duration: 18, repeat: Infinity, ease: "easeInOut" },
-              y: { duration: 22, repeat: Infinity, ease: "easeInOut" },
-            }}
-          >
-            <div
-              className="w-[600px] h-[600px] rounded-full"
-              style={{
-                background:
-                  'radial-gradient(circle, rgba(168,85,247,0.4) 0%, rgba(168,85,247,0.15) 40%, transparent 70%)',
-              }}
-            />
-          </motion.div>
-
-          {/* circle 3 - bottom center, darker */}
-          <motion.div
-            className="absolute bottom-[10%] left-[30%] z-[1]"
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ 
-              opacity: 1, 
-              scale: 1,
-              x: [0, 25, -35, 0],
-              y: [0, -20, 25, 0],
-            }}
-            transition={{ 
-              opacity: { duration: 1.5, delay: 0.6, ease: entranceEasing },
-              scale: { duration: 1.5, delay: 0.6, ease: entranceEasing },
-              x: { duration: 25, repeat: Infinity, ease: "easeInOut" },
-              y: { duration: 18, repeat: Infinity, ease: "easeInOut" },
-            }}
-          >
-            <div
-              className="w-[550px] h-[550px] rounded-full"
-              style={{
-                background:
-                  'radial-gradient(circle, rgba(126,34,206,0.45) 0%, rgba(126,34,206,0.15) 40%, transparent 70%)',
-              }}
-            />
-          </motion.div>
-        </>
       )}
 
       {/* content */}
@@ -121,59 +43,59 @@ export default function NotFound() {
         <div className="max-w-2xl mx-auto text-center flex flex-col items-center justify-center">
           {/* 404 number */}
           <motion.div
-            initial={{ y: 60, opacity: 0 }}
+            initial={{ y: 40, opacity: 0 }}
             animate={isLoadingComplete ? { y: 0, opacity: 1 } : {}}
             transition={{ duration: 1, ease: entranceEasing }}
           >
-            <h1 className="text-8xl sm:text-9xl font-bold leading-none tracking-tight bg-gradient-to-br from-primary via-primary/80 to-primary/40 bg-clip-text text-transparent select-none">
+            <h1 className="text-7xl sm:text-8xl md:text-9xl font-bold leading-none tracking-tighter select-none">
               404
             </h1>
           </motion.div>
 
+          {/* divider */}
+          <motion.div
+            initial={{ scaleX: 0, opacity: 0 }}
+            animate={isLoadingComplete ? { scaleX: 1, opacity: 1 } : {}}
+            transition={{ duration: 0.8, ease: entranceEasing, delay: 0.15 }}
+            className="mt-6 h-px w-16 bg-border origin-center"
+          />
+
           {/* message */}
           <motion.div
-            initial={{ y: 40, opacity: 0 }}
+            initial={{ y: 30, opacity: 0 }}
             animate={isLoadingComplete ? { y: 0, opacity: 1 } : {}}
-            transition={{ duration: 1, ease: entranceEasing, delay: 0.15 }}
+            transition={{ duration: 1, ease: entranceEasing, delay: 0.25 }}
             className="mt-6"
           >
-            <h2 className="text-xl sm:text-2xl font-semibold mb-3">
-              Page Not Found
-            </h2>
-            <p className="text-muted-foreground text-sm sm:text-base max-w-md mx-auto mb-8">
-              The page you&apos;re looking for doesn&apos;t exist or has been
-              moved. Let&apos;s get you back on track.
+            <h2 className="text-lg sm:text-xl font-medium mb-3">Page not found</h2>
+            <p className="text-muted-foreground text-sm sm:text-base max-w-sm mx-auto mb-8">
+              The page you&apos;re looking for doesn&apos;t exist or has been moved. Let&apos;s get
+              you back on track.
             </p>
           </motion.div>
 
           {/* buttons */}
           <motion.div
-            initial={{ y: 30, opacity: 0 }}
+            initial={{ y: 20, opacity: 0 }}
             animate={isLoadingComplete ? { y: 0, opacity: 1 } : {}}
-            transition={{ duration: 1, ease: entranceEasing, delay: 0.3 }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-4"
+            transition={{ duration: 1, ease: entranceEasing, delay: 0.4 }}
+            className="flex flex-col sm:flex-row items-center justify-center gap-3"
           >
-            <Button
-              asChild
-              size="lg"
-              className="rounded-full px-6 py-3 shadow-lg shadow-primary/25"
-            >
+            <Button asChild size="lg" className="rounded-full px-6">
               <Link href="/">
                 <Home className="h-4 w-4" />
                 Back to Home
               </Link>
             </Button>
             <Button
-              asChild
-              variant="outline"
+              type="button"
+              variant="ghost"
               size="lg"
-              className="rounded-full px-6 py-3"
+              className="rounded-full px-6 text-muted-foreground hover:text-foreground"
               onClick={() => window.history.back()}
             >
-              <button type="button" onClick={() => window.history.back()}>
-                <ArrowLeft className="h-4 w-4" />
-                Go Back
-              </button>
+              <ArrowLeft className="h-4 w-4" />
+              Go Back
             </Button>
           </motion.div>
         </div>

@@ -44,9 +44,7 @@ export function Footer() {
   return (
     <footer ref={footerRef} className="relative overflow-hidden bg-background">
       {/* radial gradient background from bottom */}
-      <div
-        className="absolute inset-0 z-0 bg-[radial-gradient(120%_200%_at_50%_100%,var(--color-primary)_0%,transparent_50%)] opacity-20"
-      />
+      <div className="absolute inset-0 z-0 bg-[radial-gradient(120%_200%_at_50%_100%,var(--color-primary)_0%,transparent_50%)] opacity-20" />
 
       {/* big akio text as background */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none overflow-hidden">
@@ -62,7 +60,7 @@ export function Footer() {
       >
         <motion.div
           initial={{ filter: "drop-shadow(0 0 0px rgba(90, 4, 147, 0))" }}
-          whileHover={{ 
+          whileHover={{
             scale: 1.1,
             filter: "drop-shadow(0 0 25px rgba(90, 4, 147, 0.85))",
           }}
@@ -91,7 +89,7 @@ export function Footer() {
                 trackUmamiEvent("footer_logo_click", {
                   target: "home",
                 });
-                handleSmoothScroll(e, '#home');
+                handleSmoothScroll(e, "#home");
               }}
             >
               <Image
@@ -109,7 +107,7 @@ export function Footer() {
                   href={link.href}
                   onClick={(e) => {
                     trackUmamiEvent("footer_link_click", {
-                      target: link.href.replace('#', '') || 'home',
+                      target: link.href.replace("#", "") || "home",
                     });
                     handleSmoothScroll(e, link.href);
                   }}

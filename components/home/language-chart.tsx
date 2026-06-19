@@ -75,7 +75,7 @@ export function LanguageChart({ languages }: LanguageChartProps) {
       className="h-[280px] p-5 rounded-xl bg-card border border-border"
     >
       <h3 className="text-sm font-medium text-muted-foreground mb-4">Top Languages</h3>
-      
+
       <div className="flex flex-col items-center">
         {/* donut chart with hover tooltip */}
         <div className="relative">
@@ -113,8 +113,8 @@ export function LanguageChart({ languages }: LanguageChartProps) {
         {/* legend */}
         <div className="grid grid-cols-2 gap-x-3 gap-y-1 w-full">
           {languages.slice(0, 6).map((lang) => (
-            <div 
-              key={lang.name} 
+            <div
+              key={lang.name}
               className="flex items-center gap-1.5 text-[11px] cursor-default"
               onMouseEnter={() => setHoveredLang(lang)}
               onMouseLeave={() => setHoveredLang(null)}

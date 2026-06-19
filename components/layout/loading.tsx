@@ -1,15 +1,15 @@
-'use client';
+"use client";
 
-import { motion, AnimatePresence } from 'framer-motion';
-import { useEffect, useState } from 'react';
+import { motion, AnimatePresence } from "framer-motion";
+import { useEffect, useState } from "react";
 
 const loadingTexts = [
-  'Loading...',
-  'Memuat...',
-  '読み込み中...',
-  'Chargement...',
-  'Cargando...',
-  'Wird geladen...',
+  "Loading...",
+  "Memuat...",
+  "読み込み中...",
+  "Chargement...",
+  "Cargando...",
+  "Wird geladen...",
 ];
 
 interface LoadingProps {
@@ -35,15 +35,15 @@ export function Loading({ interval = 1500, onLoadingComplete }: LoadingProps) {
       }, 800);
     };
 
-    if (document.readyState === 'complete') {
+    if (document.readyState === "complete") {
       handleLoad();
     } else {
-      window.addEventListener('load', handleLoad);
+      window.addEventListener("load", handleLoad);
     }
 
     return () => {
       clearInterval(textTimer);
-      window.removeEventListener('load', handleLoad);
+      window.removeEventListener("load", handleLoad);
     };
   }, [interval, onLoadingComplete]);
 
@@ -53,7 +53,7 @@ export function Loading({ interval = 1500, onLoadingComplete }: LoadingProps) {
         <motion.div
           initial={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.5, ease: 'easeOut' }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
           className="fixed inset-0 z-[100] flex min-h-screen items-center justify-center bg-background"
         >
           <AnimatePresence mode="wait">

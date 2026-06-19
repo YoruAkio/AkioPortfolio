@@ -1,22 +1,22 @@
-'use client';
+"use client";
 
-import Image from 'next/image';
-import { ArrowDown } from 'lucide-react';
-import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
-import { OrbitBackground } from '@/components/home/orbit-background';
-import { AboutSection } from '@/components/home/about-section';
-import { SkillsSection } from '@/components/home/skills-section';
-import { ProjectsSection } from '@/components/home/projects-section';
-import { ContactSection } from '@/components/home/contact-section';
-import { Button } from '@/components/ui/button';
-import { handleSmoothScroll } from '@/lib/smooth-scroll';
-import { useLoading } from '@/lib/loading-context';
-import { useTheme } from 'next-themes';
-import { LightRaysBackground } from '@/components/home/light-rays-background';
-import { Navbar } from '@/components/layout/navbar';
-import { Footer } from '@/components/layout/footer';
-import { useEffect, useState } from 'react';
-import { trackUmamiEvent } from '@/lib/analytics';
+import Image from "next/image";
+import { ArrowDown } from "lucide-react";
+import { motion, useScroll, useTransform, useSpring } from "framer-motion";
+import { OrbitBackground } from "@/components/home/orbit-background";
+import { AboutSection } from "@/components/home/about-section";
+import { SkillsSection } from "@/components/home/skills-section";
+import { ProjectsSection } from "@/components/home/projects-section";
+import { ContactSection } from "@/components/home/contact-section";
+import { Button } from "@/components/ui/button";
+import { handleSmoothScroll } from "@/lib/smooth-scroll";
+import { useLoading } from "@/lib/loading-context";
+import { useTheme } from "next-themes";
+import { LightRaysBackground } from "@/components/home/light-rays-background";
+import { Navbar } from "@/components/layout/navbar";
+import { Footer } from "@/components/layout/footer";
+import { useEffect, useState } from "react";
+import { trackUmamiEvent } from "@/lib/analytics";
 
 // @note spring config for smooth parallax
 const springConfig = { stiffness: 50, damping: 30, mass: 1 };
@@ -35,8 +35,8 @@ export default function Page() {
   }, []);
 
   useEffect(() => {
-    trackUmamiEvent('website_opened', {
-      page: 'home',
+    trackUmamiEvent("website_opened", {
+      page: "home",
     });
   }, []);
 
@@ -56,7 +56,7 @@ export default function Page() {
         id="home"
         className="relative min-h-screen flex items-center justify-center overflow-clip bg-linear-to-b from-secondary/60 to-background"
       >
-        {resolvedTheme === 'light' && mounted && (
+        {resolvedTheme === "light" && mounted && (
           <motion.div
             className="absolute inset-0 z-0"
             initial={{ opacity: 0, y: -50 }}
@@ -71,17 +71,16 @@ export default function Page() {
                       linear-gradient(to right, #ce9cf0 1px, transparent 1px),
                       linear-gradient(to bottom, #ce9cf0 1px, transparent 1px)
                     `,
-              backgroundSize: '20px 30px',
+              backgroundSize: "20px 30px",
               WebkitMaskImage:
-                'radial-gradient(ellipse 70% 45% at 50% 0%, #000 60%, transparent 100%)',
-              maskImage:
-                'radial-gradient(ellipse 70% 45% at 50% 0%, #000 60%, transparent 100%)',
+                "radial-gradient(ellipse 70% 45% at 50% 0%, #000 60%, transparent 100%)",
+              maskImage: "radial-gradient(ellipse 70% 45% at 50% 0%, #000 60%, transparent 100%)",
             }}
           />
         )}
 
         {/* Light Rays Background Only Dark Mode */}
-        {resolvedTheme === 'dark' && mounted && (
+        {resolvedTheme === "dark" && mounted && (
           <>
             <OrbitBackground />
             <motion.div
@@ -140,10 +139,9 @@ export default function Page() {
               transition={{ duration: 0.8, ease: entranceEasing, delay: 0.15 }}
               className="text-base md:text-lg lg:text-xl text-muted-foreground max-w-2xl mx-auto mb-8 md:mb-12 px-2"
             >
-              Crafting modern web experiences with clean code and creative
-              solutions. Full-stack developer passionate about building
-              performant applications with Go, TypeScript, and modern
-              frameworks.
+              Crafting modern web experiences with clean code and creative solutions. Full-stack
+              developer passionate about building performant applications with Go, TypeScript, and
+              modern frameworks.
             </motion.p>
 
             {/* buttons with entrance animation */}
@@ -160,32 +158,27 @@ export default function Page() {
               >
                 <a
                   href="#projects"
-                  onClick={e => {
-                    trackUmamiEvent('hero_cta_click', {
-                      cta: 'view_my_work',
-                      target: 'projects',
+                  onClick={(e) => {
+                    trackUmamiEvent("hero_cta_click", {
+                      cta: "view_my_work",
+                      target: "projects",
                     });
-                    handleSmoothScroll(e, '#projects');
+                    handleSmoothScroll(e, "#projects");
                   }}
                 >
                   View My Work
                   <ArrowDown className="h-4 w-4" />
                 </a>
               </Button>
-              <Button
-                asChild
-                variant="outline"
-                size="lg"
-                className="rounded-full px-6 py-3"
-              >
+              <Button asChild variant="outline" size="lg" className="rounded-full px-6 py-3">
                 <a
                   href="#about"
-                  onClick={e => {
-                    trackUmamiEvent('hero_cta_click', {
-                      cta: 'about_me',
-                      target: 'about',
+                  onClick={(e) => {
+                    trackUmamiEvent("hero_cta_click", {
+                      cta: "about_me",
+                      target: "about",
                     });
-                    handleSmoothScroll(e, '#about');
+                    handleSmoothScroll(e, "#about");
                   }}
                 >
                   About Me

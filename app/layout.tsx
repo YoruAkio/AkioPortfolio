@@ -60,7 +60,9 @@ export const metadata: Metadata = {
     title: "Yoru Akio - Full-Stack Developer",
     description:
       "Self-taught Full-Stack Developer from Indonesia specializing in front-end solutions and back-end development with Go and JavaScript.",
-    images: [`https://raw.githubusercontent.com/YoruAkio/ProjectAssets/refs/heads/main/akio/akio/og-image.png`],
+    images: [
+      `https://raw.githubusercontent.com/YoruAkio/ProjectAssets/refs/heads/main/akio/akio/og-image.png`,
+    ],
     creator: "@yoruakio",
   },
   robots: {
@@ -83,25 +85,15 @@ const jsonLd = {
   "@type": "Person",
   name: "Yoru Akio",
   url: siteUrl,
-  image: "https://raw.githubusercontent.com/YoruAkio/ProjectAssets/refs/heads/main/akio/akio/og-image.png",
-  sameAs: [
-    "https://github.com/YoruAkio",
-    "https://twitter.com/yoruakio",
-  ],
+  image:
+    "https://raw.githubusercontent.com/YoruAkio/ProjectAssets/refs/heads/main/akio/akio/og-image.png",
+  sameAs: ["https://github.com/YoruAkio", "https://twitter.com/yoruakio"],
   jobTitle: "Full-Stack Developer",
   worksFor: {
     "@type": "Organization",
     name: "Freelance",
   },
-  knowsAbout: [
-    "Web Development",
-    "React",
-    "Next.js",
-    "TypeScript",
-    "JavaScript",
-    "Go",
-    "Node.js",
-  ],
+  knowsAbout: ["Web Development", "React", "Next.js", "TypeScript", "JavaScript", "Go", "Node.js"],
   description:
     "Self-taught Full-Stack Developer from Indonesia specializing in front-end solutions and back-end development with Go and JavaScript.",
 };
@@ -119,12 +111,10 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className={`${bricolage.variable} ${geistMono.variable} antialiased bg-background text-foreground`}>
-        <Script
-          src="/stats.js"
-          data-website-id={umamiWebsiteId}
-          strategy="afterInteractive"
-        />
+      <body
+        className={`${bricolage.variable} ${geistMono.variable} antialiased bg-background text-foreground`}
+      >
+        <Script src="/stats.js" data-website-id={umamiWebsiteId} strategy="afterInteractive" />
         <ThemeProvider>
           <AppShell>{children}</AppShell>
         </ThemeProvider>

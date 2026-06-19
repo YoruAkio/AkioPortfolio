@@ -8,7 +8,8 @@ const journeyItems = [
   {
     icon: Code,
     title: "C++ Beginnings",
-    description: "Started coding in 2021 with C++, learning fundamentals and problem-solving skills",
+    description:
+      "Started coding in 2021 with C++, learning fundamentals and problem-solving skills",
   },
   {
     icon: Server,
@@ -124,13 +125,12 @@ export function AboutSection() {
             transition={{ delay: 0.1 }}
             className="mb-12"
           >
-            <h3 className="text-xl font-semibold mb-4">
-              My Journey
-            </h3>
+            <h3 className="text-xl font-semibold mb-4">My Journey</h3>
             <p className="text-muted-foreground leading-relaxed">
-              My coding journey began in 2021 when I started learning C++, diving into the fundamentals
-              of programming and problem-solving. After building a solid foundation, I transitioned to
-              web development in 2023, discovering a new passion for creating interactive experiences.
+              My coding journey began in 2021 when I started learning C++, diving into the
+              fundamentals of programming and problem-solving. After building a solid foundation, I
+              transitioned to web development in 2023, discovering a new passion for creating
+              interactive experiences.
             </p>
             <p className="mt-4 text-muted-foreground leading-relaxed">
               Now I work with modern web technologies like Next.js and TypeScript on the frontend,
@@ -151,7 +151,7 @@ export function AboutSection() {
               {journeyItems.map((item, index) => (
                 <motion.div
                   key={item.title}
-                  style={{ 
+                  style={{
                     y: cardTransforms[index].y,
                     rotate: cardTransforms[index].rotate,
                   }}

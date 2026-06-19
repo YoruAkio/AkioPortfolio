@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { Loading } from './loading';
-import { SmoothScroll } from './smooth-scroll';
-import { LoadingProvider, useLoading } from '@/lib/loading-context';
+import { Loading } from "./loading";
+import { SmoothScroll } from "./smooth-scroll";
+import { LoadingProvider, useLoading } from "@/lib/loading-context";
 
 interface AppShellProps {
   children: React.ReactNode;
@@ -15,7 +15,7 @@ function AppShellInner({ children }: AppShellProps) {
   return (
     <>
       <Loading onLoadingComplete={() => setLoadingComplete(true)} />
-      <div style={{ visibility: isLoadingComplete ? 'visible' : 'hidden' }}>
+      <div style={{ visibility: isLoadingComplete ? "visible" : "hidden" }}>
         <SmoothScroll>
           <main>{children}</main>
         </SmoothScroll>

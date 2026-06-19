@@ -53,7 +53,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-> [!NOTE] 
+> [!NOTE]
 > You're free to use this project as a template for your own portfolio. Please keep this README information and maintain attribution to the original creator (Yoru Akio). If you use this project, consider giving it a ⭐ on [GitHub](https://github.com/YoruAkio/AkioPortfolio)!
 
 Made with ❤️ by [Yoru Akio](https://github.com/YoruAkio)

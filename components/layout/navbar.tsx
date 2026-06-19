@@ -1,19 +1,19 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import Image from 'next/image';
-import { Menu, X } from 'lucide-react';
-import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
-import { ThemeToggle } from './theme-toggle';
-import { cn } from '@/lib/utils';
-import { handleSmoothScroll, handleInitialHash } from '@/lib/smooth-scroll';
-import { trackUmamiEvent } from '@/lib/analytics';
+import { useState, useEffect } from "react";
+import Image from "next/image";
+import { Menu, X } from "lucide-react";
+import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
+import { ThemeToggle } from "./theme-toggle";
+import { cn } from "@/lib/utils";
+import { handleSmoothScroll, handleInitialHash } from "@/lib/smooth-scroll";
+import { trackUmamiEvent } from "@/lib/analytics";
 
 const navLinks = [
-  { href: '#home', label: 'Home' },
-  { href: '#about', label: 'About' },
-  { href: '#skills', label: 'Skills' },
-  { href: '#projects', label: 'Projects' },
+  { href: "#home", label: "Home" },
+  { href: "#about", label: "About" },
+  { href: "#skills", label: "Skills" },
+  { href: "#projects", label: "Projects" },
 ];
 
 // @note navbar with smooth floating transition and logo animation on scroll
@@ -31,18 +31,18 @@ export function Navbar() {
       setIsScrolled(window.scrollY > 50);
     };
 
-    window.addEventListener('scroll', handleScroll);
-    
+    window.addEventListener("scroll", handleScroll);
+
     // @note handle initial hash on page load
     handleInitialHash();
-    
-    return () => window.removeEventListener('scroll', handleScroll);
+
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   // @note wrap smooth scroll to also close mobile menu
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-    trackUmamiEvent('navbar_click', {
-      target: href.replace('#', '') || 'home',
+    trackUmamiEvent("navbar_click", {
+      target: href.replace("#", "") || "home",
     });
     handleSmoothScroll(e, href);
     setIsMobileMenuOpen(false);
@@ -78,8 +78,8 @@ export function Navbar() {
         initial={false}
         animate={{
           maxWidth: isScrolled ? 768 : 1200,
-          marginLeft: 'auto',
-          marginRight: 'auto',
+          marginLeft: "auto",
+          marginRight: "auto",
           paddingLeft: isScrolled ? 0 : 24,
           paddingRight: isScrolled ? 0 : 24,
         }}
@@ -93,20 +93,17 @@ export function Navbar() {
           initial={false}
           animate={{
             borderRadius: isScrolled ? 9999 : 0,
-            backgroundColor: isScrolled ? 'var(--color-card)' : 'transparent',
-            borderColor: isScrolled ? 'var(--color-border)' : 'transparent',
-            boxShadow: isScrolled 
-              ? '0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)' 
-              : '0 0 0 0 transparent',
+            backgroundColor: isScrolled ? "var(--color-card)" : "transparent",
+            borderColor: isScrolled ? "var(--color-border)" : "transparent",
+            boxShadow: isScrolled
+              ? "0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)"
+              : "0 0 0 0 transparent",
           }}
           transition={{
             duration: 0.5,
             ease: [0.4, 0, 0.2, 1],
           }}
-          className={cn(
-            'border',
-            isScrolled && 'backdrop-blur-xl',
-          )}
+          className={cn("border", isScrolled && "backdrop-blur-xl")}
           style={{
             opacity: isScrolled ? 0.9 : 1,
           }}
@@ -123,17 +120,17 @@ export function Navbar() {
             }}
             className="flex items-center justify-between px-6"
           >
-            <a 
-              href="#home" 
-              onClick={(e) => handleNavClick(e, '#home')}
+            <a
+              href="#home"
+              onClick={(e) => handleNavClick(e, "#home")}
               className="relative h-8 flex items-center"
             >
               {/* text logo - visible when not scrolled */}
               <motion.span
                 style={{ opacity: useTransform(scrollY, [100, 200], [1, 0]) }}
                 className={cn(
-                  'font-bold tracking-tight text-xl',
-                  'bg-gradient-to-r from-primary to-chart-2 bg-clip-text text-transparent',
+                  "font-bold tracking-tight text-xl",
+                  "bg-gradient-to-r from-primary to-chart-2 bg-clip-text text-transparent",
                 )}
               >
                 akio
@@ -156,7 +153,7 @@ export function Navbar() {
 
             {/* desktop nav */}
             <div className="hidden md:flex items-center gap-1">
-              {navLinks.map(link => (
+              {navLinks.map((link) => (
                 <a
                   key={link.href}
                   href={link.href}
@@ -178,11 +175,7 @@ export function Navbar() {
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                 className="p-2 text-muted-foreground hover:text-primary hover:bg-primary/10 rounded-full transition-all duration-200"
               >
-                {isMobileMenuOpen ? (
-                  <X className="h-5 w-5" />
-                ) : (
-                  <Menu className="h-5 w-5" />
-                )}
+                {isMobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
               </button>
             </div>
           </motion.nav>
@@ -201,7 +194,7 @@ export function Navbar() {
           >
             <div className="p-4 rounded-2xl bg-card/95 backdrop-blur-xl border border-border shadow-lg">
               <div className="flex flex-col gap-1">
-                {navLinks.map(link => (
+                {navLinks.map((link) => (
                   <a
                     key={link.href}
                     href={link.href}
