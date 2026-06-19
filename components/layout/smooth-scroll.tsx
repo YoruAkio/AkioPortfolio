@@ -5,7 +5,7 @@ import { useEffect } from "react";
 
 declare global {
   interface Window {
-    lenis?: Lenis;
+    lenisInstance?: Lenis;
   }
 }
 
@@ -31,13 +31,13 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
     requestAnimationFrame(raf);
 
     if (typeof window !== "undefined") {
-      window.lenis = lenis;
+      window.lenisInstance = lenis;
     }
 
     return () => {
       lenis.destroy();
       if (typeof window !== "undefined") {
-        delete window.lenis;
+        delete window.lenisInstance;
       }
     };
   }, []);
