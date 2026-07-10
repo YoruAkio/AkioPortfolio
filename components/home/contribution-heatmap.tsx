@@ -38,8 +38,8 @@ const formatDate = (dateStr: string): string => {
 export function ContributionHeatmap({ contributions }: HeatmapProps) {
   if (contributions.length === 0) {
     return (
-      <div className="h-[280px] p-5 rounded-xl bg-card border border-border flex items-center justify-center">
-        <p className="text-sm text-muted-foreground text-center">No contribution data</p>
+      <div className="flex h-[280px] items-center justify-center p-5">
+        <p className="text-center text-sm text-muted-foreground">No contribution data</p>
       </div>
     );
   }
@@ -59,7 +59,7 @@ export function ContributionHeatmap({ contributions }: HeatmapProps) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-      className="h-[280px] p-5 rounded-xl bg-card border border-border flex flex-col"
+      className="flex h-[280px] flex-col p-5"
     >
       {/* header */}
       <div className="flex items-center justify-between mb-4">

@@ -58,14 +58,12 @@ export function CodingStats() {
   }, []);
 
   if (loading) {
-    return (
-      <div className="rounded-2xl border border-border bg-card/70 animate-pulse min-h-[300px]" />
-    );
+    return <div className="min-h-[300px] animate-pulse border-t border-border bg-secondary/40" />;
   }
 
   if (!stats || stats.error) {
     return (
-      <div className="rounded-2xl border border-border/70 bg-card/80 p-8 flex items-center justify-center min-h-[300px]">
+      <div className="flex min-h-[300px] items-center justify-center border-t border-border bg-background p-8">
         <p className="text-sm text-muted-foreground">WakaTime stats are unavailable right now.</p>
       </div>
     );
@@ -80,27 +78,25 @@ export function CodingStats() {
       whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
       viewport={{ once: true, margin: "-60px" }}
       transition={transition}
-      className="rounded-2xl border border-border/70 bg-card/80 backdrop-blur-sm p-6 sm:p-8"
+      className="bg-background p-6 sm:p-8"
     >
       {/* header */}
       <div className="flex items-center justify-between mb-8">
-        <p className="text-xs font-medium uppercase tracking-[0.18em] text-primary/80">
-          Coding Stats
-        </p>
-        <span className="text-[11px] text-muted-foreground/60">via WakaTime</span>
+        <p className="section-kicker">Coding stats</p>
+        <span className="text-[11px] text-muted-foreground/60">Via WakaTime</span>
       </div>
 
       <div className="grid gap-8 lg:gap-12 lg:grid-cols-[minmax(0,240px)_1fr]">
         {/* left — hero total + operating systems */}
         <div className="flex flex-col">
-          <p className="text-4xl sm:text-5xl font-bold tracking-tight tabular-nums leading-none">
+          <p className="text-[36px] font-medium leading-10 tabular-nums sm:text-[44px] sm:leading-[48px]">
             {stats.totals.totalTime}
           </p>
-          <p className="mt-2 text-sm text-muted-foreground">total time tracked</p>
+          <p className="mt-2 text-sm text-muted-foreground">Total time tracked</p>
 
           {topOS.length > 0 && (
             <div className="mt-8 flex flex-col gap-2.5">
-              <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-muted-foreground/60">
+              <p className="text-[11px] font-medium uppercase text-muted-foreground/60">
                 Systems · 7d
               </p>
               {topOS.map((os) => (
@@ -115,7 +111,7 @@ export function CodingStats() {
 
         {/* right — language breakdown bars */}
         <div className="flex flex-col gap-4">
-          <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-muted-foreground/60">
+          <p className="text-[11px] font-medium uppercase text-muted-foreground/60">
             Languages · all time
           </p>
           <div className="flex flex-col gap-3.5">

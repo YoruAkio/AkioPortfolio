@@ -1,18 +1,28 @@
 import type { Metadata } from "next";
-import { Bricolage_Grotesque, Geist_Mono } from "next/font/google";
+import { Bricolage_Grotesque, Geist_Mono, Inter } from "next/font/google";
 import Script from "next/script";
 import { ThemeProvider } from "@/components/layout/theme-provider";
 import { AppShell } from "@/components/layout/app-shell";
 import "./globals.css";
 
-const bricolage = Bricolage_Grotesque({
+const inter = Inter({
   subsets: ["latin"],
-  variable: "--font-sans",
+  variable: "--font-inter",
+  display: "swap",
+  fallback: ["Inter Fallback", "Arial", "sans-serif"],
+  adjustFontFallback: true,
 });
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+  display: "swap",
+});
+
+const bricolage = Bricolage_Grotesque({
+  subsets: ["latin"],
+  variable: "--font-bricolage",
+  display: "swap",
 });
 
 const siteUrl = "https://yoruakio.xyz";
@@ -48,7 +58,7 @@ export const metadata: Metadata = {
       "Self-taught Full-Stack Developer from Indonesia specializing in front-end solutions and back-end development with Go and JavaScript.",
     images: [
       {
-        url: `https://raw.githubusercontent.com/YoruAkio/ProjectAssets/refs/heads/main/akio/akio/og-image.png`,
+        url: "https://raw.githubusercontent.com/YoruAkio/ProjectAssets/refs/heads/main/akio/akio/og-image.png",
         width: 1200,
         height: 630,
         alt: "Yoru Akio - Full-Stack Developer",
@@ -61,7 +71,7 @@ export const metadata: Metadata = {
     description:
       "Self-taught Full-Stack Developer from Indonesia specializing in front-end solutions and back-end development with Go and JavaScript.",
     images: [
-      `https://raw.githubusercontent.com/YoruAkio/ProjectAssets/refs/heads/main/akio/akio/og-image.png`,
+      "https://raw.githubusercontent.com/YoruAkio/ProjectAssets/refs/heads/main/akio/akio/og-image.png",
     ],
     creator: "@yoruakio",
   },
@@ -79,7 +89,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
 };
 
-// @note JSON-LD structured data for rich search results
+// @note json-ld structured data for rich search results
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Person",
@@ -104,16 +114,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={bricolage.variable} suppressHydrationWarning>
+    <html
+      lang="en"
+      className={`${inter.variable} ${geistMono.variable} ${bricolage.variable}`}
+      suppressHydrationWarning
+    >
       <head>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body
-        className={`${bricolage.variable} ${geistMono.variable} antialiased bg-background text-foreground`}
-      >
+      <body className="bg-background text-foreground antialiased">
         <Script src="/stats.js" data-website-id={umamiWebsiteId} strategy="afterInteractive" />
         <ThemeProvider>
           <AppShell>{children}</AppShell>
