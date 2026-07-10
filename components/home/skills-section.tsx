@@ -1,38 +1,38 @@
 "use client";
 
-import { motion, type Variants } from "framer-motion";
-import Marquee from "react-fast-marquee";
-import { CodingStats } from "./coding-stats";
+import { AnimatePresence, motion, type Variants } from "framer-motion";
+import { useEffect, useState } from "react";
+import { FaWindows } from "react-icons/fa";
 import {
-  SiJavascript,
-  SiTypescript,
-  SiPython,
-  SiGo,
-  SiCplusplus,
-  SiReact,
-  SiNextdotjs,
-  SiNodedotjs,
-  SiDocker,
-  SiFigma,
-  SiTailwindcss,
   SiBun,
-  SiWails,
-  SiMongodb,
+  SiCaddy,
+  SiCplusplus,
+  SiDocker,
+  SiDrizzle,
+  SiExpress,
+  SiFigma,
   SiGit,
   SiGithub,
-  SiLinux,
-  SiVercel,
-  SiExpress,
+  SiGo,
   SiHtml5,
+  SiJavascript,
+  SiLinux,
   SiMacos,
+  SiMongodb,
+  SiNextdotjs,
+  SiNodedotjs,
   SiPostgresql,
   SiPrisma,
-  SiCaddy,
-  SiDrizzle,
+  SiPython,
+  SiReact,
+  SiTailwindcss,
+  SiTypescript,
+  SiVercel,
   SiVite,
+  SiWails,
 } from "react-icons/si";
 import { VscVscode } from "react-icons/vsc";
-import { FaWindows } from "react-icons/fa";
+import { CodingStats } from "./coding-stats";
 
 type Skill = { name: string; icon: React.ElementType };
 
@@ -67,77 +67,130 @@ const skills: Skill[] = [
   { name: "Figma", icon: SiFigma },
 ];
 
-const half = Math.ceil(skills.length / 2);
-const rowOne = skills.slice(0, half);
-const rowTwo = skills.slice(half);
-
-function MarqueePill({ icon: Icon, name }: Skill) {
-  return (
-    <div className="group mx-1.5 flex items-center gap-2.5 rounded-full border border-border/60 bg-card/70 px-4 py-2 transition-colors duration-200 hover:border-primary/40 hover:bg-card">
-      <Icon className="text-base text-muted-foreground transition-colors duration-200 group-hover:text-primary shrink-0" />
-      <span className="text-sm font-medium text-foreground/80 whitespace-nowrap">{name}</span>
-    </div>
-  );
-}
+const visibleStackCount = 13;
 
 const revealVariants: Variants = {
-  hidden: { opacity: 0, y: -60, filter: "blur(8px)" },
+  hidden: { opacity: 0, y: 42, filter: "blur(8px)" },
   visible: {
     opacity: 1,
     y: 0,
     filter: "blur(0px)",
-    transition: { duration: 1.2, ease: [0.22, 1, 0.36, 1], delay: 0.3 },
+    transition: { duration: 0.9, ease: [0.22, 1, 0.36, 1] },
   },
 };
 
-const edgeFade = "linear-gradient(to right, transparent, #000 6%, #000 94%, transparent)";
+function shuffled<T>(items: T[]) {
+  return [...items].sort(() => Math.random() - 0.5);
+}
+
+function randomInt(min: number, max: number) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function nextVisibleSkills(current: Skill[]) {
+  const changeCount = randomInt(3, 6);
+  const topIndexes = shuffled([0, 1, 2, 3, 4, 5, 6]);
+  const bottomIndexes = shuffled([7, 8, 9, 10, 11, 12]);
+  const selectedIndexes = [topIndexes[0], bottomIndexes[0]];
+
+  for (const index of shuffled([...topIndexes.slice(1), ...bottomIndexes.slice(1)])) {
+    if (selectedIndexes.length >= changeCount) break;
+    selectedIndexes.push(index);
+  }
+
+  const selectedSet = new Set(selectedIndexes);
+  const keptNames = new Set(
+    current.filter((_, index) => !selectedSet.has(index)).map((skill) => skill.name),
+  );
+  const replacements = shuffled(skills.filter((skill) => !keptNames.has(skill.name)));
+
+  return current.map((skill, index) => {
+    if (!selectedSet.has(index)) return skill;
+    return replacements.pop() ?? skill;
+  });
+}
+
+function StackCell({ skill, className }: { skill: Skill; className?: string }) {
+  const Icon = skill.icon;
+
+  return (
+    <div
+      className={`relative h-14 overflow-hidden border-b border-r border-border bg-background px-4${className ? ` ${className}` : ""}`}
+    >
+      <AnimatePresence initial={false}>
+        <motion.div
+          key={skill.name}
+          initial={{ y: "-100%", opacity: 0 }}
+          animate={{ y: "0%", opacity: 1 }}
+          exit={{ y: "100%", opacity: 0 }}
+          transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+          className="absolute inset-0 flex items-center justify-center gap-3 px-4"
+        >
+          <Icon className="h-5 w-5 shrink-0 text-foreground" />
+          <span className="text-sm font-medium text-foreground">{skill.name}</span>
+        </motion.div>
+      </AnimatePresence>
+    </div>
+  );
+}
+
+function StackGrid() {
+  const [visibleSkills, setVisibleSkills] = useState(() => skills.slice(0, visibleStackCount));
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      setVisibleSkills((current) => nextVisibleSkills(current));
+    }, 3000);
+
+    return () => clearInterval(id);
+  }, []);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-60px" }}
+      transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+      className="relative z-10 mx-auto grid max-w-5xl border-t border-border"
+    >
+      <div className="grid grid-cols-2 border-l border-border sm:grid-cols-4 lg:grid-cols-7">
+        {visibleSkills.slice(0, 7).map((skill, index) => (
+          <StackCell
+            key={`top-${index}`}
+            skill={skill}
+            className={index === 6 ? "col-span-2 sm:col-span-1" : undefined}
+          />
+        ))}
+      </div>
+      <div className="grid grid-cols-2 border-l border-border sm:grid-cols-3 lg:grid-cols-6">
+        {visibleSkills.slice(7).map((skill, index) => (
+          <StackCell key={`bottom-${index}`} skill={skill} />
+        ))}
+      </div>
+    </motion.div>
+  );
+}
 
 export function SkillsSection() {
   return (
-    <section id="skills" className="py-16 sm:py-24 bg-secondary/30 overflow-hidden">
-      <div className="container mx-auto px-6">
-        {/* section header */}
+    <section id="skills" className="grid-section overflow-hidden border-b-0 pt-20 sm:pt-24">
+      <div className="relative z-10 mx-auto px-5 sm:px-8">
         <motion.div
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
           variants={revealVariants}
-          className="max-w-3xl mx-auto text-center mb-10 sm:mb-14"
+          className="mx-auto mb-10 max-w-3xl text-center sm:mb-14"
         >
-          <span className="text-sm text-primary uppercase tracking-wider font-medium">
-            Skills & Technologies
-          </span>
-          <h2 className="mt-4 text-2xl sm:text-3xl md:text-4xl font-bold">
-            Technologies I work with to bring ideas to life
-          </h2>
+          <span className="section-kicker">Skills</span>
+          <h2 className="section-title mt-4">Tools I use to ship the work.</h2>
         </motion.div>
-
-        {/* full-width coding stats */}
-        <div className="max-w-5xl mx-auto">
-          <CodingStats />
-        </div>
       </div>
 
-      {/* full-bleed marquee — the toolkit in motion */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true, margin: "-40px" }}
-        transition={{ duration: 1, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-        className="mt-10 sm:mt-12 flex flex-col gap-3"
-        style={{ WebkitMaskImage: edgeFade, maskImage: edgeFade }}
-      >
-        <Marquee autoFill pauseOnHover speed={28}>
-          {rowOne.map((skill) => (
-            <MarqueePill key={skill.name} icon={skill.icon} name={skill.name} />
-          ))}
-        </Marquee>
-        <Marquee autoFill pauseOnHover speed={28} direction="right">
-          {rowTwo.map((skill) => (
-            <MarqueePill key={skill.name} icon={skill.icon} name={skill.name} />
-          ))}
-        </Marquee>
-      </motion.div>
+      <CodingStats />
+      <StackGrid />
+
+      <div className="stripe-band mt-20 h-14 opacity-70 sm:mt-24" />
     </section>
   );
 }

@@ -1,38 +1,27 @@
 "use client";
 
 import Image from "next/image";
-import { ArrowDown } from "lucide-react";
-import { motion, useScroll, useTransform, useSpring } from "framer-motion";
-import { OrbitBackground } from "@/components/home/orbit-background";
+import { ArrowRight, Sparkles } from "lucide-react";
+import { motion, useScroll, useSpring, useTransform } from "framer-motion";
+import { useEffect } from "react";
+import { FaGithub } from "react-icons/fa6";
 import { AboutSection } from "@/components/home/about-section";
-import { SkillsSection } from "@/components/home/skills-section";
-import { ProjectsSection } from "@/components/home/projects-section";
 import { ContactSection } from "@/components/home/contact-section";
-import { Button } from "@/components/ui/button";
-import { handleSmoothScroll } from "@/lib/smooth-scroll";
-import { useLoading } from "@/lib/loading-context";
-import { useTheme } from "next-themes";
-import { LightRaysBackground } from "@/components/home/light-rays-background";
-import { Navbar } from "@/components/layout/navbar";
+import { ProjectsSection } from "@/components/home/projects-section";
+import { SkillsSection } from "@/components/home/skills-section";
 import { Footer } from "@/components/layout/footer";
-import { useEffect, useState } from "react";
+import { Navbar } from "@/components/layout/navbar";
+import { Button } from "@/components/ui/button";
 import { trackUmamiEvent } from "@/lib/analytics";
+import { useLoading } from "@/lib/loading-context";
+import { handleSmoothScroll } from "@/lib/smooth-scroll";
 
-// @note spring config for smooth parallax
 const springConfig = { stiffness: 50, damping: 30, mass: 1 };
-
-// @note custom easing for entrance animation
 const entranceEasing = [0.74, 0.01, 0.16, 0.87] as const;
 
 export default function Page() {
   const { scrollY } = useScroll();
   const { isLoadingComplete } = useLoading();
-  const { resolvedTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   useEffect(() => {
     trackUmamiEvent("website_opened", {
@@ -40,171 +29,118 @@ export default function Page() {
     });
   }, []);
 
-  // @note unified parallax transforms for both logo and content
-  const heroYRaw = useTransform(scrollY, [0, 600], [0, -100]);
-  const heroOpacityRaw = useTransform(scrollY, [0, 400], [1, 0]);
-
-  // @note apply springs for smooth response
+  const heroYRaw = useTransform(scrollY, [0, 600], [0, -90]);
+  const heroOpacityRaw = useTransform(scrollY, [0, 420], [1, 0]);
   const heroY = useSpring(heroYRaw, springConfig);
   const heroOpacity = useSpring(heroOpacityRaw, springConfig);
 
   return (
     <>
       <Navbar />
-      {/* hero section */}
-      <section
-        id="home"
-        className="relative min-h-screen flex items-center justify-center overflow-clip bg-linear-to-b from-secondary/60 to-background"
-      >
-        {resolvedTheme === "light" && mounted && (
-          <motion.div
-            className="absolute inset-0 z-0"
-            initial={{ opacity: 0, y: -50 }}
-            animate={isLoadingComplete ? { opacity: 1, y: 0 } : {}}
-            transition={{
-              duration: 1.3,
-              delay: 0.5,
-              ease: [0.22, 1, 0.36, 1],
-            }}
-            style={{
-              backgroundImage: `
-                      linear-gradient(to right, #ce9cf0 1px, transparent 1px),
-                      linear-gradient(to bottom, #ce9cf0 1px, transparent 1px)
-                    `,
-              backgroundSize: "20px 30px",
-              WebkitMaskImage:
-                "radial-gradient(ellipse 70% 45% at 50% 0%, #000 60%, transparent 100%)",
-              maskImage: "radial-gradient(ellipse 70% 45% at 50% 0%, #000 60%, transparent 100%)",
-            }}
-          />
-        )}
-
-        {/* Light Rays Background Only Dark Mode */}
-        {resolvedTheme === "dark" && mounted && (
-          <>
-            <OrbitBackground />
-            <motion.div
-              className="absolute inset-0 z-0"
-              initial={{ opacity: 0, y: 0 }}
-              animate={isLoadingComplete ? { opacity: 1, y: 0 } : {}}
-              transition={{
-                duration: 5.51,
-                delay: 0.3,
-                ease: [0.22, 1, 0.36, 1],
-              }}
-            >
-              <LightRaysBackground
-                raysOrigin="top-center"
-                raysColor="#c38be8"
-                className="absolute inset-0 z-1"
-              />
-            </motion.div>
-          </>
-        )}
-
-        {/* logo - animated with parallax + entrance animation */}
-        <motion.div
-          initial={{ y: 250, opacity: 0 }}
-          animate={isLoadingComplete ? { y: 0, opacity: 1 } : {}}
-          transition={{ duration: 0.8, ease: entranceEasing }}
-          className="absolute inset-0 flex items-center justify-center pointer-events-none z-[5] -translate-y-36 sm:-translate-y-24 md:-translate-y-28"
+      <main className="site-frame">
+        <section
+          id="home"
+          className="grid-section min-h-[60dvh] overflow-hidden border-b-0 pt-12 md:pt-16"
         >
-          <motion.div style={{ y: heroY, opacity: heroOpacity }}>
-            <Image
-              src="/logo.png"
-              alt="Yoru Akio"
-              width={800}
-              height={320}
-              className="h-36 sm:h-56 md:h-72 lg:h-80 w-auto opacity-90"
-              priority
-            />
-          </motion.div>
-        </motion.div>
-
-        <motion.div
-          style={{
-            y: heroY,
-            opacity: heroOpacity,
-          }}
-          className="container mx-auto px-6 py-24 relative z-10"
-        >
-          <div className="max-w-4xl mx-auto text-center">
-            {/* spacer for logo */}
-            <div className="h-28 sm:h-32 md:h-40 lg:h-48 mb-4 md:mb-6" />
-
-            {/* description with entrance animation */}
-            <motion.p
-              initial={{ y: 80, opacity: 0 }}
-              animate={isLoadingComplete ? { y: 0, opacity: 1 } : {}}
-              transition={{ duration: 0.8, ease: entranceEasing, delay: 0.15 }}
-              className="text-base md:text-lg lg:text-xl text-muted-foreground max-w-2xl mx-auto mb-8 md:mb-12 px-2"
-            >
-              Crafting modern web experiences with clean code and creative solutions. Full-stack
-              developer passionate about building performant applications with Go, TypeScript, and
-              modern frameworks.
-            </motion.p>
-
-            {/* buttons with entrance animation */}
-            <motion.div
-              initial={{ y: 60, opacity: 0 }}
-              animate={isLoadingComplete ? { y: 0, opacity: 1 } : {}}
-              transition={{ duration: 0.8, ease: entranceEasing, delay: 0.3 }}
-              className="flex flex-col sm:flex-row items-center justify-center gap-4"
-            >
-              <Button
-                asChild
-                size="lg"
-                className="rounded-full px-6 py-3 shadow-lg shadow-primary/25"
+          <div className="relative z-10 grid min-h-[calc(60dvh-9.5rem)] place-items-center px-5 py-10 sm:px-8 md:py-14">
+            <div className="mx-auto flex w-full max-w-4xl flex-col items-center text-center">
+              <motion.div
+                initial={{ y: 24, opacity: 0, filter: "blur(8px)" }}
+                animate={isLoadingComplete ? { y: 0, opacity: 1, filter: "blur(0px)" } : {}}
+                transition={{ duration: 0.8, ease: entranceEasing }}
+                className="mb-5 inline-flex items-center gap-2 rounded-full bg-secondary px-3 py-1.5 text-xs font-medium text-muted-foreground"
               >
-                <a
-                  href="#projects"
-                  onClick={(e) => {
-                    trackUmamiEvent("hero_cta_click", {
-                      cta: "view_my_work",
-                      target: "projects",
-                    });
-                    handleSmoothScroll(e, "#projects");
-                  }}
-                >
-                  View My Work
-                  <ArrowDown className="h-4 w-4" />
-                </a>
-              </Button>
-              <Button asChild variant="outline" size="lg" className="rounded-full px-6 py-3">
-                <a
-                  href="#about"
-                  onClick={(e) => {
-                    trackUmamiEvent("hero_cta_click", {
-                      cta: "about_me",
-                      target: "about",
-                    });
-                    handleSmoothScroll(e, "#about");
-                  }}
-                >
-                  About Me
-                </a>
-              </Button>
-            </motion.div>
+                <Sparkles className="h-3.5 w-3.5 text-foreground" />
+                Portfolio / Full-stack Developer
+                <span className="rounded-full bg-primary px-2 py-0.5 text-[10px] text-primary-foreground">
+                  2026
+                </span>
+              </motion.div>
+
+              <motion.div
+                initial={{ y: 80, opacity: 0 }}
+                animate={isLoadingComplete ? { y: 0, opacity: 1 } : {}}
+                transition={{ duration: 0.9, ease: entranceEasing, delay: 0.05 }}
+                style={{ y: heroY, opacity: heroOpacity }}
+                className="relative"
+              >
+                <div className="pointer-events-none absolute -inset-24 rounded-full bg-primary/6 blur-3xl" />
+                <Image
+                  src="/logo.png"
+                  alt="Yoru Akio"
+                  width={820}
+                  height={328}
+                  className="relative mx-auto h-24 w-auto opacity-95 sm:h-36 md:h-44 lg:h-52"
+                  priority
+                />
+              </motion.div>
+
+              <motion.h1
+                initial={{ y: 34, opacity: 0, filter: "blur(8px)" }}
+                animate={isLoadingComplete ? { y: 0, opacity: 1, filter: "blur(0px)" } : {}}
+                transition={{ duration: 0.8, ease: entranceEasing, delay: 0.14 }}
+                className="mt-8 max-w-3xl text-balance text-[36px] font-bold leading-9 tracking-[-0.045em] sm:text-[44px] sm:leading-11 md:text-[52px] md:leading-[52px]"
+              >
+                Self-taught fullstack developer, just tryna make a livin.
+              </motion.h1>
+
+              <motion.p
+                initial={{ y: 34, opacity: 0 }}
+                animate={isLoadingComplete ? { y: 0, opacity: 1 } : {}}
+                transition={{ duration: 0.8, ease: entranceEasing, delay: 0.2 }}
+                className="mx-auto mt-6 max-w-2xl text-pretty text-base leading-6 text-muted-foreground"
+              >
+                I build web products with TypeScript, Go, and Next.js — focused on speed, clear UI,
+                and systems that stay easy to change.
+              </motion.p>
+
+              <motion.div
+                initial={{ y: 30, opacity: 0 }}
+                animate={isLoadingComplete ? { y: 0, opacity: 1 } : {}}
+                transition={{ duration: 0.8, ease: entranceEasing, delay: 0.3 }}
+                className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row"
+              >
+                <Button asChild size="lg" className="rounded-lg shadow-none">
+                  <a
+                    href="#projects"
+                    onClick={(e) => {
+                      trackUmamiEvent("hero_cta_click", {
+                        cta: "view_my_work",
+                        target: "projects",
+                      });
+                      handleSmoothScroll(e, "#projects");
+                    }}
+                  >
+                    View Projects
+                    <FaGithub className="h-4 w-4" />
+                  </a>
+                </Button>
+                <Button asChild variant="secondary" size="lg" className="rounded-lg">
+                  <a
+                    href="#about"
+                    onClick={(e) => {
+                      trackUmamiEvent("hero_cta_click", {
+                        cta: "about_me",
+                        target: "about",
+                      });
+                      handleSmoothScroll(e, "#about");
+                    }}
+                  >
+                    About Me
+                    <ArrowRight className="h-4 w-4" />
+                  </a>
+                </Button>
+              </motion.div>
+            </div>
           </div>
-        </motion.div>
+        </section>
 
-        {/* scroll indicator with entrance animation */}
-        <motion.div
-          initial={{ y: 30, opacity: 0 }}
-          animate={isLoadingComplete ? { y: 0, opacity: 1 } : {}}
-          transition={{ duration: 0.8, ease: entranceEasing, delay: 0.45 }}
-          style={{ opacity: heroOpacity }}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce z-10"
-        >
-          <ArrowDown className="h-5 w-5 text-primary/60" />
-        </motion.div>
-      </section>
-
-      <AboutSection />
-      <SkillsSection />
-      <ProjectsSection />
-      <ContactSection />
-      <Footer />
+        <AboutSection />
+        <SkillsSection />
+        <ProjectsSection />
+        <ContactSection />
+        <Footer />
+      </main>
     </>
   );
 }

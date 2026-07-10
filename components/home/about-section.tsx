@@ -1,35 +1,34 @@
 "use client";
 
-import { useRef } from "react";
-import { Code, Server, Rocket } from "lucide-react";
-import { motion, useScroll, useTransform, useSpring, type Variants } from "framer-motion";
+import { Code, Rocket, Server } from "lucide-react";
+import { motion, type Variants } from "framer-motion";
 
 const journeyItems = [
   {
     icon: Code,
-    title: "C++ Beginnings",
+    title: "C++ beginnings",
     description:
-      "Started coding in 2021 with C++, learning fundamentals and problem-solving skills",
+      "Started in 2021 with fundamentals, memory, and problem-solving before moving to web.",
   },
   {
     icon: Server,
-    title: "Web Development",
-    description: "Transitioned to web dev in 2023, now building with Next.js, Node.js, and Go",
+    title: "Web systems",
+    description: "Now building frontends with Next.js and backends with Go, Node.js, and APIs.",
   },
   {
     icon: Rocket,
-    title: "Growing Skills",
-    description: "Continuously learning and building projects, from idea to deployment",
+    title: "Shipping better",
+    description:
+      "I like small interfaces, fast feedback, and code that can survive the next change.",
   },
 ];
 
-// @note animation variants for stagger effect
 const containerVariants: Variants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.15,
+      staggerChildren: 0.12,
     },
   },
 };
@@ -46,134 +45,80 @@ const cardVariants: Variants = {
   },
 };
 
-// @note reveal animation variants for header and content
 const revealVariants: Variants = {
-  hidden: { opacity: 0, y: -180, filter: "blur(10px)" },
+  hidden: { opacity: 0, y: 42, filter: "blur(10px)" },
   visible: {
     opacity: 1,
     y: 0,
     filter: "blur(0px)",
     transition: {
-      duration: 1.4,
+      duration: 0.9,
       ease: [0.22, 1, 0.36, 1],
-      delay: 0.5,
     },
   },
 };
 
-// @note spring config for smooth parallax
-const springConfig = { stiffness: 80, damping: 20, mass: 0.8 };
-
-// @note about section with reveal animation and parallax journey cards
 export function AboutSection() {
-  const sectionRef = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start end", "end start"],
-  });
-
-  // @note cards - parallax with rotation
-  const card1RotateRaw = useTransform(scrollYProgress, [0, 0.5, 1], [3, 0, -3]);
-  const card2RotateRaw = useTransform(scrollYProgress, [0, 0.5, 1], [-2, 0, 2]);
-  const card3RotateRaw = useTransform(scrollYProgress, [0, 0.5, 1], [2, 0, -2]);
-
-  const card1YRaw = useTransform(scrollYProgress, [0, 0.5, 1], [140, 0, -70]);
-  const card2YRaw = useTransform(scrollYProgress, [0, 0.5, 1], [100, 0, -50]);
-  const card3YRaw = useTransform(scrollYProgress, [0, 0.5, 1], [160, 0, -80]);
-
-  // @note apply springs for smooth response
-  const card1Rotate = useSpring(card1RotateRaw, springConfig);
-  const card2Rotate = useSpring(card2RotateRaw, springConfig);
-  const card3Rotate = useSpring(card3RotateRaw, springConfig);
-
-  const card1Y = useSpring(card1YRaw, springConfig);
-  const card2Y = useSpring(card2YRaw, springConfig);
-  const card3Y = useSpring(card3YRaw, springConfig);
-
-  const cardTransforms = [
-    { y: card1Y, rotate: card1Rotate },
-    { y: card2Y, rotate: card2Rotate },
-    { y: card3Y, rotate: card3Rotate },
-  ];
-
   return (
-    <section ref={sectionRef} id="about" className="py-24 bg-background overflow-hidden">
-      <div className="container mx-auto px-6">
-        {/* header with reveal animation */}
+    <section id="about" className="grid-section border-b-0">
+      <div className="stripe-band h-14 opacity-70" />
+      <div className="relative z-10 mx-auto grid max-w-5xl gap-10 px-5 py-14 sm:px-8 lg:grid-cols-[0.9fr_1.1fr] lg:gap-14">
         <motion.div
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
           variants={revealVariants}
-          className="max-w-3xl mx-auto text-center mb-16"
         >
-          <span className="text-sm text-primary uppercase tracking-wider font-medium">
-            About Me
-          </span>
-          <h2 className="mt-4 text-3xl md:text-4xl font-bold">
-            A self-taught developer on a 4+ year coding journey
-          </h2>
+          <span className="section-kicker">About</span>
+          <h2 className="section-title mt-4">Self-taught, practical, still sharpening.</h2>
         </motion.div>
 
-        <div className="max-w-4xl mx-auto">
-          {/* content with reveal animation */}
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
-            variants={revealVariants}
-            transition={{ delay: 0.1 }}
-            className="mb-12"
-          >
-            <h3 className="text-xl font-semibold mb-4">My Journey</h3>
-            <p className="text-muted-foreground leading-relaxed">
-              My coding journey began in 2021 when I started learning C++, diving into the
-              fundamentals of programming and problem-solving. After building a solid foundation, I
-              transitioned to web development in 2023, discovering a new passion for creating
-              interactive experiences.
-            </p>
-            <p className="mt-4 text-muted-foreground leading-relaxed">
-              Now I work with modern web technologies like Next.js and TypeScript on the frontend,
-              while exploring Go and Node.js for backend development. I love the creative process of
-              turning ideas into reality and continuously pushing myself to learn new things.
-            </p>
-          </motion.div>
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+          variants={revealVariants}
+          className="border border-border bg-background p-6 sm:p-8"
+        >
+          <h3 className="text-lg font-medium leading-6">My journey</h3>
+          <p className="mt-4 text-pretty leading-7 text-muted-foreground">
+            I started coding in 2021 with C++, then moved into web development in 2023. These days I
+            work mostly with Next.js, TypeScript, Go, and Node.js.
+          </p>
+          <p className="mt-4 text-pretty leading-7 text-muted-foreground">
+            I care about simple interfaces, fast pages, and backend code that is boring in the best
+            way: readable, reliable, and easy to change.
+          </p>
+        </motion.div>
+      </div>
 
-          {/* journey cards with parallax */}
-          <div>
-            <motion.div
-              className="grid md:grid-cols-3 gap-6"
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, margin: "-100px" }}
-              variants={containerVariants}
-            >
-              {journeyItems.map((item, index) => (
-                <motion.div
-                  key={item.title}
-                  style={{
-                    y: cardTransforms[index].y,
-                    rotate: cardTransforms[index].rotate,
-                  }}
-                  className="will-change-transform"
-                >
-                  <motion.div
-                    className="h-full p-6 rounded-2xl bg-card border border-border hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5 transition-colors duration-300"
-                    variants={cardVariants}
-                    whileHover={{ y: -5, transition: { duration: 0.2 } }}
-                  >
-                    <div className="h-12 w-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4">
-                      <item.icon className="h-6 w-6 text-primary" />
-                    </div>
-                    <h4 className="font-semibold mb-2">{item.title}</h4>
-                    <p className="text-sm text-muted-foreground">{item.description}</p>
-                  </motion.div>
-                </motion.div>
-              ))}
-            </motion.div>
+      <motion.div
+        className="relative z-10 pb-14"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-100px" }}
+        variants={containerVariants}
+      >
+        <div className="border-y border-border bg-background">
+          <div className="mx-auto grid max-w-5xl divide-y divide-border md:grid-cols-3 md:divide-x md:divide-y-0">
+            {journeyItems.map((item) => (
+              <motion.div
+                key={item.title}
+                variants={cardVariants}
+                className="bg-background p-6 transition-colors duration-200 hover:bg-secondary/40"
+              >
+                <div className="mb-5 flex h-11 w-11 items-center justify-center border border-border bg-secondary">
+                  <item.icon className="h-5 w-5 text-foreground" />
+                </div>
+                <h4 className="font-medium">{item.title}</h4>
+                <p className="mt-2 text-sm leading-6 text-muted-foreground">{item.description}</p>
+              </motion.div>
+            ))}
           </div>
         </div>
-      </div>
+      </motion.div>
+
+      <div className="stripe-band h-14 opacity-70" />
     </section>
   );
 }

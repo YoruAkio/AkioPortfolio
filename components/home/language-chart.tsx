@@ -14,13 +14,21 @@ interface LanguageChartProps {
   languages: LanguageStat[];
 }
 
+const chartColors = [
+  "var(--chart-1)",
+  "var(--chart-2)",
+  "var(--chart-3)",
+  "var(--chart-4)",
+  "var(--chart-5)",
+];
+
 export function LanguageChart({ languages }: LanguageChartProps) {
   const [hoveredLang, setHoveredLang] = useState<LanguageStat | null>(null);
 
   if (languages.length === 0) {
     return (
-      <div className="h-[280px] p-5 rounded-xl bg-card border border-border flex items-center justify-center">
-        <p className="text-sm text-muted-foreground text-center">No language data</p>
+      <div className="flex h-[280px] items-center justify-center p-5">
+        <p className="text-center text-sm text-muted-foreground">No language data</p>
       </div>
     );
   }
@@ -72,7 +80,7 @@ export function LanguageChart({ languages }: LanguageChartProps) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-      className="h-[280px] p-5 rounded-xl bg-card border border-border"
+      className="h-[280px] p-5"
     >
       <h3 className="text-sm font-medium text-muted-foreground mb-4">Top Languages</h3>
 
@@ -84,7 +92,7 @@ export function LanguageChart({ languages }: LanguageChartProps) {
               <motion.path
                 key={slice.lang.name}
                 d={slice.path}
-                fill={slice.lang.color}
+                fill={chartColors[i % chartColors.length]}
                 initial={{ opacity: 0, scale: 0.8 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
@@ -101,9 +109,7 @@ export function LanguageChart({ languages }: LanguageChartProps) {
           {hoveredLang && (
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
               <div className="text-center">
-                <div className="text-lg font-bold" style={{ color: hoveredLang.color }}>
-                  {hoveredLang.percentage}%
-                </div>
+                <div className="text-lg font-medium text-foreground">{hoveredLang.percentage}%</div>
                 <div className="text-[10px] text-muted-foreground">{hoveredLang.name}</div>
               </div>
             </div>
@@ -112,7 +118,7 @@ export function LanguageChart({ languages }: LanguageChartProps) {
 
         {/* legend */}
         <div className="grid grid-cols-2 gap-x-3 gap-y-1 w-full">
-          {languages.slice(0, 6).map((lang) => (
+          {languages.slice(0, 6).map((lang, i) => (
             <div
               key={lang.name}
               className="flex items-center gap-1.5 text-[11px] cursor-default"
@@ -121,7 +127,7 @@ export function LanguageChart({ languages }: LanguageChartProps) {
             >
               <span
                 className="w-2 h-2 rounded-full shrink-0"
-                style={{ backgroundColor: lang.color }}
+                style={{ backgroundColor: chartColors[i % chartColors.length] }}
               />
               <span className="text-muted-foreground truncate">{lang.name}</span>
               <span className="text-muted-foreground/50 ml-auto">{lang.percentage}%</span>
