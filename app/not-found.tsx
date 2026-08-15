@@ -4,14 +4,12 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { Home, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useLoading } from "@/lib/loading-context";
 import { useEffect, useState } from "react";
 
 // @note custom easing for entrance animation
 const entranceEasing = [0.22, 1, 0.36, 1] as const;
 
 export default function NotFound() {
-  const { isLoadingComplete } = useLoading();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -44,7 +42,7 @@ export default function NotFound() {
           {/* 404 number */}
           <motion.div
             initial={{ y: 40, opacity: 0 }}
-            animate={isLoadingComplete ? { y: 0, opacity: 1 } : {}}
+            animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 1, ease: entranceEasing }}
           >
             <h1 className="text-7xl sm:text-8xl md:text-9xl font-bold leading-none tracking-tighter select-none">
@@ -55,7 +53,7 @@ export default function NotFound() {
           {/* divider */}
           <motion.div
             initial={{ scaleX: 0, opacity: 0 }}
-            animate={isLoadingComplete ? { scaleX: 1, opacity: 1 } : {}}
+            animate={{ scaleX: 1, opacity: 1 }}
             transition={{ duration: 0.8, ease: entranceEasing, delay: 0.15 }}
             className="mt-6 h-px w-16 bg-border origin-center"
           />
@@ -63,7 +61,7 @@ export default function NotFound() {
           {/* message */}
           <motion.div
             initial={{ y: 30, opacity: 0 }}
-            animate={isLoadingComplete ? { y: 0, opacity: 1 } : {}}
+            animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 1, ease: entranceEasing, delay: 0.25 }}
             className="mt-6"
           >
@@ -77,7 +75,7 @@ export default function NotFound() {
           {/* buttons */}
           <motion.div
             initial={{ y: 20, opacity: 0 }}
-            animate={isLoadingComplete ? { y: 0, opacity: 1 } : {}}
+            animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 1, ease: entranceEasing, delay: 0.4 }}
             className="flex flex-col sm:flex-row items-center justify-center gap-3"
           >

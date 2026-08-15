@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import { motion, useScroll, useTransform, useMotionValue } from "framer-motion";
 import Image from "next/image";
-import { useLoading } from "@/lib/loading-context";
 
 // @note custom easing with overshoot effect (bottom > above default > default)
 const entranceEasing = [0.46, -0.01, 0.08, 1.48] as const;
@@ -11,7 +10,6 @@ const entranceEasing = [0.46, -0.01, 0.08, 1.48] as const;
 // @note rotating orbit backgrounds with constant rotation speed
 export function OrbitBackground() {
   const { scrollY } = useScroll();
-  const { isLoadingComplete } = useLoading();
   const [isMounted, setIsMounted] = useState(false);
 
   // @note base rotation values for continuous animation
@@ -55,7 +53,7 @@ export function OrbitBackground() {
       {/* outer orbit with entrance animation */}
       <motion.div
         initial={{ y: 200, opacity: 0.2 }}
-        animate={isLoadingComplete ? { y: 0, opacity: 1 } : {}}
+        animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 1.4, ease: entranceEasing, delay: 0.15 }}
         className="absolute"
       >
@@ -80,7 +78,7 @@ export function OrbitBackground() {
       {/* inner orbit with entrance animation */}
       <motion.div
         initial={{ y: 200, opacity: 0.2 }}
-        animate={isLoadingComplete ? { y: 0, opacity: 1 } : {}}
+        animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 1.4, ease: entranceEasing, delay: 0.1 }}
         className="absolute"
       >

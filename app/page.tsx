@@ -12,8 +12,8 @@ import { SkillsSection } from "@/components/home/skills-section";
 import { Footer } from "@/components/layout/footer";
 import { Navbar } from "@/components/layout/navbar";
 import { Button } from "@/components/ui/button";
+import ShinyText from "@/components/ui/shiny-text";
 import { trackUmamiEvent } from "@/lib/analytics";
-import { useLoading } from "@/lib/loading-context";
 import { handleSmoothScroll } from "@/lib/smooth-scroll";
 
 const springConfig = { stiffness: 50, damping: 30, mass: 1 };
@@ -21,7 +21,6 @@ const entranceEasing = [0.74, 0.01, 0.16, 0.87] as const;
 
 export default function Page() {
   const { scrollY } = useScroll();
-  const { isLoadingComplete } = useLoading();
 
   useEffect(() => {
     trackUmamiEvent("website_opened", {
@@ -46,12 +45,17 @@ export default function Page() {
             <div className="mx-auto flex w-full max-w-4xl flex-col items-center text-center">
               <motion.div
                 initial={{ y: 24, opacity: 0, filter: "blur(8px)" }}
-                animate={isLoadingComplete ? { y: 0, opacity: 1, filter: "blur(0px)" } : {}}
+                animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
                 transition={{ duration: 0.8, ease: entranceEasing }}
                 className="mb-5 inline-flex items-center gap-2 rounded-full bg-secondary px-3 py-1.5 text-xs font-medium text-muted-foreground"
               >
                 <Sparkles className="h-3.5 w-3.5 text-foreground" />
-                Portfolio / Full-stack Developer
+                <ShinyText
+                  text="Full-stack Developer"
+                  color="var(--muted-foreground)"
+                  shineColor="var(--foreground)"
+                  speed={4}
+                />
                 <span className="rounded-full bg-primary px-2 py-0.5 text-[10px] text-primary-foreground">
                   2026
                 </span>
@@ -59,7 +63,7 @@ export default function Page() {
 
               <motion.div
                 initial={{ y: 80, opacity: 0 }}
-                animate={isLoadingComplete ? { y: 0, opacity: 1 } : {}}
+                animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 0.9, ease: entranceEasing, delay: 0.05 }}
                 style={{ y: heroY, opacity: heroOpacity }}
                 className="relative"
@@ -77,7 +81,7 @@ export default function Page() {
 
               <motion.h1
                 initial={{ y: 34, opacity: 0, filter: "blur(8px)" }}
-                animate={isLoadingComplete ? { y: 0, opacity: 1, filter: "blur(0px)" } : {}}
+                animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
                 transition={{ duration: 0.8, ease: entranceEasing, delay: 0.14 }}
                 className="mt-8 max-w-3xl text-balance text-[36px] font-bold leading-9 tracking-[-0.045em] sm:text-[44px] sm:leading-11 md:text-[52px] md:leading-[52px]"
               >
@@ -86,21 +90,25 @@ export default function Page() {
 
               <motion.p
                 initial={{ y: 34, opacity: 0 }}
-                animate={isLoadingComplete ? { y: 0, opacity: 1 } : {}}
+                animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 0.8, ease: entranceEasing, delay: 0.2 }}
-                className="mx-auto mt-6 max-w-2xl text-pretty text-base leading-6 text-muted-foreground"
+                className="mx-auto mt-6 max-w-2xl text-pretty text-base leading-6"
               >
-                I build web products with TypeScript, Go, and Next.js — focused on speed, clear UI,
-                and systems that stay easy to change.
+                <ShinyText
+                  text="I build web products with TypeScript, Go, and Next.js — focused on speed, clear UI, and systems that stay easy to change."
+                  color="var(--muted-foreground)"
+                  shineColor="var(--foreground)"
+                  speed={4}
+                />
               </motion.p>
 
               <motion.div
                 initial={{ y: 30, opacity: 0 }}
-                animate={isLoadingComplete ? { y: 0, opacity: 1 } : {}}
+                animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 0.8, ease: entranceEasing, delay: 0.3 }}
                 className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row"
               >
-                <Button asChild size="lg" className="rounded-lg shadow-none">
+                <Button asChild size="lg" className="rounded-lg">
                   <a
                     href="#projects"
                     onClick={(e) => {

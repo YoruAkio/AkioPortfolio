@@ -113,7 +113,7 @@ export function ContactSection() {
               className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row"
               variants={itemVariants}
             >
-              <Button asChild size="lg" className="w-full rounded-lg shadow-none sm:w-44">
+              <Button asChild size="lg" className="w-full rounded-lg sm:w-44">
                 <a
                   href="https://discord.com/users/798258457022046218"
                   target="_blank"

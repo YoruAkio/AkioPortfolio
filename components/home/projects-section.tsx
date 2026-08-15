@@ -7,6 +7,7 @@ import { motion } from "framer-motion";
 import { ContributionHeatmap } from "./contribution-heatmap";
 import { LanguageChart } from "./language-chart";
 import { trackUmamiEvent } from "@/lib/analytics";
+import { Button } from "@/components/ui/button";
 
 // @note project interface matching API response
 interface Project {
@@ -222,15 +223,17 @@ export function ProjectsSection() {
             viewport={{ once: true }}
             transition={{ duration: 1.2, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
           >
-            <Link
-              href="https://github.com/YoruAkio"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-xl border border-border bg-secondary px-5 py-3 text-sm font-medium transition-colors duration-200 hover:border-primary/30 hover:bg-primary hover:text-primary-foreground"
+            <Button
+              asChild
+              variant="secondary"
+              size="lg"
+              className="rounded-xl border-border px-5 hover:border-primary/30 hover:bg-primary hover:text-primary-foreground"
             >
-              View All Projects
-              <ExternalLink className="h-4 w-4" />
-            </Link>
+              <Link href="https://github.com/YoruAkio" target="_blank" rel="noopener noreferrer">
+                View All Projects
+                <ExternalLink className="h-4 w-4" />
+              </Link>
+            </Button>
           </motion.div>
         </div>
       </div>

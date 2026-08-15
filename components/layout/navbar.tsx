@@ -5,6 +5,7 @@ import { Code2, FolderGit2, Home, Mail, Menu, User, X } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { trackUmamiEvent } from "@/lib/analytics";
+import { Button } from "@/components/ui/button";
 import { handleInitialHash, handleSmoothScroll } from "@/lib/smooth-scroll";
 import { ThemeToggle } from "./theme-toggle";
 
@@ -72,13 +73,13 @@ export function Navbar() {
               onClick={(e) => handleNavClick(e, "#home")}
               className="inline-flex items-center rounded-xl transition-colors duration-200 focus-visible:ring-[3px] focus-visible:ring-ring/50"
             >
-              <span className="grid h-11 w-11 place-items-center">
+              <span className="grid h-12 w-12 place-items-center">
                 <Image
                   src="/logo.png"
                   alt="Yoru Akio"
-                  width={44}
-                  height={44}
-                  className="h-9 w-auto"
+                  width={48}
+                  height={48}
+                  className="h-12 w-auto"
                 />
               </span>
             </a>
@@ -93,7 +94,7 @@ export function Navbar() {
                     onClick={(e) => handleNavClick(e, link.href)}
                     className={`inline-flex items-center gap-1.5 rounded-lg px-3 py-2 text-sm transition-colors duration-200 ${
                       activeSection === link.href.slice(1)
-                        ? "bg-secondary text-foreground"
+                        ? "bg-secondary text-foreground shadow-[inset_0_1px_0_color-mix(in_oklab,currentColor_25%,transparent)]"
                         : "text-muted-foreground hover:bg-secondary hover:text-foreground"
                     }`}
                   >
@@ -111,13 +112,15 @@ export function Navbar() {
 
           <div className="flex items-center gap-2 md:hidden">
             <ThemeToggle />
-            <button
+            <Button
+              variant="outline"
+              size="icon-sm"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="rounded-lg border border-border bg-secondary p-2 text-muted-foreground transition-colors duration-200 hover:bg-primary hover:text-primary-foreground focus-visible:ring-[3px] focus-visible:ring-ring/50"
+              className="text-muted-foreground hover:bg-primary hover:text-primary-foreground"
             >
               {isMobileMenuOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
               <span className="sr-only">Toggle menu</span>
-            </button>
+            </Button>
           </div>
         </nav>
       </div>
@@ -140,7 +143,7 @@ export function Navbar() {
                     onClick={(e) => handleNavClick(e, link.href)}
                     className={`rounded-lg px-4 py-2.5 text-sm transition-colors duration-200 ${
                       activeSection === link.href.slice(1)
-                        ? "bg-secondary text-foreground"
+                        ? "bg-secondary text-foreground shadow-[inset_0_1px_0_color-mix(in_oklab,currentColor_25%,transparent)]"
                         : "text-muted-foreground hover:bg-secondary hover:text-foreground"
                     }`}
                   >

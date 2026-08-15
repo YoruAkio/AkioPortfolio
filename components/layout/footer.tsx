@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { FaDiscord, FaGithub, FaXTwitter } from "react-icons/fa6";
 import { trackUmamiEvent } from "@/lib/analytics";
+import { Button } from "@/components/ui/button";
 import { handleSmoothScroll } from "@/lib/smooth-scroll";
 
 const socialLinks = [
@@ -46,9 +47,9 @@ export function Footer() {
               <Image
                 src="/logo.png"
                 alt="Yoru Akio"
-                width={48}
-                height={48}
-                className="h-11 w-auto"
+                width={56}
+                height={56}
+                className="h-14 w-auto"
               />
             </a>
             <p className="max-w-md text-sm leading-6 text-muted-foreground">
@@ -75,21 +76,22 @@ export function Footer() {
 
           <div className="relative z-20 mb-4 flex items-center gap-2 md:mb-0">
             {socialLinks.map((social) => (
-              <Link
-                key={social.href}
-                href={social.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={() =>
-                  trackUmamiEvent("footer_social_click", {
-                    social: social.label.toLowerCase(),
-                  })
-                }
-                className="group rounded-lg bg-secondary p-2 text-muted-foreground transition-colors duration-200 hover:bg-secondary hover:text-foreground"
-                aria-label={social.label}
-              >
-                <social.icon className="h-4 w-4 transition-transform duration-200 group-hover:scale-125" />
-              </Link>
+              <Button key={social.href} asChild variant="secondary" size="icon-sm">
+                <Link
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() =>
+                    trackUmamiEvent("footer_social_click", {
+                      social: social.label.toLowerCase(),
+                    })
+                  }
+                  className="group text-muted-foreground hover:text-foreground"
+                  aria-label={social.label}
+                >
+                  <social.icon className="h-4 w-4 transition-transform duration-200 group-hover:scale-125" />
+                </Link>
+              </Button>
             ))}
           </div>
         </div>
