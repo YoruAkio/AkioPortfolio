@@ -94,7 +94,7 @@ export function Navbar() {
                     onClick={(e) => handleNavClick(e, link.href)}
                     className={`inline-flex items-center gap-1.5 rounded-lg px-3 py-2 text-sm transition-colors duration-200 ${
                       activeSection === link.href.slice(1)
-                        ? "bg-secondary text-foreground shadow-[inset_0_1px_0_color-mix(in_oklab,currentColor_25%,transparent)]"
+                        ? "bg-secondary text-foreground"
                         : "text-muted-foreground hover:bg-secondary hover:text-foreground"
                     }`}
                   >
@@ -143,7 +143,7 @@ export function Navbar() {
                     onClick={(e) => handleNavClick(e, link.href)}
                     className={`rounded-lg px-4 py-2.5 text-sm transition-colors duration-200 ${
                       activeSection === link.href.slice(1)
-                        ? "bg-secondary text-foreground shadow-[inset_0_1px_0_color-mix(in_oklab,currentColor_25%,transparent)]"
+                        ? "bg-secondary text-foreground"
                         : "text-muted-foreground hover:bg-secondary hover:text-foreground"
                     }`}
                   >
