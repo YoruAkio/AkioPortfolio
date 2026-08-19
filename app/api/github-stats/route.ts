@@ -162,7 +162,7 @@ export async function GET() {
       });
     });
 
-    // @note sort by percentage, take top 10
+    // @note sort by count, take top 10
     languages.sort((a, b) => b.count - a.count).slice(0, 10);
 
     const responseData = {
@@ -176,12 +176,12 @@ export async function GET() {
 
     return NextResponse.json(responseData);
   } catch (error) {
-    console.error("[GitHub Stats API error:", error);
+    console.error("[GitHub Stats] API error:", error);
 
     return NextResponse.json({
       contributions: [],
       languages: [],
-      error: error instanceof Error ? error.message : "Unknown error",
+      error: "Failed to fetch GitHub stats",
     });
   }
 }

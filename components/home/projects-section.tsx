@@ -26,6 +26,7 @@ interface ApiResponse {
   source: string;
   count: number;
   cached?: boolean;
+  cacheAge?: number;
 }
 
 // @note github stats interface

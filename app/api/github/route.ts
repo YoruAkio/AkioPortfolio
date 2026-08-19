@@ -183,12 +183,12 @@ export async function GET() {
   } catch (error) {
     console.error("GitHub API error:", error);
 
-    // @note fallback data
+    // @note fallback data — never echo raw error messages to the client
     return NextResponse.json({
       projects: [],
       source: "error",
       count: 0,
-      error: error instanceof Error ? error.message : "Unknown error",
+      error: "Failed to fetch projects",
     });
   }
 }

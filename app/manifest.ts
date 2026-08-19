@@ -9,8 +9,8 @@ export default function manifest(): MetadataRoute.Manifest {
       "Full-stack developer passionate about building performant applications with Go, TypeScript, and modern frameworks.",
     start_url: "/",
     display: "standalone",
-    background_color: "#09090b",
-    theme_color: "#a855f7",
+    background_color: "#1a1a1a",
+    theme_color: "#fafafa",
     icons: [
       {
         src: "/favicon.ico",

@@ -1,9 +1,34 @@
 // @note smooth scroll utility for navigating to sections
 
+import type Lenis from "lenis";
+
+declare global {
+  interface Window {
+    lenisInstance?: Lenis;
+  }
+}
+
+// @note get the lenis instance if available, so we scroll through it instead of
+// fighting its raf loop with the native window.scrollTo API
+function getLenis(): Lenis | undefined {
+  if (typeof window === "undefined") return undefined;
+  return window.lenisInstance;
+}
+
+// @note scrolls to a target position, preferring lenis when active
+function scrollToPosition(targetPosition: number) {
+  const lenis = getLenis();
+  if (lenis) {
+    lenis.scrollTo(targetPosition, { immediate: false });
+    return;
+  }
+  window.scrollTo({ top: targetPosition, behavior: "smooth" });
+}
+
 // @note scrolls to element and centers it in viewport, updates URL hash
 export function scrollToSection(targetId: string, updateHash = true) {
   if (targetId === "home") {
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    scrollToPosition(0);
     if (updateHash) {
       history.pushState(null, "", "/");
     }
@@ -21,7 +46,7 @@ export function scrollToSection(targetId: string, updateHash = true) {
   const offset = elementHeight < windowHeight ? (windowHeight - elementHeight) / 2 : 100;
 
   const targetPosition = element.offsetTop - offset;
-  window.scrollTo({ top: targetPosition, behavior: "smooth" });
+  scrollToPosition(targetPosition);
 
   // @note update URL hash without triggering scroll
   if (updateHash) {

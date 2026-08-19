@@ -3,12 +3,6 @@
 import Lenis from "lenis";
 import { useEffect } from "react";
 
-declare global {
-  interface Window {
-    lenisInstance?: Lenis;
-  }
-}
-
 // @note provides smooth scrolling using lenis library
 export function SmoothScroll({ children }: { children: React.ReactNode }) {
   useEffect(() => {
