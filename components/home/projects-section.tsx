@@ -81,7 +81,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
             hasHomepage: Boolean(project.homepageUrl),
           })
         }
-        className="group block h-full overflow-hidden border-b border-r border-border bg-background p-5 transition-colors duration-200 hover:bg-secondary/40"
+        className="group block h-full overflow-hidden bg-background p-5 transition-colors duration-200 hover:bg-secondary/40"
       >
         <div className="flex h-full flex-col transition-transform duration-200 group-hover:scale-[1.025] group-active:scale-[0.99]">
           <div className="mb-3 flex items-start justify-between">
@@ -199,43 +199,45 @@ export function ProjectsSection() {
           </div>
         </div>
 
-        <div className="mx-auto max-w-5xl">
-          {loading ? (
-            <div className="grid border-l border-t border-border md:grid-cols-2 lg:grid-cols-3">
-              {[...Array(6)].map((_, i) => (
-                <div
-                  key={i}
-                  className="h-48 animate-pulse border-b border-r border-border bg-secondary/40"
-                />
-              ))}
-            </div>
-          ) : (
-            <div className="grid border-l border-t border-border md:grid-cols-2 lg:grid-cols-3">
-              {projects.slice(0, 6).map((project, index) => (
-                <ProjectCard key={project.name} project={project} index={index} />
-              ))}
-            </div>
-          )}
+        <div className="-mx-5 sm:-mx-8">
+          <div className="mx-auto max-w-5xl">
+            {loading ? (
+              <div className="grid gap-px border-y border-border bg-border md:grid-cols-2 lg:grid-cols-3">
+                {[...Array(6)].map((_, i) => (
+                  <div
+                    key={i}
+                    className="h-48 animate-pulse bg-secondary/40"
+                  />
+                ))}
+              </div>
+            ) : (
+              <div className="grid gap-px border-y border-border bg-border md:grid-cols-2 lg:grid-cols-3">
+                {projects.slice(0, 6).map((project, index) => (
+                  <ProjectCard key={project.name} project={project} index={index} />
+                ))}
+              </div>
+            )}
 
-          <motion.div
-            className="mt-6 text-center"
-            initial={{ y: 40, opacity: 0, filter: "blur(6px)" }}
-            whileInView={{ y: 0, opacity: 1, filter: "blur(0px)" }}
-            viewport={{ once: true }}
-            transition={{ duration: 1.2, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-          >
-            <Button
-              asChild
-              variant="secondary"
-              size="lg"
-              className="rounded-xl border-border px-5 hover:border-primary/30 hover:bg-primary hover:text-primary-foreground"
+            <motion.div
+              className="mt-6 text-center"
+              initial={{ y: 40, opacity: 0, filter: "blur(6px)" }}
+              whileInView={{ y: 0, opacity: 1, filter: "blur(0px)" }}
+              viewport={{ once: true }}
+              transition={{ duration: 1.2, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
             >
-              <Link href="https://github.com/YoruAkio" target="_blank" rel="noopener noreferrer">
-                View All Projects
-                <ExternalLink className="h-4 w-4" />
-              </Link>
-            </Button>
-          </motion.div>
+              <Button
+                asChild
+                variant="secondary"
+                size="lg"
+                className="rounded-xl border-border px-5 hover:border-primary/30 hover:bg-primary hover:text-primary-foreground"
+              >
+                <Link href="https://github.com/YoruAkio" target="_blank" rel="noopener noreferrer">
+                  View All Projects
+                  <ExternalLink className="h-4 w-4" />
+                </Link>
+              </Button>
+            </motion.div>
+          </div>
         </div>
       </div>
     </section>
