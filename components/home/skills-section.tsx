@@ -115,7 +115,7 @@ function StackCell({ skill, className }: { skill: Skill; className?: string }) {
 
   return (
     <div
-      className={`relative h-14 overflow-hidden border-b border-r border-border bg-background px-4${className ? ` ${className}` : ""}`}
+      className={`relative h-14 overflow-hidden border-l border-t border-border bg-background px-4${className ? ` ${className}` : ""}`}
     >
       <AnimatePresence initial={false}>
         <motion.div
@@ -151,18 +151,18 @@ function StackGrid() {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-60px" }}
       transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-      className="relative z-10 mx-auto grid max-w-5xl border-t border-border"
+      className="relative z-10 mx-auto max-w-5xl overflow-hidden border-t border-b border-border"
     >
-      <div className="grid grid-cols-2 border-l border-border sm:grid-cols-4 lg:grid-cols-7">
+      <div className="grid grid-cols-2 -ml-px -mt-px sm:grid-cols-4 lg:grid-cols-7">
         {visibleSkills.slice(0, 7).map((skill, index) => (
           <StackCell
             key={`top-${index}`}
             skill={skill}
-            className={index === 6 ? "col-span-2 sm:col-span-1" : undefined}
+            className={index === 6 ? "col-span-2 lg:col-span-1" : undefined}
           />
         ))}
       </div>
-      <div className="grid grid-cols-2 border-l border-border sm:grid-cols-3 lg:grid-cols-6">
+      <div className="grid grid-cols-2 -ml-px sm:grid-cols-3 lg:grid-cols-6">
         {visibleSkills.slice(7).map((skill, index) => (
           <StackCell key={`bottom-${index}`} skill={skill} />
         ))}
