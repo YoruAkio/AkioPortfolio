@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { ArrowRight, Sparkles } from "lucide-react";
+import { IconArrowRight, IconSparkles } from "@tabler/icons-react";
 import { motion, useScroll, useSpring, useTransform } from "framer-motion";
 import { useEffect } from "react";
 import { FaGithub } from "react-icons/fa6";
@@ -31,7 +31,7 @@ export function HeroSection() {
   return (
     <section
       id="home"
-      className="grid-section relative min-h-[60dvh] overflow-hidden border-b-0 pt-12 md:pt-16"
+      className="grid-section relative min-h-[60dvh] overflow-hidden pt-12 md:pt-16"
     >
       <PixelBlast
         variant="square"
@@ -72,7 +72,7 @@ export function HeroSection() {
             transition={{ duration: 0.8, ease: entranceEasing }}
             className="mb-2.5 inline-flex items-center gap-2 rounded-full bg-secondary px-3 py-1.5 text-xs font-medium text-muted-foreground"
           >
-            <Sparkles className="h-3.5 w-3.5 text-foreground" />
+            <IconSparkles className="h-3.5 w-3.5 text-foreground" />
             <ShinyText
               text="Full-stack Developer"
               color="var(--muted-foreground)"
@@ -108,7 +108,7 @@ export function HeroSection() {
             transition={{ duration: 0.8, ease: entranceEasing, delay: 0.14 }}
             className="mt-2.5 max-w-3xl text-balance text-[36px] font-bold leading-9 tracking-[-0.045em] sm:text-[44px] sm:leading-11 md:text-[52px] md:leading-[52px]"
           >
-            Self-taught fullstack developer, just tryna make a livin.
+            Self-taught fullstack developer that builds cool stuff.
           </motion.h1>
 
           <motion.p
@@ -131,7 +131,11 @@ export function HeroSection() {
             transition={{ duration: 0.8, ease: entranceEasing, delay: 0.3 }}
             className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row"
           >
-            <Button asChild size="lg" className="rounded-lg">
+            <Button
+              asChild
+              size="lg"
+              className="corner-squircle h-11 rounded-[26px] px-4 text-[0.95rem] transition-[padding] duration-300 ease-out hover:px-6"
+            >
               <a
                 href="#projects"
                 onClick={(e) => {
@@ -146,7 +150,12 @@ export function HeroSection() {
                 <FaGithub className="h-4 w-4" />
               </a>
             </Button>
-            <Button asChild variant="secondary" size="lg" className="rounded-lg">
+            <Button
+              asChild
+              variant="secondary"
+              size="lg"
+              className="corner-squircle h-11 rounded-[26px] px-4 text-[0.95rem] transition-[padding] duration-300 ease-out hover:px-6"
+            >
               <a
                 href="#about"
                 onClick={(e) => {
@@ -158,7 +167,7 @@ export function HeroSection() {
                 }}
               >
                 About Me
-                <ArrowRight className="h-4 w-4" />
+                <IconArrowRight className="h-4 w-4" />
               </a>
             </Button>
           </motion.div>

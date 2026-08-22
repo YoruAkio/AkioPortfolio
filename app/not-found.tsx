@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { Home, ArrowLeft } from "lucide-react";
+import { IconHome, IconArrowLeft } from "@tabler/icons-react";
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 
@@ -81,7 +81,7 @@ export default function NotFound() {
           >
             <Button asChild size="lg" className="rounded-full px-6">
               <Link href="/">
-                <Home className="h-4 w-4" />
+                <IconHome className="h-4 w-4" />
                 Back to Home
               </Link>
             </Button>
@@ -92,7 +92,7 @@ export default function NotFound() {
               className="rounded-full px-6 text-muted-foreground hover:text-foreground"
               onClick={() => window.history.back()}
             >
-              <ArrowLeft className="h-4 w-4" />
+              <IconArrowLeft className="h-4 w-4" />
               Go Back
             </Button>
           </motion.div>

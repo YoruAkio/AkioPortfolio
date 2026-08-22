@@ -1,20 +1,19 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { Code2, FolderGit2, Home, Mail, Menu, User, X } from "lucide-react";
+import { IconMenu, IconX } from "@tabler/icons-react";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { trackUmamiEvent } from "@/lib/analytics";
-import { Button } from "@/components/ui/button";
 import { handleInitialHash, handleSmoothScroll } from "@/lib/smooth-scroll";
 import { ThemeToggle } from "./theme-toggle";
 
 const navLinks = [
-  { href: "#home", label: "Home", icon: Home },
-  { href: "#about", label: "About", icon: User },
-  { href: "#skills", label: "Skills", icon: Code2 },
-  { href: "#projects", label: "Projects", icon: FolderGit2 },
-  { href: "#contact", label: "Contact", icon: Mail },
+  { href: "#home", label: "Home" },
+  { href: "#about", label: "About" },
+  { href: "#skills", label: "Skills" },
+  { href: "#projects", label: "Projects" },
+  { href: "#contact", label: "Contact" },
 ];
 
 export function Navbar() {
@@ -58,72 +57,54 @@ export function Navbar() {
   };
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50">
-      <div
-        className={`absolute inset-0 border-b border-border bg-background/90 backdrop-blur-xl transition-opacity duration-300 ${
-          isScrolled ? "opacity-100" : "opacity-95"
+    <header className="fixed inset-x-0 top-0 z-50 flex justify-center px-4 pt-4">
+      {/* @note floating pill bar; narrows once the page is scrolled */}
+      <nav
+        className={`relative flex w-full items-center justify-between gap-3 transition-[max-width] duration-500 ease-out ${
+          isScrolled ? "max-w-3xl" : "max-w-5xl"
         }`}
-      />
+      >
+        <a
+          href="#home"
+          onClick={(e) => handleNavClick(e, "#home")}
+          className="inline-flex h-12 items-center gap-2 rounded-full bg-card/90 pr-4 pl-3 shadow-lg shadow-black/10 backdrop-blur-xl transition-colors duration-200 hover:bg-card focus-visible:ring-[3px] focus-visible:ring-ring/50"
+        >
+          <Image src="/logo.png" alt="Yoru Akio" width={36} height={36} className="h-9 w-auto" />
+          <span className="text-sm font-semibold">Yoru Akio</span>
+        </a>
 
-      <div className="relative mx-auto max-w-[1010px] border-x border-border">
-        <nav className="flex h-14 items-center justify-between px-4 sm:px-6 md:h-17">
-          <div className="flex items-center gap-4">
-            <a
-              href="#home"
-              onClick={(e) => handleNavClick(e, "#home")}
-              className="inline-flex items-center rounded-xl transition-colors duration-200 focus-visible:ring-[3px] focus-visible:ring-ring/50"
-            >
-              <span className="grid h-12 w-12 place-items-center">
-                <Image
-                  src="/logo.png"
-                  alt="Yoru Akio"
-                  width={48}
-                  height={48}
-                  className="h-12 w-auto"
-                />
-              </span>
-            </a>
+        <div className="absolute top-1/2 left-1/2 hidden h-12 -translate-x-1/2 -translate-y-1/2 items-center rounded-full bg-card/90 px-2 shadow-lg shadow-black/10 backdrop-blur-xl md:flex">
+          {navLinks.map((link, index) => (
+            <Fragment key={link.href}>
+              {index > 0 && <span className="h-4 w-px bg-foreground/15" />}
+              <a
+                href={link.href}
+                onClick={(e) => handleNavClick(e, link.href)}
+                className={`rounded-full px-3.5 py-2 text-sm transition-colors duration-150 ${
+                  activeSection === link.href.slice(1)
+                    ? "text-foreground"
+                    : "text-muted-foreground hover:text-foreground"
+                }`}
+              >
+                {link.label}
+              </a>
+            </Fragment>
+          ))}
+        </div>
 
-            <div className="hidden items-center gap-1 md:flex">
-              {navLinks.map((link) => {
-                const Icon = link.icon;
-                return (
-                  <a
-                    key={link.href}
-                    href={link.href}
-                    onClick={(e) => handleNavClick(e, link.href)}
-                    className={`inline-flex items-center gap-1.5 rounded-lg px-3 py-2 text-sm transition-colors duration-200 ${
-                      activeSection === link.href.slice(1)
-                        ? "bg-secondary text-foreground"
-                        : "text-muted-foreground hover:bg-secondary hover:text-foreground"
-                    }`}
-                  >
-                    <Icon className="h-3.5 w-3.5" />
-                    {link.label}
-                  </a>
-                );
-              })}
-            </div>
-          </div>
-
-          <div className="hidden md:flex">
-            <ThemeToggle />
-          </div>
-
-          <div className="flex items-center gap-2 md:hidden">
-            <ThemeToggle />
-            <Button
-              variant="outline"
-              size="icon-sm"
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="text-muted-foreground hover:bg-primary hover:text-primary-foreground"
-            >
-              {isMobileMenuOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
-              <span className="sr-only">Toggle menu</span>
-            </Button>
-          </div>
-        </nav>
-      </div>
+        <div className="flex items-center gap-2">
+          <ThemeToggle />
+          <button
+            type="button"
+            aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
+            aria-expanded={isMobileMenuOpen}
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            className="flex h-12 w-12 items-center justify-center rounded-full bg-card/90 text-muted-foreground shadow-lg shadow-black/10 backdrop-blur-xl transition-colors duration-200 hover:bg-card hover:text-foreground focus-visible:ring-[3px] focus-visible:ring-ring/50 md:hidden"
+          >
+            {isMobileMenuOpen ? <IconX className="h-5 w-5" /> : <IconMenu className="h-5 w-5" />}
+          </button>
+        </div>
+      </nav>
 
       <AnimatePresence>
         {isMobileMenuOpen && (
@@ -132,16 +113,16 @@ export function Navbar() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -12 }}
             transition={{ duration: 0.22, ease: [0.4, 0, 0.2, 1] }}
-            className="absolute left-2 right-2 top-full mt-2 md:hidden"
+            className="absolute top-full mt-2 w-[calc(100%-2rem)] md:hidden"
           >
-            <div className="rounded-xl border border-border bg-card p-3 shadow-[0_12px_40px_rgba(26,26,26,0.04)]">
+            <div className="rounded-2xl bg-card/95 p-2 shadow-xl shadow-black/10 backdrop-blur-xl">
               <div className="flex flex-col gap-1">
                 {navLinks.map((link) => (
                   <a
                     key={link.href}
                     href={link.href}
                     onClick={(e) => handleNavClick(e, link.href)}
-                    className={`rounded-lg px-4 py-2.5 text-sm transition-colors duration-200 ${
+                    className={`rounded-full px-4 py-2.5 text-sm transition-colors duration-200 ${
                       activeSection === link.href.slice(1)
                         ? "bg-secondary text-foreground"
                         : "text-muted-foreground hover:bg-secondary hover:text-foreground"

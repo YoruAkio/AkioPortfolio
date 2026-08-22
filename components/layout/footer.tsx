@@ -1,6 +1,6 @@
 "use client";
 
-import { Mail } from "lucide-react";
+import { IconMail } from "@tabler/icons-react";
 import Image from "next/image";
 import Link from "next/link";
 import { FaDiscord, FaGithub, FaXTwitter } from "react-icons/fa6";
@@ -12,7 +12,7 @@ const socialLinks = [
   { href: "https://github.com/YoruAkio", icon: FaGithub, label: "GitHub" },
   { href: "https://discord.com/users/798258457022046218", icon: FaDiscord, label: "Discord" },
   { href: "https://x.com/YoruAkio", icon: FaXTwitter, label: "Twitter" },
-  { href: "mailto:yoruakio@proton.me", icon: Mail, label: "Email" },
+  { href: "mailto:yoruakio@proton.me", icon: IconMail, label: "Email" },
 ];
 
 const footerLinks = [
@@ -25,7 +25,18 @@ const footerLinks = [
 export function Footer() {
   return (
     <footer className="grid-section relative overflow-hidden bg-background">
-      <div className="pointer-events-none absolute inset-0 flex items-center justify-center overflow-hidden select-none">
+      {/* @note primary glow rising from the bottom center */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background:
+            "radial-gradient(ellipse 80% 90% at 50% 115%, color-mix(in oklab, var(--primary) 14%, transparent), transparent 70%)",
+        }}
+      />
+
+      {/* @note watermark sits low — bottom quarter clipped by the footer edge */}
+      <div className="pointer-events-none absolute inset-0 flex translate-y-[25%] items-center justify-center overflow-hidden select-none">
         <h2 className="font-[family-name:var(--font-bricolage)] text-[9rem] font-bold leading-none text-foreground/[0.025] sm:text-[13rem] md:text-[18rem] lg:text-[23rem]">
           Akio
         </h2>
@@ -96,7 +107,7 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-auto border-t border-border/50 pt-6">
+        <div className="mt-auto pt-6">
           <p className="text-sm text-muted-foreground">
             © {new Date().getFullYear()} Yoru Akio. All rights reserved.
           </p>

@@ -2,10 +2,8 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { ExternalLink, Star, GitFork } from "lucide-react";
+import { IconExternalLink, IconStar, IconGitFork } from "@tabler/icons-react";
 import { motion } from "framer-motion";
-import { ContributionHeatmap } from "./contribution-heatmap";
-import { LanguageChart } from "./language-chart";
 import { trackUmamiEvent } from "@/lib/analytics";
 import { Button } from "@/components/ui/button";
 
@@ -25,27 +23,6 @@ interface ApiResponse {
   projects: Project[];
   source: string;
   count: number;
-  cached?: boolean;
-  cacheAge?: number;
-}
-
-// @note github stats interface
-interface ContributionDay {
-  date: string;
-  count: number;
-  level: number;
-}
-
-interface LanguageStat {
-  name: string;
-  count: number;
-  percentage: number;
-  color: string;
-}
-
-interface StatsResponse {
-  contributions: ContributionDay[];
-  languages: LanguageStat[];
   cached?: boolean;
   cacheAge?: number;
 }
@@ -88,7 +65,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
             <h3 className="font-medium transition-colors duration-300 group-hover:text-primary">
               {project.name}
             </h3>
-            <ExternalLink className="h-4 w-4 text-muted-foreground opacity-0 transition-all duration-300 group-hover:text-primary group-hover:opacity-100" />
+            <IconExternalLink className="h-4 w-4 text-muted-foreground opacity-0 transition-all duration-300 group-hover:text-primary group-hover:opacity-100" />
           </div>
           <p className="mb-4 line-clamp-2 flex-grow text-sm text-muted-foreground">
             {project.description || "No description"}
@@ -101,11 +78,11 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
               </span>
             )}
             <span className="flex items-center gap-1">
-              <Star className="h-3 w-3" />
+              <IconStar className="h-3 w-3" />
               {project.stargazerCount}
             </span>
             <span className="flex items-center gap-1">
-              <GitFork className="h-3 w-3" />
+              <IconGitFork className="h-3 w-3" />
               {project.forkCount}
             </span>
           </div>
@@ -119,14 +96,6 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
 export function ProjectsSection() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
-  const [statsLoading, setStatsLoading] = useState(true);
-  const [stats, setStats] = useState<{
-    contributions: ContributionDay[];
-    languages: LanguageStat[];
-  }>({
-    contributions: [],
-    languages: [],
-  });
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -141,30 +110,11 @@ export function ProjectsSection() {
       }
     };
 
-    const fetchStats = async () => {
-      try {
-        const res = await fetch("/api/github-stats");
-        const data: StatsResponse = await res.json();
-        setStats({
-          contributions: data.contributions || [],
-          languages: data.languages || [],
-        });
-      } catch (error) {
-        console.error("Failed to fetch stats:", error);
-      } finally {
-        setStatsLoading(false);
-      }
-    };
-
     fetchProjects();
-    fetchStats();
   }, []);
 
   return (
-    <section
-      id="projects"
-      className="grid-section overflow-hidden border-b-0 pt-20 pb-12 sm:pt-24 sm:pb-14"
-    >
+    <section id="projects" className="grid-section overflow-hidden pt-20 pb-12 sm:pt-24 sm:pb-14">
       <div className="relative z-10 mx-auto px-5 sm:px-8">
         {/* header with whileInView reveal animation */}
         <motion.div
@@ -178,40 +128,16 @@ export function ProjectsSection() {
           <h2 className="section-title mt-4">Selected things I&apos;ve built.</h2>
         </motion.div>
 
-        {/* github stats row */}
-        <div className="-mx-5 mb-12 border-y border-border bg-background sm:-mx-8">
-          <div className="mx-auto grid max-w-5xl lg:grid-cols-[320px_1fr]">
-            {statsLoading ? (
-              <div className="h-[280px] animate-pulse border-b border-border bg-secondary/40 lg:border-b-0 lg:border-r" />
-            ) : (
-              <div className="border-b border-border lg:border-b-0 lg:border-r">
-                <LanguageChart languages={stats.languages} />
-              </div>
-            )}
-
-            {statsLoading ? (
-              <div className="h-[280px] min-w-0 animate-pulse bg-secondary/40" />
-            ) : (
-              <div className="min-w-0">
-                <ContributionHeatmap contributions={stats.contributions} />
-              </div>
-            )}
-          </div>
-        </div>
-
         <div className="-mx-5 sm:-mx-8">
           <div className="mx-auto max-w-5xl">
             {loading ? (
-              <div className="grid gap-px border-y border-border bg-border md:grid-cols-2 lg:grid-cols-3">
+              <div className="grid md:grid-cols-2 lg:grid-cols-3">
                 {[...Array(6)].map((_, i) => (
-                  <div
-                    key={i}
-                    className="h-48 animate-pulse bg-secondary/40"
-                  />
+                  <div key={i} className="h-48 animate-pulse bg-secondary/40" />
                 ))}
               </div>
             ) : (
-              <div className="grid gap-px border-y border-border bg-border md:grid-cols-2 lg:grid-cols-3">
+              <div className="grid md:grid-cols-2 lg:grid-cols-3">
                 {projects.slice(0, 6).map((project, index) => (
                   <ProjectCard key={project.name} project={project} index={index} />
                 ))}
@@ -233,7 +159,7 @@ export function ProjectsSection() {
               >
                 <Link href="https://github.com/YoruAkio" target="_blank" rel="noopener noreferrer">
                   View All Projects
-                  <ExternalLink className="h-4 w-4" />
+                  <IconExternalLink className="h-4 w-4" />
                 </Link>
               </Button>
             </motion.div>

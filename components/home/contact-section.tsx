@@ -1,7 +1,7 @@
 "use client";
 
 import "slot-text/style.css";
-import { ArrowRight, MessageCircle } from "lucide-react";
+import { IconArrowRight, IconMessageCircle } from "@tabler/icons-react";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { FaDiscord } from "react-icons/fa";
@@ -94,7 +94,7 @@ export function ContactSection() {
               variants={itemVariants}
               className="mx-auto mb-6 flex h-12 w-12 items-center justify-center rounded-xl bg-secondary"
             >
-              <MessageCircle className="h-5 w-5" />
+              <IconMessageCircle className="h-5 w-5" />
             </motion.div>
             <motion.h2
               className="text-balance text-[36px] font-bold leading-9 tracking-[-0.045em] md:text-[44px] md:leading-11"
@@ -141,7 +141,7 @@ export function ContactSection() {
                   }}
                 >
                   Read More
-                  <ArrowRight className="h-4 w-4" />
+                  <IconArrowRight className="h-4 w-4" />
                 </a>
               </Button>
             </motion.div>

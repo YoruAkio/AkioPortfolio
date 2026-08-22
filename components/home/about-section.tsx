@@ -1,22 +1,22 @@
 "use client";
 
-import { Code, Rocket, Server } from "lucide-react";
+import { IconCode, IconRocket, IconServer } from "@tabler/icons-react";
 import { motion, type Variants } from "framer-motion";
 
 const journeyItems = [
   {
-    icon: Code,
+    icon: IconCode,
     title: "C++ beginnings",
     description:
       "Started in 2021 with fundamentals, memory, and problem-solving before moving to web.",
   },
   {
-    icon: Server,
+    icon: IconServer,
     title: "Web systems",
     description: "Now building frontends with Next.js and backends with Go, Node.js, and APIs.",
   },
   {
-    icon: Rocket,
+    icon: IconRocket,
     title: "Shipping better",
     description:
       "I like small interfaces, fast feedback, and code that can survive the next change.",
@@ -60,7 +60,7 @@ const revealVariants: Variants = {
 
 export function AboutSection() {
   return (
-    <section id="about" className="grid-section border-b-0">
+    <section id="about" className="grid-section">
       <div className="stripe-band h-14 opacity-70" />
       <div className="relative z-10 mx-auto grid max-w-5xl gap-10 px-5 py-14 sm:px-8 lg:grid-cols-[0.9fr_1.1fr] lg:gap-14">
         <motion.div
@@ -78,7 +78,7 @@ export function AboutSection() {
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
           variants={revealVariants}
-          className="border border-border bg-background p-6 sm:p-8"
+          className="bg-background p-6 sm:p-8"
         >
           <h3 className="text-lg font-medium leading-6">My journey</h3>
           <p className="mt-4 text-pretty leading-7 text-muted-foreground">
@@ -99,15 +99,15 @@ export function AboutSection() {
         viewport={{ once: true, margin: "-100px" }}
         variants={containerVariants}
       >
-        <div className="border-y border-border bg-background">
-          <div className="mx-auto grid max-w-5xl divide-y divide-border md:grid-cols-3 md:divide-x md:divide-y-0">
+        <div className="bg-background">
+          <div className="mx-auto grid max-w-5xl md:grid-cols-3">
             {journeyItems.map((item) => (
               <motion.div
                 key={item.title}
                 variants={cardVariants}
                 className="bg-background p-6 transition-colors duration-200 hover:bg-secondary/40"
               >
-                <div className="mb-5 flex h-11 w-11 items-center justify-center border border-border bg-secondary">
+                <div className="mb-5 flex h-11 w-11 items-center justify-center bg-secondary">
                   <item.icon className="h-5 w-5 text-foreground" />
                 </div>
                 <h4 className="font-medium">{item.title}</h4>

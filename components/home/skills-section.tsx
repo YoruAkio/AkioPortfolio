@@ -1,196 +1,112 @@
 "use client";
 
-import { AnimatePresence, motion, type Variants } from "framer-motion";
 import { useEffect, useState } from "react";
-import { FaWindows } from "react-icons/fa";
-import {
-  SiBun,
-  SiCaddy,
-  SiCplusplus,
-  SiDocker,
-  SiDrizzle,
-  SiExpress,
-  SiFigma,
-  SiGit,
-  SiGithub,
-  SiGo,
-  SiHtml5,
-  SiJavascript,
-  SiLinux,
-  SiMacos,
-  SiMongodb,
-  SiNextdotjs,
-  SiNodedotjs,
-  SiPostgresql,
-  SiPrisma,
-  SiPython,
-  SiReact,
-  SiTailwindcss,
-  SiTypescript,
-  SiVercel,
-  SiVite,
-  SiWails,
-} from "react-icons/si";
-import { VscVscode } from "react-icons/vsc";
-import { CodingStats } from "./coding-stats";
+import { motion } from "framer-motion";
+import { ContributionHeatmap } from "./contribution-heatmap";
+import { LanguageChart } from "./language-chart";
+import { TechStack } from "./tech-stack";
 
-type Skill = { name: string; icon: React.ElementType };
+// @note github stats interface
+interface ContributionDay {
+  date: string;
+  count: number;
+  level: number;
+}
 
-const skills: Skill[] = [
-  { name: "TypeScript", icon: SiTypescript },
-  { name: "JavaScript", icon: SiJavascript },
-  { name: "Go", icon: SiGo },
-  { name: "Python", icon: SiPython },
-  { name: "C++", icon: SiCplusplus },
-  { name: "React", icon: SiReact },
-  { name: "Next.js", icon: SiNextdotjs },
-  { name: "Tailwind", icon: SiTailwindcss },
-  { name: "HTML5", icon: SiHtml5 },
-  { name: "Vite", icon: SiVite },
-  { name: "Node.js", icon: SiNodedotjs },
-  { name: "Express.js", icon: SiExpress },
-  { name: "Bun", icon: SiBun },
-  { name: "Wails", icon: SiWails },
-  { name: "PostgreSQL", icon: SiPostgresql },
-  { name: "MongoDB", icon: SiMongodb },
-  { name: "Prisma", icon: SiPrisma },
-  { name: "Drizzle", icon: SiDrizzle },
-  { name: "Docker", icon: SiDocker },
-  { name: "Caddy", icon: SiCaddy },
-  { name: "Vercel", icon: SiVercel },
-  { name: "Git", icon: SiGit },
-  { name: "GitHub", icon: SiGithub },
-  { name: "Linux", icon: SiLinux },
-  { name: "macOS", icon: SiMacos },
-  { name: "Windows", icon: FaWindows },
-  { name: "VS Code", icon: VscVscode },
-  { name: "Figma", icon: SiFigma },
-];
+interface LanguageStat {
+  name: string;
+  count: number;
+  percentage: number;
+  color: string;
+}
 
-const visibleStackCount = 13;
+interface StatsResponse {
+  contributions: ContributionDay[];
+  languages: LanguageStat[];
+  cached?: boolean;
+  cacheAge?: number;
+}
 
-const revealVariants: Variants = {
-  hidden: { opacity: 0, y: 42, filter: "blur(8px)" },
-  visible: {
-    opacity: 1,
-    y: 0,
-    filter: "blur(0px)",
-    transition: { duration: 0.9, ease: [0.22, 1, 0.36, 1] },
+// @note reveal animation config for header
+const revealAnimation = {
+  initial: { y: 60, opacity: 0, filter: "blur(10px)" },
+  animate: { y: 0, opacity: 1, filter: "blur(0px)" },
+  transition: {
+    duration: 1.4,
+    delay: 0.2,
+    ease: [0.22, 1, 0.36, 1] as const,
   },
 };
 
-function shuffled<T>(items: T[]) {
-  return [...items].sort(() => Math.random() - 0.5);
-}
-
-function randomInt(min: number, max: number) {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
-function nextVisibleSkills(current: Skill[]) {
-  const changeCount = randomInt(3, 6);
-  const topIndexes = shuffled([0, 1, 2, 3, 4, 5, 6]);
-  const bottomIndexes = shuffled([7, 8, 9, 10, 11, 12]);
-  const selectedIndexes = [topIndexes[0], bottomIndexes[0]];
-
-  for (const index of shuffled([...topIndexes.slice(1), ...bottomIndexes.slice(1)])) {
-    if (selectedIndexes.length >= changeCount) break;
-    selectedIndexes.push(index);
-  }
-
-  const selectedSet = new Set(selectedIndexes);
-  const keptNames = new Set(
-    current.filter((_, index) => !selectedSet.has(index)).map((skill) => skill.name),
-  );
-  const replacements = shuffled(skills.filter((skill) => !keptNames.has(skill.name)));
-
-  return current.map((skill, index) => {
-    if (!selectedSet.has(index)) return skill;
-    return replacements.pop() ?? skill;
+// @note language chart + contribution heatmap + rotating tech stack
+export function SkillsSection() {
+  const [statsLoading, setStatsLoading] = useState(true);
+  const [stats, setStats] = useState<{
+    contributions: ContributionDay[];
+    languages: LanguageStat[];
+  }>({
+    contributions: [],
+    languages: [],
   });
-}
-
-function StackCell({ skill, className }: { skill: Skill; className?: string }) {
-  const Icon = skill.icon;
-
-  return (
-    <div
-      className={`relative h-14 overflow-hidden border-l border-t border-border bg-background px-4${className ? ` ${className}` : ""}`}
-    >
-      <AnimatePresence initial={false}>
-        <motion.div
-          key={skill.name}
-          initial={{ y: "-100%", opacity: 0 }}
-          animate={{ y: "0%", opacity: 1 }}
-          exit={{ y: "100%", opacity: 0 }}
-          transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-          className="absolute inset-0 flex items-center justify-center gap-3 px-4"
-        >
-          <Icon className="h-5 w-5 shrink-0 text-foreground" />
-          <span className="text-sm font-medium text-foreground">{skill.name}</span>
-        </motion.div>
-      </AnimatePresence>
-    </div>
-  );
-}
-
-function StackGrid() {
-  const [visibleSkills, setVisibleSkills] = useState(() => skills.slice(0, visibleStackCount));
 
   useEffect(() => {
-    const id = setInterval(() => {
-      setVisibleSkills((current) => nextVisibleSkills(current));
-    }, 3000);
+    const fetchStats = async () => {
+      try {
+        const res = await fetch("/api/github-stats");
+        const data: StatsResponse = await res.json();
+        setStats({
+          contributions: data.contributions || [],
+          languages: data.languages || [],
+        });
+      } catch (error) {
+        console.error("Failed to fetch stats:", error);
+      } finally {
+        setStatsLoading(false);
+      }
+    };
 
-    return () => clearInterval(id);
+    fetchStats();
   }, []);
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-60px" }}
-      transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-      className="relative z-10 mx-auto max-w-5xl overflow-hidden border-t border-b border-border"
-    >
-      <div className="grid grid-cols-2 -ml-px -mt-px sm:grid-cols-4 lg:grid-cols-7">
-        {visibleSkills.slice(0, 7).map((skill, index) => (
-          <StackCell
-            key={`top-${index}`}
-            skill={skill}
-            className={index === 6 ? "col-span-2 lg:col-span-1" : undefined}
-          />
-        ))}
-      </div>
-      <div className="grid grid-cols-2 -ml-px sm:grid-cols-3 lg:grid-cols-6">
-        {visibleSkills.slice(7).map((skill, index) => (
-          <StackCell key={`bottom-${index}`} skill={skill} />
-        ))}
-      </div>
-    </motion.div>
-  );
-}
-
-export function SkillsSection() {
-  return (
-    <section id="skills" className="grid-section overflow-hidden border-b-0 pt-20 sm:pt-24">
+    <section id="skills" className="grid-section overflow-hidden pt-20 pb-12 sm:pt-24 sm:pb-14">
       <div className="relative z-10 mx-auto px-5 sm:px-8">
+        {/* header with whileInView reveal animation */}
         <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
-          variants={revealVariants}
-          className="mx-auto mb-10 max-w-3xl text-center sm:mb-14"
+          initial={revealAnimation.initial}
+          whileInView={revealAnimation.animate}
+          viewport={{ once: true }}
+          transition={revealAnimation.transition}
+          className="mx-auto mb-12 max-w-3xl text-center"
         >
           <span className="section-kicker">Skills</span>
           <h2 className="section-title mt-4">Tools I use to ship the work.</h2>
         </motion.div>
+
+        {/* github stats row */}
+        <div className="-mx-5 bg-background sm:-mx-8">
+          <div className="mx-auto grid max-w-5xl lg:grid-cols-[320px_1fr]">
+            {statsLoading ? (
+              <div className="h-[280px] animate-pulse bg-secondary/40" />
+            ) : (
+              <div>
+                <LanguageChart languages={stats.languages} />
+              </div>
+            )}
+
+            {statsLoading ? (
+              <div className="h-[280px] min-w-0 animate-pulse bg-secondary/40" />
+            ) : (
+              <div className="min-w-0">
+                <ContributionHeatmap contributions={stats.contributions} />
+              </div>
+            )}
+          </div>
+
+          {/* @note rotating tech stack, directly under the contribution heatmap */}
+          <TechStack />
+        </div>
       </div>
-
-      <CodingStats />
-      <StackGrid />
-
-      <div className="stripe-band mt-20 h-14 opacity-70 sm:mt-24" />
     </section>
   );
 }
