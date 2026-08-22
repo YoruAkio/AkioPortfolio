@@ -67,13 +67,13 @@ export function Navbar() {
         <a
           href="#home"
           onClick={(e) => handleNavClick(e, "#home")}
-          className="inline-flex h-12 items-center gap-2 rounded-full bg-card/90 pr-4 pl-3 shadow-lg shadow-black/10 backdrop-blur-xl transition-colors duration-200 hover:bg-card focus-visible:ring-[3px] focus-visible:ring-ring/50"
+          className="inline-flex h-12 items-center gap-2 rounded-full bg-card/90 pr-4 pl-3 shadow-lg shadow-black/10 inset-shadow-[0_1px_0_rgba(255,255,255,0.25)] backdrop-blur-xl transition-colors duration-200 hover:bg-card focus-visible:ring-[3px] focus-visible:ring-ring/50"
         >
           <Image src="/logo.png" alt="Yoru Akio" width={36} height={36} className="h-9 w-auto" />
           <span className="text-sm font-semibold">Yoru Akio</span>
         </a>
 
-        <div className="absolute top-1/2 left-1/2 hidden h-12 -translate-x-1/2 -translate-y-1/2 items-center rounded-full bg-card/90 px-2 shadow-lg shadow-black/10 backdrop-blur-xl md:flex">
+        <div className="absolute top-1/2 left-1/2 hidden h-12 -translate-x-1/2 -translate-y-1/2 items-center rounded-full bg-card/90 px-2 shadow-lg shadow-black/10 inset-shadow-[0_1px_0_rgba(255,255,255,0.25)] backdrop-blur-xl md:flex">
           {navLinks.map((link, index) => (
             <Fragment key={link.href}>
               {index > 0 && <span className="h-4 w-px bg-foreground/15" />}
@@ -99,7 +99,7 @@ export function Navbar() {
             aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
             aria-expanded={isMobileMenuOpen}
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="flex h-12 w-12 items-center justify-center rounded-full bg-card/90 text-muted-foreground shadow-lg shadow-black/10 backdrop-blur-xl transition-colors duration-200 hover:bg-card hover:text-foreground focus-visible:ring-[3px] focus-visible:ring-ring/50 md:hidden"
+            className="flex h-12 w-12 items-center justify-center rounded-full bg-card/90 text-muted-foreground shadow-lg shadow-black/10 inset-shadow-[0_1px_0_rgba(255,255,255,0.25)] backdrop-blur-xl transition-colors duration-200 hover:bg-card hover:text-foreground focus-visible:ring-[3px] focus-visible:ring-ring/50 md:hidden"
           >
             {isMobileMenuOpen ? <IconX className="h-5 w-5" /> : <IconMenu className="h-5 w-5" />}
           </button>
