@@ -1,124 +1,112 @@
 "use client";
 
 import { IconCode, IconRocket, IconServer } from "@tabler/icons-react";
-import { motion, type Variants } from "framer-motion";
+import { motion } from "framer-motion";
 
 const journeyItems = [
   {
     icon: IconCode,
+    year: "2021",
     title: "C++ beginnings",
-    description:
-      "Started in 2021 with fundamentals, memory, and problem-solving before moving to web.",
+    description: "Started with fundamentals, memory, and problem-solving before moving to web.",
   },
   {
     icon: IconServer,
+    year: "2023",
     title: "Web systems",
-    description: "Now building frontends with Next.js and backends with Go, Node.js, and APIs.",
+    description: "Building frontends with Next.js and backends with Go, Node.js, and APIs.",
   },
   {
     icon: IconRocket,
+    year: "Now",
     title: "Shipping better",
-    description:
-      "I like small interfaces, fast feedback, and code that can survive the next change.",
+    description: "Small interfaces, fast feedback, and code that can survive the next change.",
   },
 ];
 
-const containerVariants: Variants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.12,
-    },
-  },
-};
-
-const cardVariants: Variants = {
-  hidden: { opacity: 0, y: 30 },
+const revealVariants = {
+  hidden: { opacity: 0, y: 32 },
   visible: {
     opacity: 1,
     y: 0,
-    transition: {
-      duration: 0.6,
-      ease: [0.22, 1, 0.36, 1],
-    },
+    transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] as const },
   },
 };
 
-const revealVariants: Variants = {
-  hidden: { opacity: 0, y: 42, filter: "blur(10px)" },
-  visible: {
-    opacity: 1,
-    y: 0,
-    filter: "blur(0px)",
-    transition: {
-      duration: 0.9,
-      ease: [0.22, 1, 0.36, 1],
-    },
-  },
+const staggerVariants = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.1 } },
 };
 
 export function AboutSection() {
   return (
     <section id="about" className="grid-section">
-      <div className="stripe-band h-14 opacity-70" />
-      <div className="relative z-10 mx-auto grid max-w-5xl gap-10 px-5 py-14 sm:px-8 lg:grid-cols-[0.9fr_1.1fr] lg:gap-14">
+      <div className="relative z-10 mx-auto max-w-5xl px-5 py-20 sm:px-8 sm:py-24">
+        {/* header */}
         <motion.div
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
-          variants={revealVariants}
+          variants={staggerVariants}
+          className="max-w-2xl"
         >
-          <span className="section-kicker">About</span>
-          <h2 className="section-title mt-4">Self-taught, practical, still sharpening.</h2>
+          <motion.span variants={revealVariants} className="section-kicker">
+            About
+          </motion.span>
+          <motion.h2
+            variants={revealVariants}
+            className="section-title mt-4 text-[32px] leading-9 md:text-[42px] md:leading-[46px]"
+          >
+            Self-taught, practical, still sharpening.
+          </motion.h2>
+          <motion.p
+            variants={revealVariants}
+            className="mt-5 text-pretty leading-7 text-muted-foreground"
+          >
+            From C++ fundamentals to full-stack products — I care about simple interfaces, fast
+            pages, and backend code that is boring in the best way.
+          </motion.p>
         </motion.div>
 
-        <motion.div
+        {/* journey timeline */}
+        <motion.ol
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
-          variants={revealVariants}
-          className="bg-background p-6 sm:p-8"
+          viewport={{ once: true, margin: "-80px" }}
+          variants={staggerVariants}
+          className="mt-14 grid gap-4 md:grid-cols-3"
         >
-          <h3 className="text-lg font-medium leading-6">My journey</h3>
-          <p className="mt-4 text-pretty leading-7 text-muted-foreground">
-            I started coding in 2021 with C++, then moved into web development in 2023. These days I
-            work mostly with Next.js, TypeScript, Go, and Node.js.
-          </p>
-          <p className="mt-4 text-pretty leading-7 text-muted-foreground">
-            I care about simple interfaces, fast pages, and backend code that is boring in the best
-            way: readable, reliable, and easy to change.
-          </p>
-        </motion.div>
-      </div>
-
-      <motion.div
-        className="relative z-10 pb-14"
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, margin: "-100px" }}
-        variants={containerVariants}
-      >
-        <div className="bg-background">
-          <div className="mx-auto grid max-w-5xl md:grid-cols-3">
-            {journeyItems.map((item) => (
-              <motion.div
-                key={item.title}
-                variants={cardVariants}
-                className="bg-background p-6 transition-colors duration-200 hover:bg-secondary/40"
+          {journeyItems.map((item) => (
+            <motion.li
+              key={item.title}
+              variants={{
+                hidden: { opacity: 0, y: 28 },
+                visible: {
+                  opacity: 1,
+                  y: 0,
+                  transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] },
+                },
+              }}
+              style={{ cornerShape: "squircle" } as React.CSSProperties}
+              className="group flex flex-col rounded-[32px] border border-black/[0.04] bg-secondary/60 p-1.5 transition-colors duration-200 ease-out hover:bg-secondary dark:border-white/[0.06] dark:bg-white/[0.03] dark:hover:bg-white/[0.06]"
+            >
+              {/* inner tile — text, fixed height so all cards match */}
+              <div
+                style={{ cornerShape: "squircle" } as React.CSSProperties}
+                className="relative flex h-32 w-full flex-col justify-start overflow-hidden rounded-[28px] border border-black/[0.05] bg-background p-3.5"
               >
-                <div className="mb-5 flex h-11 w-11 items-center justify-center bg-secondary">
-                  <item.icon className="h-5 w-5 text-foreground" />
+                <div className="flex items-center justify-between gap-3">
+                  <h3 className="text-base font-semibold tracking-tight">{item.title}</h3>
+                  <span className="shrink-0 rounded-full bg-secondary px-2.5 py-1 text-[11px] font-medium tabular-nums text-muted-foreground">
+                    {item.year}
+                  </span>
                 </div>
-                <h4 className="font-medium">{item.title}</h4>
-                <p className="mt-2 text-sm leading-6 text-muted-foreground">{item.description}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </motion.div>
-
-      <div className="stripe-band h-14 opacity-70" />
+                <p className="mt-1.5 text-sm leading-5 text-muted-foreground">{item.description}</p>
+              </div>
+            </motion.li>
+          ))}
+        </motion.ol>
+      </div>
     </section>
   );
 }

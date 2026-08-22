@@ -149,7 +149,6 @@ export function ContributionHeatmap({ contributions }: HeatmapProps) {
                     key={`${weekIndex}-${dayIndex}`}
                     onPointerEnter={hover(day)}
                     style={{ "--d": `${weekIndex * 12}ms` } as React.CSSProperties}
-                    title={`${describeDay(day)}`}
                     className={`heatmap-cell h-[10px] w-[10px] rounded-[2px] ${getLevelColor(day.level)} cursor-default group relative transition-all hover:ring-1 hover:ring-primary hover:ring-offset-1 hover:ring-offset-background`}
                   />
                 ))}

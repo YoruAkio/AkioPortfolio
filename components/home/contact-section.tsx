@@ -113,7 +113,11 @@ export function ContactSection() {
               className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row"
               variants={itemVariants}
             >
-              <Button asChild size="lg" className="w-full rounded-lg sm:w-44">
+              <Button
+                asChild
+                size="lg"
+                className="corner-squircle h-11 w-full min-w-36 rounded-[26px] sm:w-auto px-3.5 text-[0.95rem] transition-[padding] duration-300 ease-out hover:px-6"
+              >
                 <a
                   href="https://discord.com/users/798258457022046218"
                   target="_blank"
@@ -129,7 +133,12 @@ export function ContactSection() {
                   <FaDiscord className="h-4 w-4" />
                 </a>
               </Button>
-              <Button asChild variant="secondary" size="lg" className="w-full rounded-lg sm:w-44">
+              <Button
+                asChild
+                variant="secondary"
+                size="lg"
+                className="corner-squircle h-11 w-full min-w-36 rounded-[26px] sm:w-auto px-3.5 text-[0.95rem] transition-[padding] duration-300 ease-out hover:px-6"
+              >
                 <a
                   href="#about"
                   onClick={(e) => {
